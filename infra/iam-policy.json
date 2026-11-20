@@ -1,0 +1,44 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DynamoTable",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:Query",
+        "dynamodb:TransactWriteItems",
+        "dynamodb:ConditionCheckItem"
+      ],
+      "Resource": [
+        "arn:aws:dynamodb:ap-southeast-1:<ACCOUNT_ID>:table/larntorha",
+        "arn:aws:dynamodb:ap-southeast-1:<ACCOUNT_ID>:table/larntorha/index/GSI1"
+      ]
+    },
+    {
+      "Sid": "BedrockInvokeChosenModelOnly",
+      "Effect": "Allow",
+      "Action": ["bedrock:InvokeModel"],
+      "Resource": [
+        "arn:aws:bedrock:ap-southeast-1:<ACCOUNT_ID>:inference-profile/<BEDROCK_MODEL_ID>",
+        "arn:aws:bedrock:*::foundation-model/<FOUNDATION_MODEL_ID>"
+      ]
+    },
+    {
+      "Sid": "BedrockGuardrailChosenOnly",
+      "Effect": "Allow",
+      "Action": ["bedrock:ApplyGuardrail"],
+      "Resource": "arn:aws:bedrock:ap-southeast-1:<ACCOUNT_ID>:guardrail/<BEDROCK_GUARDRAIL_ID>"
+    },
+    {
+      "Sid": "FallbackMetric",
+      "Effect": "Allow",
+      "Action": ["cloudwatch:PutMetricData"],
+      "Resource": "*",
+      "Condition": { "StringEquals": { "cloudwatch:namespace": "LarnTorHa" } }
+    }
+  ]
+}

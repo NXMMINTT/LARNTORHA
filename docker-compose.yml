@@ -1,0 +1,22 @@
+# Dev only. Production runs each image separately on App Runner / ECS Fargate.
+services:
+  dynamodb:
+    image: amazon/dynamodb-local:latest
+    command: ["-jar", "DynamoDBLocal.jar", "-sharedDb", "-inMemory"]
+    ports: ["8001:8000"]
+
+  backend:
+    build: ./backend
+    env_file: ./backend/.env
+    environment:
+      DYNAMODB_ENDPOINT_URL: http://dynamodb:8000
+    ports: ["8000:8000"]
+    depends_on: [dynamodb]
+
+  frontend:
+    build: ./frontend
+    env_file: ./frontend/.env
+    environment:
+      BACKEND_URL: http://backend:8000
+    ports: ["3000:3000"]
+    depends_on: [backend]
