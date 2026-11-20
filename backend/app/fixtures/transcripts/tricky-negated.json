@@ -1,0 +1,27 @@
+{
+  "id": "tricky-negated",
+  "title": "กรณีหลอก — ไม่ได้เจ็บหน้าอกแล้ว",
+  "expected_risk": "green",
+  "expected_med_taken": true,
+  "expected_two_q": "not_asked",
+  "transcript": [
+    {
+      "speaker": "ai",
+      "text": "สวัสดีค่ะคุณยาย เมื่อวานบอกว่าแน่นหน้าอก วันนี้เป็นอย่างไรบ้างคะ"
+    },
+    {
+      "speaker": "elder",
+      "text": "ไม่ได้เจ็บหน้าอกแล้วจ้า หมอที่ รพ.สต. มาดูแล้ว",
+      "asr_confidence": 0.88
+    },
+    {
+      "speaker": "ai",
+      "text": "ดีใจด้วยค่ะ กินยาเช้าแล้วหรือยังคะ"
+    },
+    {
+      "speaker": "elder",
+      "text": "กินแล้วจ้ะ",
+      "asr_confidence": 0.9
+    }
+  ]
+}

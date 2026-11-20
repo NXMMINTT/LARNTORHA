@@ -1,0 +1,27 @@
+{
+  "id": "yellow-missed-meds",
+  "title": "ต้องติดตาม — ลืมกินยา",
+  "expected_risk": "yellow",
+  "expected_med_taken": false,
+  "expected_two_q": "not_asked",
+  "transcript": [
+    {
+      "speaker": "ai",
+      "text": "สวัสดีค่ะคุณยาย วันนี้กินยาความดันตอนเช้าแล้วหรือยังคะ"
+    },
+    {
+      "speaker": "elder",
+      "text": "ยังบ่ได้กินยาเลย ลืม ยามันหมดแล้วด้วย",
+      "asr_confidence": 0.85
+    },
+    {
+      "speaker": "ai",
+      "text": "ไม่เป็นไรค่ะ หนูจะแจ้งให้ลูกหลานทราบเรื่องยานะคะ วันนี้รู้สึกอย่างไรบ้างคะ"
+    },
+    {
+      "speaker": "elder",
+      "text": "ก็เรื่อย ๆ จ้า",
+      "asr_confidence": 0.84
+    }
+  ]
+}

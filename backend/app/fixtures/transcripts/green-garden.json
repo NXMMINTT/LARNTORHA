@@ -1,0 +1,36 @@
+{
+  "id": "green-garden",
+  "title": "ปกติ — เล่าเรื่องผักบุ้ง",
+  "expected_risk": "green",
+  "expected_med_taken": true,
+  "expected_two_q": "not_asked",
+  "transcript": [
+    {
+      "speaker": "ai",
+      "text": "สวัสดีค่ะคุณยาย หนูน้องหลาน ผู้ช่วย AI ที่ลูกสาวสมัครไว้ค่ะ เมื่อวานคุณยายเล่าว่าปลูกผักบุ้ง ขึ้นแล้วไหมคะ"
+    },
+    {
+      "speaker": "elder",
+      "text": "จ้า ผักบุ้งที่ปลูกขึ้นแล้วเด้อ งามหลาย",
+      "asr_confidence": 0.86
+    },
+    {
+      "speaker": "ai",
+      "text": "ดีใจด้วยค่ะ วันนี้กินยาเช้าแล้วหรือยังคะ"
+    },
+    {
+      "speaker": "elder",
+      "text": "กินแล้วจ้า กินหลังข้าวเช้า",
+      "asr_confidence": 0.9
+    },
+    {
+      "speaker": "ai",
+      "text": "เก่งมากค่ะ วันนี้รู้สึกสบายดีไหมคะ"
+    },
+    {
+      "speaker": "elder",
+      "text": "สบายดีจ้า เดี๋ยวบ่ายจะไปวัด",
+      "asr_confidence": 0.88
+    }
+  ]
+}

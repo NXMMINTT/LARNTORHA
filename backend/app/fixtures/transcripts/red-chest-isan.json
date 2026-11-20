@@ -1,0 +1,36 @@
+{
+  "id": "red-chest-isan",
+  "title": "เร่งด่วน — เจ็บเอิก (อีสาน)",
+  "expected_risk": "red",
+  "expected_med_taken": null,
+  "expected_two_q": "not_asked",
+  "transcript": [
+    {
+      "speaker": "ai",
+      "text": "สวัสดีค่ะคุณตา วันนี้เป็นยังไงบ้างคะ"
+    },
+    {
+      "speaker": "elder",
+      "text": "บ่ค่อยดีเลยหลาน เจ็บเอิกตั้งแต่เช้า แน่น ๆ",
+      "asr_confidence": 0.8
+    },
+    {
+      "speaker": "ai",
+      "text": "คุณตาเจ็บหน้าอกนะคะ เจ็บร้าวไปที่แขนหรือกรามไหมคะ"
+    },
+    {
+      "speaker": "elder",
+      "text": "ร้าวไปแขนซ้ายนิดหน่อย",
+      "asr_confidence": 0.78
+    },
+    {
+      "speaker": "ai",
+      "text": "อาการนี้ควรได้รับความช่วยเหลือทันทีค่ะ ขอให้คุณตาโทร 1669 ตอนนี้เลยนะคะ หนูจะแจ้งลูกหลานให้ด้วยค่ะ"
+    },
+    {
+      "speaker": "elder",
+      "text": "เออ ๆ ได้ ๆ",
+      "asr_confidence": 0.7
+    }
+  ]
+}

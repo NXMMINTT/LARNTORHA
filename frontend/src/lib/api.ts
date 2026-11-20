@@ -2,11 +2,10 @@
 // The browser never calls the backend directly; everything goes through Server Components/Actions.
 import "server-only";
 
-import { cookies } from "next/headers";
+import { cookies, headers as requestHeaders } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { SESSION_COOKIE } from "./constants";
-import { MockApiError, mockBackend } from "./mock-backend";
 import type {
   DailyDigest,
   DashboardData,
@@ -27,10 +26,14 @@ export class ApiError extends Error {
   }
 }
 
-const useMock = process.env.MOCK_BACKEND === "true" && process.env.NODE_ENV !== "production";
-
 async function session(): Promise<string | null> {
   return (await cookies()).get(SESSION_COOKIE)?.value ?? null;
+}
+
+/** Browser IP for the backend's rate limits (login per IP + phone, register per IP). */
+async function clientIp(): Promise<string | null> {
+  const h = await requestHeaders();
+  return h.get("x-forwarded-for")?.split(",")[0]?.trim() || h.get("x-real-ip");
 }
 
 async function call<T>(
@@ -43,6 +46,8 @@ async function call<T>(
   if (!base || !token) throw new Error("BACKEND_URL and INTERNAL_API_TOKEN must be set");
   const headers: Record<string, string> = { "X-Internal-Token": token, Accept: "application/json" };
   if (opts.body !== undefined) headers["Content-Type"] = "application/json";
+  const ip = await clientIp();
+  if (ip) headers["X-Client-IP"] = ip;
   if (opts.auth) {
     const s = await session();
     if (s) headers.Authorization = `Bearer ${s}`;
@@ -60,89 +65,56 @@ async function call<T>(
   return (await res.json()) as T;
 }
 
-/** Wrap OSM calls: an expired/invalid session sends the user back to /login. */
-async function osm<T>(real: () => Promise<T>, mock: (s: string | null) => Promise<T>): Promise<T> {
+/** OSM calls: an expired/invalid session sends the user back to /login. */
+async function osm<T>(fn: () => Promise<T>): Promise<T> {
   try {
-    return useMock ? await mock(await session()) : await real();
+    return await fn();
   } catch (e) {
-    const status = e instanceof ApiError || e instanceof MockApiError ? e.status : 0;
-    if (status === 401) redirect("/login?expired=1");
-    if (e instanceof MockApiError) throw new ApiError(e.status, e.code);
+    if (e instanceof ApiError && e.status === 401) redirect("/login?expired=1");
     throw e;
   }
 }
 
-function rethrowMock(e: unknown): never {
-  if (e instanceof MockApiError) throw new ApiError(e.status, e.code);
-  throw e;
-}
+const seg = encodeURIComponent;
 
-export async function login(phone: string, password: string): Promise<LoginResult> {
-  if (useMock) return mockBackend.login(phone, password).catch(rethrowMock);
-  return call("POST", "/v1/osm/login", { body: { phone, password } });
-}
+export const login = (phone: string, password: string) =>
+  call<LoginResult>("POST", "/v1/osm/login", { body: { phone, password } });
 
-export const getMe = () =>
-  osm<OsmMe>(() => call("GET", "/v1/osm/me", { auth: true }), mockBackend.me);
+export const getMe = () => osm(() => call<OsmMe>("GET", "/v1/osm/me", { auth: true }));
 
 export const getDashboard = () =>
-  osm<DashboardData>(() => call("GET", "/v1/osm/dashboard", { auth: true }), mockBackend.dashboard);
+  osm(() => call<DashboardData>("GET", "/v1/osm/dashboard", { auth: true }));
 
 export const getDailyDigest = (date?: string) =>
-  osm<DailyDigest>(
-    () =>
-      call("GET", `/v1/osm/daily-digest${date ? `?date=${encodeURIComponent(date)}` : ""}`, {
-        auth: true,
-      }),
-    (s) => mockBackend.dailyDigest(s, date),
+  osm(() =>
+    call<DailyDigest>("GET", `/v1/osm/daily-digest${date ? `?date=${seg(date)}` : ""}`, {
+      auth: true,
+    }),
   );
 
 export const getElderDaily = (elderId: string, days = 14) =>
-  osm<ElderDaily>(
-    () =>
-      call("GET", `/v1/osm/elders/${encodeURIComponent(elderId)}/daily?days=${days}`, {
-        auth: true,
-      }),
-    (s) => mockBackend.elderDaily(s, elderId, days),
+  osm(() =>
+    call<ElderDaily>("GET", `/v1/osm/elders/${seg(elderId)}/daily?days=${days}`, { auth: true }),
   );
 
 export const resolveCall = (elderId: string, callId: string, note: string | null) =>
-  osm(
-    () =>
-      call(
-        "POST",
-        `/v1/osm/calls/${encodeURIComponent(elderId)}/${encodeURIComponent(callId)}/resolve`,
-        {
-          auth: true,
-          body: { note },
-        },
-      ),
-    (s) => mockBackend.resolveCall(s, elderId, callId, note),
+  osm(() =>
+    call("POST", `/v1/osm/calls/${seg(elderId)}/${seg(callId)}/resolve`, {
+      auth: true,
+      body: { note },
+    }),
   );
 
 export const completeTask = (elderId: string, taskId: string, note: string | null) =>
-  osm(
-    () =>
-      call(
-        "POST",
-        `/v1/osm/tasks/${encodeURIComponent(elderId)}/${encodeURIComponent(taskId)}/complete`,
-        {
-          auth: true,
-          body: { note },
-        },
-      ),
-    (s) => mockBackend.completeTask(s, elderId, taskId, note),
+  osm(() =>
+    call("POST", `/v1/osm/tasks/${seg(elderId)}/${seg(taskId)}/complete`, {
+      auth: true,
+      body: { note },
+    }),
   );
 
 export const createLineLinkCode = () =>
-  osm<{ code: string }>(
-    () => call("POST", "/v1/osm/line-link-code", { auth: true }),
-    mockBackend.createLineLinkCode,
-  );
+  osm(() => call<{ code: string }>("POST", "/v1/osm/line-link-code", { auth: true }));
 
-export async function register(payload: RegisterPayload): Promise<RegisterResult> {
-  if (useMock) return mockBackend.register(payload).catch(rethrowMock);
-  return call("POST", "/v1/public/register", { body: payload });
-}
-
-export const isMockBackend = useMock;
+export const register = (payload: RegisterPayload) =>
+  call<RegisterResult>("POST", "/v1/public/register", { body: payload });

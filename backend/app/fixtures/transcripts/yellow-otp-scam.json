@@ -1,0 +1,36 @@
+{
+  "id": "yellow-otp-scam",
+  "title": "ต้องติดตาม — มีคนโทรมาขอ OTP",
+  "expected_risk": "yellow",
+  "expected_med_taken": true,
+  "expected_two_q": "not_asked",
+  "transcript": [
+    {
+      "speaker": "ai",
+      "text": "สวัสดีค่ะคุณตา วันนี้มีอะไรเล่าให้หนูฟังบ้างไหมคะ"
+    },
+    {
+      "speaker": "elder",
+      "text": "เมื่อวานมีคนโทรมาบอกว่าเป็นธนาคาร ขอรหัส OTP ที่ส่งไปในมือถือ",
+      "asr_confidence": 0.83
+    },
+    {
+      "speaker": "ai",
+      "text": "หนูไม่เคยขอเรื่องเงินหรือรหัสเลยนะคะ คุณตาให้รหัสเขาไปหรือเปล่าคะ"
+    },
+    {
+      "speaker": "elder",
+      "text": "ยังบ่ได้ให้ บอกว่าจะถามลูกก่อน",
+      "asr_confidence": 0.8
+    },
+    {
+      "speaker": "ai",
+      "text": "ดีมากเลยค่ะ วันนี้กินยาแล้วหรือยังคะ"
+    },
+    {
+      "speaker": "elder",
+      "text": "กินแล้ว",
+      "asr_confidence": 0.9
+    }
+  ]
+}

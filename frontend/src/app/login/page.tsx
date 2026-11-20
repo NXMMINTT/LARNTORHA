@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
-import { isMockBackend } from "@/lib/api";
 
 import { LoginForm } from "./LoginForm";
 
@@ -22,9 +21,9 @@ export default async function LoginPage({
         <div className="mt-6 rounded-2xl border border-line bg-white p-6 shadow-sm">
           <LoginForm expired={expired === "1"} />
         </div>
-        {isMockBackend && (
+        {process.env.DEMO_MODE === "true" && (
           <p className="mt-4 rounded-xl bg-slate-100 p-3 text-sm text-ink-muted">
-            โหมดข้อมูลจำลอง (dev): เบอร์ 0812345678 · รหัสผ่าน demo-password
+            โหมดเดโม — ข้อมูลสมมติ: เบอร์ 0812345678 · รหัสผ่าน demo-password
           </p>
         )}
       </main>

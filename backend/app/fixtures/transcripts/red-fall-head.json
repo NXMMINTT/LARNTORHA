@@ -1,0 +1,31 @@
+{
+  "id": "red-fall-head",
+  "title": "เร่งด่วน — ล้มหัวฟาด",
+  "expected_risk": "red",
+  "expected_med_taken": null,
+  "expected_two_q": "not_asked",
+  "transcript": [
+    {
+      "speaker": "ai",
+      "text": "สวัสดีค่ะคุณยาย วันนี้เป็นอย่างไรบ้างคะ"
+    },
+    {
+      "speaker": "elder",
+      "text": "เมื่อคืนลุกไปห้องน้ำ ล้มหัวฟาดพื้น ตอนนี้ยังมึน ๆ อยู่",
+      "asr_confidence": 0.82
+    },
+    {
+      "speaker": "ai",
+      "text": "คุณยายล้มศีรษะกระแทกนะคะ ตอนนี้ปวดหัวหรืออาเจียนไหมคะ"
+    },
+    {
+      "speaker": "elder",
+      "text": "ปวดหัวอยู่ อยากอาเจียนนิดหน่อย",
+      "asr_confidence": 0.8
+    },
+    {
+      "speaker": "ai",
+      "text": "ขอให้คุณยายโทร 1669 เลยนะคะ หนูจะแจ้งลูกหลานทันทีค่ะ"
+    }
+  ]
+}
