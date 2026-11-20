@@ -1,0 +1,88 @@
+[
+  {
+    "elder_id": "e1",
+    "datetime": "2026-11-20T09:01",
+    "answered": true,
+    "attempts": 1,
+    "duration_min": 4,
+    "story": "คุณยายเล่าว่าผักบุ้งเริ่มงอกแล้ว อารมณ์ดี",
+    "medication": {
+      "ยาเบาหวาน (หลังอาหารเช้า)": "taken",
+      "ยาความดัน (หลังอาหารเช้า)": "taken"
+    },
+    "urgent": [],
+    "two_q": null,
+    "unclear": false
+  },
+  {
+    "elder_id": "e2",
+    "datetime": "2026-11-20T09:30",
+    "answered": false,
+    "attempts": 2,
+    "duration_min": 0,
+    "story": "",
+    "medication": {},
+    "urgent": [],
+    "two_q": null,
+    "unclear": false
+  },
+  {
+    "elder_id": "e3",
+    "datetime": "2026-11-18T09:02",
+    "answered": true,
+    "attempts": 1,
+    "duration_min": 5,
+    "story": "คุณยายบอกว่านอนไม่ค่อยหลับ รู้สึกเบื่อๆ",
+    "medication": {
+      "ยาเบาหวาน (ก่อนนอน)": "taken"
+    },
+    "urgent": [],
+    "two_q": "positive",
+    "unclear": false
+  },
+  {
+    "elder_id": "e3",
+    "datetime": "2026-11-20T09:02",
+    "answered": true,
+    "attempts": 1,
+    "duration_min": 4,
+    "story": "คุณยายเล่าว่ากินข้าวกับเพื่อนบ้าน",
+    "medication": {
+      "ยาเบาหวาน (ก่อนนอน)": "unsure"
+    },
+    "urgent": [],
+    "two_q": null,
+    "unclear": false
+  },
+  {
+    "elder_id": "e4",
+    "datetime": "2026-11-20T09:03",
+    "answered": true,
+    "attempts": 1,
+    "duration_min": 3,
+    "story": "คุณยายบอกว่าเมื่อเช้าล้มในห้องน้ำ เจ็บสะโพก",
+    "medication": {
+      "ยาไขมัน (หลังอาหารเย็น)": "taken",
+      "ยาความดัน (หลังอาหารเช้า)": "taken"
+    },
+    "urgent": [
+      "ล้ม"
+    ],
+    "two_q": null,
+    "unclear": false
+  },
+  {
+    "elder_id": "e5",
+    "datetime": "2026-11-20T09:00",
+    "answered": true,
+    "attempts": 1,
+    "duration_min": 5,
+    "story": "คุณตาเล่าว่าไก่ออกไข่ 3 ฟอง",
+    "medication": {
+      "ยาโรคหัวใจ (หลังอาหารเช้า)": "taken"
+    },
+    "urgent": [],
+    "two_q": "negative",
+    "unclear": false
+  }
+]
