@@ -11,7 +11,7 @@ from fastapi.staticfiles import StaticFiles
 
 from app.config import Settings, get_settings
 from app.deps import Deps, build_deps
-from app.routers import calls, demo, line, osm, public
+from app.routers import calls, demo, family, line, osm, public
 
 
 def _errors(exc: RequestValidationError) -> list[dict[str, Any]]:
@@ -47,6 +47,7 @@ def create_app(settings: Settings | None = None, deps: Deps | None = None) -> Fa
     app.include_router(line.router)
     app.include_router(public.router)
     app.include_router(osm.router)
+    app.include_router(family.router)
     if settings.demo_mode:
         app.include_router(demo.router)
     return app

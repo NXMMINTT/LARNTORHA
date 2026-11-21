@@ -343,6 +343,48 @@ def test_notify_osm_pushes_once(env: dict[str, Any]) -> None:
     assert repo.get_call("eld_somchai", "call_somchai_0").acknowledged_at is not None
 
 
+def menu_tap(user: str, key: str) -> dict[str, Any]:
+    return {
+        "type": "postback",
+        "replyToken": "r",
+        "source": {"userId": user},
+        "postback": {"data": f"menu={key}"},
+    }
+
+
+def last_reply(env: dict[str, Any]) -> list[dict[str, Any]]:
+    msgs: list[dict[str, Any]] = env["line"].sent[-1]["reply"]["messages"]
+    return msgs
+
+
+def test_menu_requires_linked_guardian(env: dict[str, Any]) -> None:
+    for key in ("report", "history", "elder", "contact"):
+        hook(env["client"], menu_tap("Ustranger", key))
+        assert "LTH-" in last_reply(env)[0]["text"]
+    hook(env["client"], menu_tap("Ustranger", "help"))
+    assert "1669" in last_reply(env)[0]["text"]
+    hook(env["client"], menu_tap("Ustranger", "settings"))
+    assert "เร็ว ๆ นี้" in last_reply(env)[0]["text"]
+
+
+def test_menu_report_resends_latest_card(env: dict[str, Any]) -> None:
+    link_guardian(env["repo"], "eld_somchai")
+    hook(env["client"], menu_tap("Ufamily", "report"))
+    msg = last_reply(env)[0]
+    assert msg["type"] == "flex" and "เร่งด่วน" in msg["altText"]
+
+
+def test_menu_replies_have_no_banned_words(env: dict[str, Any]) -> None:
+    repo = env["repo"]
+    link_guardian(repo, "eld_samlee")  # forgot meds + 2Q positive in seed
+    for key in ("report", "history", "elder", "contact"):
+        hook(env["client"], menu_tap("Ufamily", key))
+        dump = json.dumps(last_reply(env), ensure_ascii=False)
+        assert not any(w in dump for w in BANNED), key
+    hook(env["client"], menu_tap("Ufamily", "history"))
+    assert "ประวัติการโทร" in last_reply(env)[0]["text"]
+
+
 # ---------------------------------------------------------------- OSM
 
 
@@ -485,3 +527,64 @@ def test_demo_scenario_runs_full_pipeline(env: dict[str, Any]) -> None:
     rows = c.get("/v1/osm/dashboard", headers=login(c)).json()["rows"]
     assert rows[0]["name"] in ("ตาสมชาย", "ยายสมศรี") and rows[1]["status"] == "red"
     assert c.post("/v1/demo/reset", headers=H).json() == {"ok": True}
+
+
+def test_demo_line_user_linked_on_seed() -> None:
+    from app.repo.seed import link_demo_line
+
+    repo = MemoryRepo()
+    seed(repo)
+    link_demo_line(repo, " Ume , Uother")
+    assert [g.line_user_id for g in repo.list_guardians_by_line_user("Ume")] == ["Ume"]
+    link_demo_line(MemoryRepo(), "")  # empty / no seed: no-op
+
+
+# ---------------------------------------------------------------- family dashboard (LIFF)
+
+
+class LiffLine(RecordingLine):
+    def verify_id_token(self, id_token: str, channel_id: str) -> str | None:
+        return {"tok-family": "Ufamily", "tok-stranger": "Ustranger"}.get(id_token)
+
+
+@pytest.fixture
+def fam(env: dict[str, Any]) -> dict[str, Any]:
+    env["deps"].line = LiffLine()
+    link_guardian(env["repo"], "eld_samlee")
+    return env
+
+
+def fam_login(client: TestClient, token: str) -> Any:
+    return client.post("/v1/family/login", json={"id_token": token}, headers=H)
+
+
+def test_family_login_requires_linked_guardian(fam: dict[str, Any]) -> None:
+    c = fam["client"]
+    assert fam_login(c, "bad").status_code == 401
+    assert fam_login(c, "tok-stranger").status_code == 403
+    assert fam_login(c, "tok-family").status_code == 200
+    assert c.post("/v1/family/login", json={"id_token": "tok-family"}).status_code == 401  # no H
+
+
+def test_family_dashboard_is_family_safe(fam: dict[str, Any]) -> None:
+    c = fam["client"]
+    session = fam_login(c, "tok-family").json()["session"]
+    r = c.get("/v1/family/dashboard", headers={**H, "Authorization": f"Bearer {session}"})
+    assert r.status_code == 200
+    elders = r.json()["elders"]
+    assert [e["elder"]["name"] for e in elders] == ["ยายสำลี"]
+    dump = json.dumps(r.json(), ensure_ascii=False)
+    assert not any(w in dump for w in BANNED)
+    for banned_key in ("evidence", "risk_reasons", "summary_osm", "mood", "phone", "reasons"):
+        assert f'"{banned_key}"' not in dump
+    assert elders[0]["status"] == "followup" and len(elders[0]["days"]) == 14
+
+
+def test_family_dashboard_rejects_osm_session(fam: dict[str, Any]) -> None:
+    c = fam["client"]
+    osm_headers = login(c)
+    assert c.get("/v1/family/dashboard", headers=osm_headers).status_code == 401
+    session = fam_login(c, "tok-family").json()["session"]
+    assert (
+        c.get("/v1/osm/me", headers={**H, "Authorization": f"Bearer {session}"}).status_code == 401
+    )

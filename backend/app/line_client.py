@@ -12,6 +12,7 @@ import httpx
 
 log = logging.getLogger("larntorha.line")
 
+VERIFY_ID_TOKEN_URL = "https://api.line.me/oauth2/v2.1/verify"  # noqa: S105 (a URL, not a secret)
 PUSH_URL = "https://api.line.me/v2/bot/message/push"
 REPLY_URL = "https://api.line.me/v2/bot/message/reply"
 BACKOFF = (0.5, 1.0, 2.0)
@@ -62,6 +63,21 @@ class LineClient:
             self.sent.append({"reply": body})
             return SendResult(True)
         return self._post(REPLY_URL, body, {"Authorization": f"Bearer {self.token}"}, retries=0)
+
+    def verify_id_token(self, id_token: str, channel_id: str) -> str | None:
+        """LIFF ID token -> LINE userId (sub), or None if LINE rejects it."""
+        if not channel_id:
+            return None
+        try:
+            r = self.http.post(
+                VERIFY_ID_TOKEN_URL, data={"id_token": id_token, "client_id": channel_id}
+            )
+        except httpx.HTTPError:
+            return None
+        if r.status_code != 200:
+            return None
+        sub = r.json().get("sub")
+        return sub if isinstance(sub, str) else None
 
     def _post(
         self, url: str, body: dict[str, Any], headers: dict[str, str], retries: int = 3

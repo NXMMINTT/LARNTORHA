@@ -12,7 +12,7 @@ from pydantic import BaseModel, Field, model_validator
 
 from app.domain.models import TranscriptTurn
 from app.repo.memory import MemoryRepo
-from app.repo.seed import seed
+from app.repo.seed import link_demo_line, seed
 from app.routers.common import DepsDep, require_internal
 from app.services.calls import CallError, CallIn, process_call
 
@@ -88,6 +88,7 @@ def reset(deps: DepsDep) -> dict[str, bool]:
         raise HTTPException(409, "reset_only_for_memory_repo")
     deps.repo.clear()
     seed(deps.repo)
+    link_demo_line(deps.repo, deps.settings.line_to_user_ids)
     deps.login_limiter.reset()
     deps.register_limiter.reset()
     return {"ok": True}

@@ -241,3 +241,38 @@ export interface DemoCallResult {
   analysis: CallAnalysis | null;
   cards: { to: "guardian" | "osm"; kind: string | null; message: FlexMessage }[];
 }
+
+// ---------------------------------------------------------------- family dashboard (/v1/family)
+// Family-safe view only: no 2Q/9Q, risk reasons, evidence, อสม. summary or mood (CLAUDE.md §0, §8).
+
+export type FamilyLevel = "green" | "followup" | "red" | "unreachable";
+
+export interface FamilyDay {
+  date: string; // YYYY-MM-DD (Asia/Bangkok)
+  started_at: string;
+  duration_sec: number;
+  level: FamilyLevel;
+  summary: string | null;
+  med_taken: boolean | null;
+  ai_summary: boolean;
+  acknowledged: boolean;
+}
+
+export interface FamilyElder {
+  elder: {
+    id: string;
+    name: string;
+    age: number;
+    call_time: string;
+    plan: Plan;
+    medications: Medication[];
+    voice_confirmed: boolean;
+  };
+  osm: { name: string; tambon: string } | null;
+  status: FamilyLevel | "pending";
+  days: FamilyDay[];
+}
+
+export interface FamilyDashboard {
+  elders: FamilyElder[];
+}

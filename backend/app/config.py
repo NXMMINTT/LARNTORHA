@@ -25,7 +25,12 @@ class Settings(BaseSettings):
     # Public HTTPS folder holding the LINE card header images ({kind}.png), e.g. GitHub raw of
     # backend/app/static/cards, S3/CloudFront, or {backend}/static/cards. Empty = plain header.
     card_image_base_url: str = ""
+    # LINE Login channel that owns the LIFF app of the family dashboard (verifies LIFF ID tokens).
+    # Must be under the same LINE provider as the Messaging API channel so userIds match.
+    line_login_channel_id: str = ""
     seed_demo: bool = True
+    # Dev only: LINE userIds (comma separated) linked to the demo guardian on seed. Ignored in prod.
+    line_to_user_ids: str = ""
     demo_mode: bool = False
 
     ai_provider: Literal["bedrock", "fake"] = "fake"

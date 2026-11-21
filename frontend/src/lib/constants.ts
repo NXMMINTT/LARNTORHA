@@ -20,3 +20,4 @@ export const STATUS_ORDER: Record<ElderStatus, number> = {
 };
 
 export const SESSION_COOKIE = "ltr_session";
+export const FAMILY_COOKIE = "ltr_family";

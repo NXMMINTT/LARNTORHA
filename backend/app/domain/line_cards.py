@@ -312,7 +312,7 @@ def _button_rows(buttons: list[Json], labels: list[str]) -> list[list[Json]]:
     rows: list[list[Json]] = []
     pending: list[Json] = []
     for b, label in zip(buttons, labels, strict=True):
-        if len(label) > 13:
+        if len(label) > 9:  # a half-width pill fits the icon + ~9 Thai characters
             if pending:
                 rows.append(pending)
                 pending = []

@@ -13,6 +13,7 @@ from app.deps import Deps
 from app.domain.line_cards import osm_request_alert
 from app.domain.models import NotificationLog
 from app.line_client import text
+from app.services.line_menu import handle_menu
 
 log = logging.getLogger("larntorha.webhook")
 
@@ -97,6 +98,11 @@ def _link(deps: Deps, ev: dict[str, Any], user_id: str, message: str) -> None:
 
 def _postback(deps: Deps, ev: dict[str, Any], user_id: str, data: str) -> None:
     q = {k: v[0] for k, v in parse_qs(data).items()}
+    if "menu" in q:
+        token = ev.get("replyToken")
+        if token:
+            deps.line.reply(token, handle_menu(deps, user_id, q["menu"]))
+        return
     action, elder_id, call_id = q.get("action"), q.get("elder", ""), q.get("call", "")
     repo = deps.repo
     if not any(g.line_user_id == user_id for g in repo.list_guardians(elder_id)):

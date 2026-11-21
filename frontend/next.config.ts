@@ -11,6 +11,8 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
+  // dev only: let the LIFF page load dev assets through an ngrok tunnel
+  allowedDevOrigins: ["*.ngrok-free.dev"],
   async headers() {
     const noStore = [{ key: "Cache-Control", value: "no-store" }];
     return [
@@ -19,7 +21,16 @@ const nextConfig: NextConfig = {
       { source: "/demo/:path*", headers: noStore },
       { source: "/login", headers: noStore },
       { source: "/register", headers: noStore },
+      { source: "/family", headers: noStore },
     ];
+  },
+  // One public HTTPS origin (e.g. a single ngrok tunnel) can serve both the LIFF page (/family)
+  // and the LINE webhook: forward the webhook to the backend untouched (it checks the signature).
+  async rewrites() {
+    const backend = process.env.BACKEND_URL;
+    return backend
+      ? [{ source: "/v1/line/webhook", destination: `${backend}/v1/line/webhook` }]
+      : [];
   },
 };
 

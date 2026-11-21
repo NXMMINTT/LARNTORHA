@@ -6,12 +6,13 @@ import { cookies, headers as requestHeaders } from "next/headers";
 import { redirect } from "next/navigation";
 import { cache } from "react";
 
-import { SESSION_COOKIE } from "./constants";
+import { FAMILY_COOKIE, SESSION_COOKIE } from "./constants";
 import type {
   DailyDigest,
   DashboardData,
   DemoCallResult,
   DemoScenario,
+  FamilyDashboard,
   ElderDaily,
   LoginResult,
   OsmMe,
@@ -29,8 +30,8 @@ export class ApiError extends Error {
   }
 }
 
-async function session(): Promise<string | null> {
-  return (await cookies()).get(SESSION_COOKIE)?.value ?? null;
+async function session(kind: "osm" | "family" = "osm"): Promise<string | null> {
+  return (await cookies()).get(kind === "osm" ? SESSION_COOKIE : FAMILY_COOKIE)?.value ?? null;
 }
 
 /** Browser IP for the backend's rate limits (login per IP + phone, register per IP). */
@@ -42,7 +43,7 @@ async function clientIp(): Promise<string | null> {
 async function call<T>(
   method: "GET" | "POST",
   path: string,
-  opts: { body?: unknown; auth?: boolean } = {},
+  opts: { body?: unknown; auth?: boolean | "family" } = {},
 ): Promise<T> {
   const base = process.env.BACKEND_URL;
   const token = process.env.INTERNAL_API_TOKEN;
@@ -52,7 +53,7 @@ async function call<T>(
   const ip = await clientIp();
   if (ip) headers["X-Client-IP"] = ip;
   if (opts.auth) {
-    const s = await session();
+    const s = await session(opts.auth === "family" ? "family" : "osm");
     if (s) headers.Authorization = `Bearer ${s}`;
   }
   const res = await fetch(`${base}${path}`, {
@@ -138,3 +139,10 @@ export const resetDemo = () => call<{ ok: boolean }>("POST", "/v1/demo/reset", {
 
 export const register = (payload: RegisterPayload) =>
   call<RegisterResult>("POST", "/v1/public/register", { body: payload });
+
+// /v1/family/* — guardian dashboard via LINE Login (LIFF). The session cookie is ltr_family.
+export const familyLogin = (idToken: string) =>
+  call<LoginResult>("POST", "/v1/family/login", { body: { id_token: idToken } });
+
+export const getFamilyDashboard = () =>
+  call<FamilyDashboard>("GET", "/v1/family/dashboard", { auth: "family" });

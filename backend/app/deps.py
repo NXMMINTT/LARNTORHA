@@ -10,7 +10,7 @@ from app.config import Settings
 from app.line_client import LineClient
 from app.repo.base import Repo
 from app.repo.memory import MemoryRepo
-from app.repo.seed import seed
+from app.repo.seed import link_demo_line, seed
 
 
 @dataclass
@@ -40,6 +40,8 @@ def build_deps(s: Settings) -> Deps:
     repo = MemoryRepo()
     if s.seed_demo:
         seed(repo)
+        if not s.is_production:
+            link_demo_line(repo, s.line_to_user_ids)
     dry_run = not s.line_channel_access_token and not s.is_production
     return Deps(
         settings=s,

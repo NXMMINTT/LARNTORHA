@@ -70,6 +70,13 @@ class MemoryRepo:
                 return g.model_copy(deep=True)
         return None
 
+    def list_guardians_by_line_user(self, line_user_id: str) -> list[Guardian]:
+        return [
+            g.model_copy(deep=True)
+            for g in self.guardians.values()
+            if g.line_user_id == line_user_id
+        ]
+
     def put_guardian(self, guardian: Guardian) -> None:
         with self._lock:
             self.guardians[guardian.id] = guardian.model_copy(deep=True)

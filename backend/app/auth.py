@@ -79,6 +79,37 @@ def verify_session(token: str, secret: str, now: datetime | None = None) -> str 
         return None
 
 
+def issue_family_session(
+    line_user_id: str, secret: str, now: datetime | None = None
+) -> tuple[str, datetime]:
+    """Session for a guardian logged in with LINE (LIFF). Has no osm_id, so verify_session
+    rejects it; verify_family_session rejects อสม. tokens."""
+    exp = (now or datetime.now(UTC)) + SESSION_TTL
+    payload = {"role": "family", "sub": line_user_id, "exp": int(exp.timestamp())}
+    body = _b64url(json.dumps(payload).encode())
+    sig = _b64url(hmac.new(secret.encode(), body.encode(), hashlib.sha256).digest())
+    return f"{body}.{sig}", exp
+
+
+def verify_family_session(token: str, secret: str, now: datetime | None = None) -> str | None:
+    """Return the LINE userId if the family token is genuine and not expired."""
+    try:
+        body, sig = token.split(".")
+        good = _b64url(hmac.new(secret.encode(), body.encode(), hashlib.sha256).digest())
+        if not hmac.compare_digest(sig, good):
+            return None
+        data = json.loads(_unb64url(body))
+        if (
+            data.get("role") != "family"
+            or int(data["exp"]) < (now or datetime.now(UTC)).timestamp()
+        ):
+            return None
+        sub = data["sub"]
+        return sub if isinstance(sub, str) else None
+    except (ValueError, KeyError, TypeError, AttributeError):
+        return None
+
+
 def tokens_equal(given: str | None, expected: str) -> bool:
     if not given or not expected:
         return False

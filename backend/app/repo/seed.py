@@ -330,3 +330,19 @@ def seed(repo: MemoryRepo, now: datetime | None = None) -> None:
             add("eld_samlee", d, "answered", _pick(d))
 
     # ยายคำ — no calls yet, voice consent not confirmed
+
+
+DEMO_LINE_ELDER = "eld_samlee"
+
+
+def link_demo_line(repo: MemoryRepo, line_user_ids: str) -> None:
+    """Dev only: link the first LINE_TO_USER_IDS account as ยายสำลี's guardian, so the rich menu
+    and demo calls reach a real phone without typing a link code after every restart."""
+    user_id = next((u.strip() for u in line_user_ids.split(",") if u.strip()), None)
+    guardians = repo.list_guardians(DEMO_LINE_ELDER)
+    if user_id and guardians:
+        g = guardians[0]
+        g.line_user_id = user_id
+        g.line_link_code = None
+        g.line_link_code_expires_at = None
+        repo.put_guardian(g)
