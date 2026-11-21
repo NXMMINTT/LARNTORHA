@@ -3,7 +3,7 @@
 from dataclasses import dataclass, field
 
 from app.ai.analyzer import Analyzer, BedrockAnalyzer
-from app.ai.bedrock_client import BedrockSettings, make_client
+from app.ai.bedrock_client import BedrockSettings, ConverseClient, make_client
 from app.ai.fake import FakeAnalyzer
 from app.auth import RateLimiter
 from app.config import Settings
@@ -19,6 +19,8 @@ class Deps:
     repo: Repo
     analyzer: Analyzer
     line: LineClient
+    # Bedrock client for the /demo live call (None = scripted fallback, e.g. AI_PROVIDER=fake).
+    live_client: ConverseClient | None = None
     login_limiter: RateLimiter = field(default_factory=lambda: RateLimiter(5, 15 * 60))
     register_limiter: RateLimiter = field(default_factory=lambda: RateLimiter(10, 60 * 60))
 
@@ -48,4 +50,9 @@ def build_deps(s: Settings) -> Deps:
         repo=repo,
         analyzer=build_analyzer(s),
         line=LineClient(s.line_channel_access_token, dry_run=dry_run),
+        live_client=(
+            make_client(s.bedrock_region, s.bedrock_timeout_sec)
+            if s.demo_mode and s.ai_provider == "bedrock" and s.bedrock_model_id
+            else None
+        ),
     )

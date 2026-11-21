@@ -190,6 +190,7 @@ export interface DemoScenario {
   id: string;
   title: string;
   expected_risk: RiskLevel;
+  transcript: { speaker: TranscriptTurn["speaker"]; text: string }[];
 }
 
 export interface TranscriptTurn {
@@ -275,4 +276,14 @@ export interface FamilyElder {
 
 export interface FamilyDashboard {
   elders: FamilyElder[];
+}
+
+/** POST /v1/demo/live/turn — next line of the /demo live call. */
+export interface LiveTurn {
+  speaker: "ai" | "elder";
+  text: string;
+  end: boolean;
+  /** "script" = Bedrock unavailable, a fixed fallback line was used. */
+  source: "bedrock" | "script";
+  urgent: string | null;
 }

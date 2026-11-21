@@ -12,6 +12,7 @@ import type {
   DashboardData,
   DemoCallResult,
   DemoScenario,
+  LiveTurn,
   FamilyDashboard,
   ElderDaily,
   LoginResult,
@@ -134,6 +135,13 @@ export const runDemoCall = (
     { scenario_id: string } | { transcript: { speaker: "ai" | "elder"; text: string }[] }
   ),
 ) => call<DemoCallResult>("POST", "/v1/demo/calls", { body });
+
+export const runLiveTurn = (body: {
+  elder_id: string;
+  role: "ai" | "elder";
+  scenario_id: string | null;
+  history: { speaker: "ai" | "elder"; text: string }[];
+}) => call<LiveTurn>("POST", "/v1/demo/live/turn", { body });
 
 export const resetDemo = () => call<{ ok: boolean }>("POST", "/v1/demo/reset", { body: {} });
 

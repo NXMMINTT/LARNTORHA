@@ -18,7 +18,17 @@ const nextConfig: NextConfig = {
     return [
       { source: "/:path*", headers: securityHeaders },
       { source: "/dashboard/:path*", headers: noStore },
-      { source: "/demo/:path*", headers: noStore },
+      {
+        source: "/demo/:path*",
+        headers: [
+          ...noStore,
+          // /demo voice call needs the mic (this rule comes last, so it overrides the global one).
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(self), geolocation=(), payment=()",
+          },
+        ],
+      },
       { source: "/login", headers: noStore },
       { source: "/register", headers: noStore },
       { source: "/family", headers: noStore },

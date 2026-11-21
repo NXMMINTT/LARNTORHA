@@ -48,39 +48,54 @@ function px(v: unknown, table: Record<string, number>): number | undefined {
   return table[s];
 }
 
+/** Drops undefined keys: mixing `padding` with undefined `paddingTop` etc. clears the padding. */
+function clean(s: CSSProperties): CSSProperties {
+  return Object.fromEntries(Object.entries(s).filter(([, v]) => v !== undefined));
+}
+
 function boxStyle(n: Node, defaultPad?: number): CSSProperties {
   const layout = str(n.layout) ?? "vertical";
   const pad = px(n.paddingAll, SPACING) ?? defaultPad;
   const bw = px(n.borderWidth, BORDER);
-  return {
+  return clean({
     display: "flex",
     flexDirection: layout === "vertical" ? "column" : "row",
     alignItems: layout === "baseline" ? "baseline" : ALIGN[str(n.alignItems) ?? ""],
     justifyContent: ALIGN[str(n.justifyContent) ?? ""],
     gap: px(n.spacing, SPACING),
-    padding: pad,
-    paddingTop: px(n.paddingTop, SPACING),
-    paddingBottom: px(n.paddingBottom, SPACING),
-    paddingLeft: px(n.paddingStart, SPACING),
-    paddingRight: px(n.paddingEnd, SPACING),
+    paddingTop: px(n.paddingTop, SPACING) ?? pad,
+    paddingBottom: px(n.paddingBottom, SPACING) ?? pad,
+    paddingLeft: px(n.paddingStart, SPACING) ?? pad,
+    paddingRight: px(n.paddingEnd, SPACING) ?? pad,
     background: str(n.backgroundColor),
     borderRadius: px(n.cornerRadius, RADIUS),
     border: bw ? `${bw}px solid ${str(n.borderColor) ?? "#000"}` : undefined,
     width: str(n.width),
     height: str(n.height),
-  };
+  });
 }
+
+// LINE image sizes (keyword → px width); "full" = whole width.
+const IMAGE_SIZE: Record<string, number> = {
+  xxs: 40,
+  xs: 60,
+  sm: 80,
+  md: 100,
+  lg: 120,
+  xl: 140,
+  xxl: 160,
+};
 
 function itemStyle(n: Node, parentRow: boolean): CSSProperties {
   // A fixed width/height box keeps its size, as in LINE.
   const fixed = parentRow ? str(n.width) : str(n.height);
   const f = num(n.flex) ?? (parentRow && !fixed ? 1 : 0);
-  return {
+  return clean({
     flex: `${f} ${f ? 1 : 0} ${f ? "0%" : "auto"}`,
     minWidth: 0,
     marginTop: parentRow ? undefined : px(n.margin, SPACING),
     marginLeft: parentRow ? px(n.margin, SPACING) : undefined,
-  };
+  });
 }
 
 function render(n: Node, key: number, parentRow: boolean): ReactNode {
@@ -152,6 +167,8 @@ function render(n: Node, key: number, parentRow: boolean): ReactNode {
       const url = str(n.url);
       const ratio = (str(n.aspectRatio) ?? "1:1").split(":").map(Number);
       if (!url?.startsWith("https://")) return null;
+      const size = str(n.size) ?? "md";
+      const w = size === "full" ? undefined : (px(size, IMAGE_SIZE) ?? 100);
       return (
         // eslint-disable-next-line @next/next/no-img-element -- remote card image, preview only
         <img
@@ -164,7 +181,10 @@ function render(n: Node, key: number, parentRow: boolean): ReactNode {
           }}
           style={{
             ...base,
-            width: "100%",
+            ...(w
+              ? { flex: "none", width: w, height: w * ((ratio[1] || 1) / (ratio[0] || 1)) }
+              : {}),
+            ...(w ? {} : { width: "100%" }),
             aspectRatio: `${ratio[0] || 1} / ${ratio[1] || 1}`,
             objectFit: n.aspectMode === "cover" ? "cover" : "contain",
           }}

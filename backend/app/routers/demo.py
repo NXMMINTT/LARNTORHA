@@ -5,16 +5,18 @@ import secrets
 from datetime import UTC, datetime
 from functools import lru_cache
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field, model_validator
 
+from app.ai.live_call import LiveCallSettings, ScenarioBrief, next_turn
 from app.domain.models import TranscriptTurn
 from app.repo.memory import MemoryRepo
 from app.repo.seed import link_demo_line, seed
 from app.routers.common import DepsDep, require_internal
 from app.services.calls import CallError, CallIn, process_call
+from app.services.calls import _context as call_context
 
 FIXTURES = Path(__file__).resolve().parent.parent / "fixtures" / "transcripts"
 router = APIRouter(prefix="/v1/demo", dependencies=[Depends(require_internal)])
@@ -43,8 +45,14 @@ class DemoCallIn(BaseModel):
 
 @router.get("/scenarios")
 def list_scenarios() -> list[dict[str, Any]]:
+    # transcript lets /demo play a scenario back turn by turn before "hanging up" (seed data only).
     return [
-        {"id": s["id"], "title": s["title"], "expected_risk": s["expected_risk"]}
+        {
+            "id": s["id"],
+            "title": s["title"],
+            "expected_risk": s["expected_risk"],
+            "transcript": [{"speaker": t["speaker"], "text": t["text"]} for t in s["transcript"]],
+        }
         for s in scenarios().values()
     ]
 
@@ -80,6 +88,40 @@ def demo_call(body: DemoCallIn, deps: DepsDep) -> dict[str, Any]:
         "analysis": analysis.model_dump(mode="json") if analysis else None,
         "cards": cards,
     }
+
+
+class LiveTurnIn(BaseModel):
+    elder_id: str = Field(min_length=1, max_length=64)
+    role: Literal["ai", "elder"]
+    scenario_id: str | None = Field(default=None, max_length=64)
+    history: list[TranscriptTurn] = Field(default_factory=list, max_length=60)
+
+
+@router.post("/live/turn")
+def live_turn(body: LiveTurnIn, deps: DepsDep) -> dict[str, Any]:
+    """Next line of the /demo live call: น้องหลาน (role=ai) or the simulated elder (role=elder)."""
+    elder = deps.repo.get_elder(body.elder_id)
+    if elder is None:
+        raise HTTPException(404, "elder_not_found")
+    brief = None
+    if body.scenario_id is not None:
+        sc = scenarios().get(body.scenario_id)
+        if sc is None:
+            raise HTTPException(404, "scenario_not_found")
+        brief = ScenarioBrief(
+            title=sc["title"],
+            elder_lines=[t["text"] for t in sc["transcript"] if t["speaker"] == "elder"],
+        )
+    s = deps.settings
+    live_settings = (
+        LiveCallSettings(s.bedrock_model_id, s.bedrock_guardrail_id, s.bedrock_guardrail_version)
+        if deps.live_client is not None
+        else None
+    )
+    turn = next_turn(
+        deps.live_client, live_settings, body.role, call_context(deps, elder), body.history, brief
+    )
+    return turn.as_dict()
 
 
 @router.post("/reset")

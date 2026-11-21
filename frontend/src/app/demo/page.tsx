@@ -19,9 +19,10 @@ export default async function DemoPage() {
           <span className="inline-flex items-center gap-1.5 rounded-full border border-dashed border-warn bg-warn-bg px-3 py-1 text-[13px] font-bold text-yellow-800">
             <FlaskConical aria-hidden className="size-4" /> โหมดเดโม — ข้อมูลสมมติ
           </span>
-          <h1 className="m-0 mt-2 text-[26px] font-extrabold text-ink">จำลองสาย</h1>
+          <h1 className="m-0 mt-2 text-[26px] font-extrabold text-ink">จำลองสายของน้องหลาน</h1>
           <p className="m-0 mt-1 text-ink-muted">
-            ส่งบทสนทนาเข้าระบบเดียวกับสายจริง (Amazon Bedrock → สถานะ → การ์ด LINE → Dashboard)
+            คุยในสาย แล้ววางสาย บทสนทนาจะเข้าระบบเดียวกับสายจริง: Amazon Bedrock สรุป → สถานะ → การ์ด LINE →
+            Dashboard
           </p>
         </div>
         <form action={resetDemoAction}>
