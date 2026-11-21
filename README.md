@@ -49,6 +49,17 @@ curl -X POST localhost:8000/v1/demo/calls -H "X-Internal-Token: $TOKEN" -H "cont
 7. จำลองสาย (หัวข้อด้านบน) แล้วการ์ด 🟢🟡🔴 จะเข้า LINE ปุ่ม "รับทราบ" และ "แจ้ง อสม." จะกลับมาที่ webhook
 8. ภาพหัวการ์ด: ตั้ง `CARD_IMAGE_BASE_URL` (ดูวิธีเปลี่ยนภาพ ทดสอบ และข้อจำกัดของ LINE ใน [docs/line-cards.md](docs/line-cards.md))
 
+## ย้ายขึ้นโดเมนจริง: เช็กลิสต์ LINE
+
+| ค่า | ตอนทดสอบ (ngrok) | ตอน deploy |
+|---|---|---|
+| LIFF endpoint + `LIFF_ID` (frontend) | `https://<ngrok>/family` | `https://<โดเมนจริง>/family` (แก้ endpoint หรือสร้าง LIFF ตัวใหม่ใน LINE Login channel เดิม) |
+| `LINE_LOGIN_CHANNEL_ID` (backend) | 2012737129 | ค่าเดิม (ถ้าใช้ channel เดิม) |
+| Webhook URL ใน LINE OA | `https://<ngrok>/v1/line/webhook` (frontend ส่งต่อให้ backend) | `https://<โดเมนจริง>/v1/line/webhook` (ผ่าน frontend หรือชี้ backend ตรงก็ได้) |
+| เมนู LINE | LIFF ตัวทดสอบ | `uv run python scripts/setup_rich_menu.py --liff-id <LIFF ID ตัวจริง>` |
+| `CARD_IMAGE_BASE_URL` | branch ทดสอบ | `main` หรือ S3/CloudFront |
+| `LINE_TO_USER_IDS` | userId ของทีม | ลบออก (production ไม่ใช้) |
+
 ## Decisions
 
 - **แดชบอร์ดลูกหลาน `/family` (ผู้ใช้สั่งเพิ่ม 2026-11-21 นอกขอบเขต §0 เดิม):** เข้าผ่าน LINE Login (LIFF) จากปุ่ม "ข้อมูลผู้สูงอายุ" ในเมนู LINE · backend ตรวจ ID token กับ LINE (`LINE_LOGIN_CHANNEL_ID`) แล้วออก session แยกจากของ อสม. (cookie `ltr_family`, path `/family`) · แสดงเฉพาะข้อมูลฉบับครอบครัว: สถานะ, summary_family, ยา, ตารางยา, อสม. ที่ดูแล **ไม่แสดง 2Q/9Q, เหตุผลความเสี่ยง, หลักฐานจากบทสนทนา, สรุปฉบับ อสม. และอารมณ์** · LINE Login channel ต้องอยู่ provider เดียวกับ Messaging API ไม่อย่างนั้น userId ไม่ตรงกัน

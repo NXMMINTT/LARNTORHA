@@ -17,6 +17,12 @@ export function FamilyLiffLogin({ liffId }: { liffId: string }) {
         const liff = (await import("@line/liff")).default;
         await liff.init({ liffId });
         if (!liff.isLoggedIn()) {
+          // LINE only redirects back to the registered LIFF endpoint (the public HTTPS URL), so
+          // a localhost visit would end on LINE's "400 Bad Request". Go through the LIFF URL.
+          if (window.location.hostname === "localhost") {
+            window.location.replace(`https://liff.line.me/${liffId}`);
+            return;
+          }
           liff.login({ redirectUri: window.location.href });
           return;
         }
