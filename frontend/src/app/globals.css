@@ -16,7 +16,57 @@
   --color-line: #e2e8f0;
   --color-accent: #ffc72c; /* public pages only: tab pill + LINE band */
   --color-cream: #fdf3ec;
-  --font-display: var(--font-kanit), var(--font-noto-thai), sans-serif;
+  /* อสม. console (dashboard) palette, from the team's design (2026-11-21) */
+  --color-console-low: #f1f3ff;
+  --color-console: #e9edff;
+  --color-console-high: #e1e8fd;
+  --color-console-line: #dce2f7;
+  --color-console-ink: #141b2b;
+  --color-console-muted: #5d3f3d;
+  --color-console-outline: #926f6c;
+  --color-console-green: #006947;
+  --color-console-green-bg: #e3f4ec;
+  --color-console-coral: #ac332a;
+  --color-console-coral-bg: #ffdad5;
+  --color-console-dark: #293040;
+  --font-display: var(--font-anuphan), var(--font-noto-thai), sans-serif;
+  --animate-sparkle: sparkle 3.2s ease-in-out infinite;
+  --animate-bob: bob 4s ease-in-out infinite;
+  --animate-pop: pop 0.35s ease-out both;
+
+  @keyframes sparkle {
+    0%,
+    100% {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(0.72) rotate(12deg);
+      opacity: 0.55;
+    }
+  }
+  @keyframes bob {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+  @keyframes pop {
+    0% {
+      transform: scale(0.6);
+      opacity: 0;
+    }
+    70% {
+      transform: scale(1.06);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
   --font-sans:
     var(--font-noto-thai), "Noto Sans Thai", "Sarabun", "Leelawadee UI", system-ui, sans-serif;
 }
@@ -35,14 +85,52 @@ body {
  * the blue brand above so red there only ever means 🔴 urgent. Overriding the tokens in a scope
  * recolours every brand-* utility inside it.
  */
+/* Brand colours from the team's character sheet (2026-11-21): red #D71920, cream #FFF1EA,
+   brown #5B3A31. */
 .theme-public {
-  --color-brand-900: #c8102e;
-  --color-brand-600: #e11d2e;
-  --color-brand-100: #ffe1e3;
-  --color-brand-50: #fff4f4;
+  --color-brand-900: #b3141a;
+  --color-brand-600: #d71920;
+  --color-brand-100: #fcdcda;
+  --color-brand-50: #fff1ea;
+}
+
+/* อสม. console (dashboard + per-person page): red brand per the team's design (user decision 2026-11-21). */
+.theme-console {
+  --color-brand-900: #bb0020;
+  --color-brand-600: #e41e31;
+  --color-brand-100: #ffdad7;
+  --color-brand-50: #fff0ef;
+  --color-ink: #141b2b;
+  --color-ink-muted: #5d3f3d;
+  --color-line: #dce2f7;
+  /* Jakarta for Latin, Sarabun for Thai (variables are set on this element by next/font) */
+  font-family: var(--font-jakarta), var(--font-sarabun), var(--font-noto-thai), sans-serif;
 }
 
 :focus-visible {
   outline: 3px solid var(--color-brand-600);
   outline-offset: 2px;
+}
+
+/* Home page helpers: highlighter behind a word, and a faint dot grid. */
+@utility marker {
+  background: linear-gradient(
+    transparent 58%,
+    color-mix(in srgb, var(--color-brand-600) 18%, transparent) 0
+  );
+  border-radius: 2px;
+}
+
+@utility bg-dots {
+  background-image: radial-gradient(var(--color-brand-100) 1.2px, transparent 1.2px);
+  background-size: 20px 20px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-sparkle,
+  .animate-bob,
+  .animate-pop,
+  .animate-ping {
+    animation: none;
+  }
 }

@@ -1,0 +1,31 @@
+{
+  "id": "yellow-meds-northern",
+  "title": "ควรติดตาม — ลืมกิ๋นยา (เหนือ/คำเมือง)",
+  "expected_risk": "yellow",
+  "expected_med_taken": false,
+  "expected_two_q": "not_asked",
+  "transcript": [
+    {
+      "speaker": "ai",
+      "text": "สวัสดีค่ะคุณตา วันนี้เป็นอย่างไรบ้างคะ"
+    },
+    {
+      "speaker": "elder",
+      "text": "สบายดีเจ้า เมื่อเช้าไปกาดมา ซื้อผักมาแกง",
+      "asr_confidence": 0.81
+    },
+    {
+      "speaker": "ai",
+      "text": "ดีจังเลยค่ะ แล้วยาเบาหวานตอนเช้าทานแล้วหรือยังคะ"
+    },
+    {
+      "speaker": "elder",
+      "text": "โอ๊ย ลืมกิ๋นยาเจ้า ยังบ่ได้กิ๋นเลย",
+      "asr_confidence": 0.77
+    },
+    {
+      "speaker": "ai",
+      "text": "ไม่เป็นไรค่ะ หนูจะแจ้งลูกหลานให้ช่วยดูอีกทีนะคะ"
+    }
+  ]
+}

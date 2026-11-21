@@ -21,8 +21,12 @@ function DueLabel({ due, now }: { due: string; now: Date }) {
 
 export function NineQBox({ tasks, now }: { tasks: NineQTaskView[]; now: Date }) {
   return (
-    <section aria-labelledby="ninq-title" className="rounded-2xl border border-line bg-white p-5">
-      <h2 id="ninq-title" className="flex items-center gap-2 text-lg font-bold text-brand-900">
+    <section
+      id="ninq"
+      aria-labelledby="ninq-title"
+      className="scroll-mt-24 rounded-3xl border border-line bg-white p-5 shadow-sm"
+    >
+      <h2 id="ninq-title" className="flex items-center gap-2 text-xl font-bold text-ink">
         <ClipboardList aria-hidden className="size-5" /> งานประเมิน 9Q ({tasks.length})
       </h2>
       <p className="mt-1 text-sm text-ink-muted">

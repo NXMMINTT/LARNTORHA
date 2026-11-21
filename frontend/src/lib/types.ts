@@ -43,6 +43,9 @@ export interface DashboardRow {
   med_taken: boolean | null;
   latest_call_id: string | null;
   latest_call_at: string | null;
+  latest_outcome: CallOutcome | null;
+  latest_duration_sec: number | null;
+  latest_mood: Mood | null;
   resolved: boolean;
   resolve_note: string | null;
   family_requested_osm: boolean;

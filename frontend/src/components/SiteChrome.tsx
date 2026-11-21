@@ -1,7 +1,9 @@
-import { Phone } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { Face, Logo } from "./Brand";
+
+/** Round mascot-face avatar (น้องหลาน). `inverted` = white disc for red backgrounds. */
 export function BrandMark({
   className = "size-9",
   inverted = false,
@@ -12,9 +14,9 @@ export function BrandMark({
   return (
     <span
       aria-hidden
-      className={`flex shrink-0 items-center justify-center rounded-xl ${inverted ? "bg-white text-brand-600" : "bg-brand-600 text-white"} ${className}`}
+      className={`flex shrink-0 items-center justify-center overflow-hidden rounded-full ${inverted ? "bg-white" : "bg-[#FFF1EA]"} ${className}`}
     >
-      <Phone className="size-[55%]" strokeWidth={2.25} />
+      <Face className="size-[92%] translate-y-[3%]" />
     </span>
   );
 }
@@ -23,8 +25,8 @@ export function SiteHeader({ children }: { children?: ReactNode }) {
   return (
     <header className="border-b border-line bg-white">
       <div className="mx-auto flex min-h-16 w-full max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-2">
-        <Link href="/" className="flex items-center gap-2.5 text-xl font-bold text-brand-900">
-          <BrandMark /> หลานโทรหา
+        <Link href="/" aria-label="หลานโทรหา หน้าแรก" className="flex items-center">
+          <Logo className="h-11 w-auto" />
         </Link>
         {children && <nav className="flex flex-wrap items-center gap-2">{children}</nav>}
       </div>

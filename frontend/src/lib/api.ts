@@ -4,6 +4,7 @@ import "server-only";
 
 import { cookies, headers as requestHeaders } from "next/headers";
 import { redirect } from "next/navigation";
+import { cache } from "react";
 
 import { SESSION_COOKIE } from "./constants";
 import type {
@@ -80,10 +81,12 @@ const seg = encodeURIComponent;
 export const login = (phone: string, password: string) =>
   call<LoginResult>("POST", "/v1/osm/login", { body: { phone, password } });
 
-export const getMe = () => osm(() => call<OsmMe>("GET", "/v1/osm/me", { auth: true }));
+// cache(): the dashboard layout and page both need these; one backend call per request.
+export const getMe = cache(() => osm(() => call<OsmMe>("GET", "/v1/osm/me", { auth: true })));
 
-export const getDashboard = () =>
-  osm(() => call<DashboardData>("GET", "/v1/osm/dashboard", { auth: true }));
+export const getDashboard = cache(() =>
+  osm(() => call<DashboardData>("GET", "/v1/osm/dashboard", { auth: true })),
+);
 
 export const getDailyDigest = (date?: string) =>
   osm(() =>

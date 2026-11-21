@@ -116,6 +116,25 @@ def test_rules_catch_isan() -> None:
     assert check_transcript(elder_says("ล้มหัวฟาดพื้น")).risk == "red"
 
 
+def test_rules_catch_northern() -> None:
+    assert check_transcript(elder_says("ปวดหัวขนาดเลยเจ้า")).risk == "red"
+    assert check_transcript(elder_says("แขนขาบ่มีแฮงซีกเดียว")).risk == "red"
+    r = check_transcript(elder_says("ใค่ตายแล้วเจ้า"))
+    assert r.risk == "red" and r.self_harm
+    assert check_transcript(elder_says("ลืมกิ๋นยาเมื่อเช้า")).risk == "yellow"
+
+
+def test_rules_catch_southern() -> None:
+    assert check_transcript(elder_says("ปวดหัวจังหูเลยลูก")).risk == "red"
+    assert check_transcript(elder_says("ล้มหัวโขกพื้นแหละ")).risk == "red"
+    assert check_transcript(elder_says("หายใจไม่หลุดเลย")).risk == "red"
+
+
+def test_regional_negation_is_not_red() -> None:
+    assert check_transcript(elder_says("บ่ใค่ตายดอก ยังสบายดี")).risk == "green"
+    assert check_transcript(elder_says("ไม่ได้ปวดหัวจังหูแล้ว")).risk == "green"
+
+
 def test_rules_ignore_ai_turns() -> None:
     turns = [TranscriptTurn(speaker="ai", text="มีเจ็บหน้าอกไหมคะ"), *elder_says("สบายดีจ้า")]
     assert check_transcript(turns).risk == "green"
