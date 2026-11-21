@@ -6,9 +6,9 @@
     "size": "mega",
     "hero": {
       "type": "image",
-      "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/followup.jpg?v=2",
+      "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/followup.jpg?v=3",
       "size": "full",
-      "aspectRatio": "16:10",
+      "aspectRatio": "16:5",
       "aspectMode": "cover"
     },
     "body": {
@@ -263,7 +263,7 @@
         },
         {
           "type": "image",
-          "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/wave.png?v=2",
+          "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/wave.png?v=3",
           "size": "full",
           "aspectRatio": "16:1",
           "aspectMode": "cover",

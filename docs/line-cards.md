@@ -31,7 +31,7 @@ docs/line-cards/*.json             ตัวอย่าง JSON (สร้า�
 ## โครงการ์ด
 
 ```
-hero    ภาพ {kind}.jpg 1024x640 (โลโก้ + สติกเกอร์น้องหลาน + ป้ายสถานะ)
+hero    ภาพ {kind}.jpg 1024x320 (แบนเนอร์สถานะ + น้องหลาน ตัดจาก banners.png)
 body    วงกลมอักษรแรกของชื่อ + ชื่อ + "ผู้รับบริการ"
         แถวข้อมูล (ไอคอน · หัวข้อ · ค่า) เช่น วันที่โทร เวลา ระยะเวลาสนทนา ยา
         กล่องสีอ่อนตามสถานะ: สรุปการสนทนา / หมายเหตุ / สิ่งที่ควรติดตาม / ข้อสังเกต (+ "🤖 สรุปโดย AI")
@@ -72,8 +72,8 @@ uv run python scripts/line_cards_demo.py --push Uxxxx   # ส่งการ์�
 
 ## เปลี่ยนรูปภาพ
 
-1. แทนที่สติกเกอร์ต้นฉบับ `backend/app/static/cards/sticker-{green,unreachable,followup,red}.png` (PNG พื้นใส)
-2. สร้างภาพหัวการ์ดใหม่: `cd frontend && node scripts/build-line-card-images.mjs` จะได้ `{kind}.jpg` (1024x640) และ `wave.png` ต้องต่ออินเทอร์เน็ตเพื่อโหลดฟอนต์ Kanit ปรับสีพื้นหลังหรือป้ายของ followup ได้ที่ `KINDS` ในสคริปต์
+1. แทนที่แผ่นแบนเนอร์ต้นฉบับ `backend/app/static/cards/banners.png` (2x2: ปกติ | ยังติดต่อไม่ได้ / ควรติดตาม | เร่งด่วน)
+2. ตัดภาพหัวการ์ด: `cd frontend && node scripts/crop-line-card-banners.mjs` จะได้ `{kind}.jpg` (1024x320) ถ้าขนาดแผ่นเปลี่ยน ให้แก้พิกัดใน `CROPS` ในสคริปต์ (`build-line-card-images.mjs` ใช้สร้าง `wave.png` เท่านั้น อย่ารันทับ เพราะจะเขียน `{kind}.jpg` แบบเก่าทับ)
 3. **เพิ่ม `CARD_IMAGE_VERSION`** ใน `line_cards.py` (เช่น "2" เป็น "3") เพราะ LINE cache ภาพตาม URL
 4. อัปโหลดภาพไปที่ปลายทางของ `CARD_IMAGE_BASE_URL` (ถ้าใช้ GitHub raw คือ push ขึ้น `main`)
 
@@ -88,10 +88,10 @@ uv run python scripts/line_cards_demo.py --push Uxxxx   # ส่งการ์�
 
 | รายการ | ข้อจำกัด | การ์ดนี้ |
 |---|---|---|
-| ภาพ (image) | HTTPS (TLS 1.2+), JPEG/PNG, ไม่เกิน 1024x1024 px, ไม่เกิน 10 MB (แนะนำ ≤ 1 MB), URL ไม่เกิน 2000 ตัวอักษร | 1024x640 JPEG ราว 80–90 KB และ wave.png 1024x64 |
+| ภาพ (image) | HTTPS (TLS 1.2+), JPEG/PNG, ไม่เกิน 1024x1024 px, ไม่เกิน 10 MB (แนะนำ ≤ 1 MB), URL ไม่เกิน 2000 ตัวอักษร | 1024x320 JPEG ราว 60 KB และ wave.png 1024x64 |
 | JSON ต่อ bubble | ไม่เกิน 30 KB | ราว 4–5 KB (มี test ตรวจว่าไม่เกิน) |
 | altText | ไม่เกิน 1500 ตัวอักษร | ตัดที่ 400 |
-| aspectRatio | width:height ค่า 1–100000 และสูงไม่เกิน 3 เท่าของกว้าง | 16:10 และ 16:1 |
+| aspectRatio | width:height ค่า 1–100000 และสูงไม่เกิน 3 เท่าของกว้าง | 16:5 และ 16:1 |
 | label ของ action | (ใช้ไม่เกิน 40 ตัวอักษร) | ตัดที่ 40 |
 
 ## ขึ้นใช้งานจริง

@@ -34,10 +34,11 @@ COLORS = {"green": "#16a34a", "yellow": "#ca8a04", "red": "#dc2626", "osm": "#1e
 BRAND_RED = "#D71920"
 INK, MUTED = "#1e293b", "#64748b"
 
-# Header images live in app/static/cards ({kind}.jpg 1024x640, wave.png 1024x64) and are built by
+# Header images live in app/static/cards ({kind}.jpg 1024x320 cropped from banners.png by
+# frontend/scripts/crop-line-card-banners.mjs; wave.png 1024x64 built by
 # frontend/scripts/build-line-card-images.mjs. Bump CARD_IMAGE_VERSION whenever an image changes:
 # LINE caches images by URL.
-CARD_IMAGE_VERSION = "2"
+CARD_IMAGE_VERSION = "3"
 
 Json = dict[str, Any]
 
@@ -379,7 +380,7 @@ def render_family_card(data: FamilyCardData, image_base: str | None = None) -> J
             "type": "image",
             "url": f"{base}/{data.kind}.jpg?v={CARD_IMAGE_VERSION}",
             "size": "full",
-            "aspectRatio": "16:10",
+            "aspectRatio": "16:5",
             "aspectMode": "cover",
         }
     else:
