@@ -35,15 +35,15 @@ def samples() -> dict[str, FamilyCardData]:
             date=DAY,
             time=TIME,
             rows=[
-                ("📅", "วันที่โทร", DAY),
-                ("🕘", "เวลา", TIME),
-                ("📞", "ระยะเวลาสนทนา", "3 นาที"),
-                ("💊", "ยา", "✅ กินยาแล้ว"),
+                ("calendar", "วันที่โทร", DAY),
+                ("clock", "เวลา", TIME),
+                ("phone", "ระยะเวลาสนทนา", "3 นาที"),
+                ("pill", "ยา", "กินยาแล้ว"),
             ],
             section=["คุณยายสบายดี พูดคุยตามปกติ ทานข้าวและพักผ่อนเพียงพอ ผักบุ้งที่ปลูกไว้ขึ้นแล้ว"],
             ai_note=True,
             notes=[("ไม่พบสัญญาณผิดปกติในสายนี้ (ไม่ได้หมายความว่าปลอดภัยแน่นอน)", "small")],
-            buttons=[CardButton("✓ รับทราบ", "postback", "ack", filled=True)],
+            buttons=[CardButton("รับทราบ", "postback", "ack", filled=True, icon="check")],
         ),
         "unreachable": FamilyCardData(
             kind="unreachable",
@@ -53,9 +53,9 @@ def samples() -> dict[str, FamilyCardData]:
             date=DAY,
             time=TIME,
             rows=[
-                ("📅", "วันที่โทร", DAY),
-                ("🕘", "เวลา", TIME),
-                ("📞", "จำนวนครั้งที่โทร", "2 ครั้ง (ห่าง 30 นาที)"),
+                ("calendar", "วันที่โทร", DAY),
+                ("clock", "เวลา", TIME),
+                ("phone", "จำนวนครั้งที่โทร", "2 ครั้ง (ห่าง 30 นาที)"),
             ],
             section=["โทรแล้ว 2 ครั้ง แต่ยังไม่มีผู้รับสาย"],
             ai_note=False,
@@ -66,8 +66,8 @@ def samples() -> dict[str, FamilyCardData]:
                 )
             ],
             buttons=[
-                CardButton("📞 โทรหาตาสมบัติ", "tel", "0891234567", filled=True),
-                CardButton("👥 แจ้ง อสม.", "postback", "notify_osm"),
+                CardButton("โทรหาตาสมบัติ", "tel", "0891234567", filled=True, icon="phone"),
+                CardButton("แจ้ง อสม.", "postback", "notify_osm", icon="users"),
             ],
         ),
         "followup": FamilyCardData(
@@ -77,13 +77,17 @@ def samples() -> dict[str, FamilyCardData]:
             name="ยายสมศรี",
             date=DAY,
             time=TIME,
-            rows=[("📅", "วันที่โทร", DAY), ("🕘", "เวลา", TIME), ("💊", "ยา", "❌ ยังไม่ได้กินยา")],
+            rows=[
+                ("calendar", "วันที่โทร", DAY),
+                ("clock", "เวลา", TIME),
+                ("pill", "ยา", "ยังไม่ได้กินยา"),
+            ],
             section=["คุณยายสบายดี ไปตลาดมา แต่ยังไม่ได้ทานยาตอนเช้า ลูกหลานช่วยเตือนด้วยนะคะ"],
             ai_note=True,
             notes=[("มีบางเรื่องที่ควรได้รับการติดตาม อสม. ในพื้นที่ได้รับแจ้งแล้ว", "normal")],
             buttons=[
-                CardButton("📞 โทรหายายสมศรี", "tel", "0891234567"),
-                CardButton("✓ รับทราบ", "postback", "ack", filled=True),
+                CardButton("โทรหายายสมศรี", "tel", "0891234567", icon="phone"),
+                CardButton("รับทราบ", "postback", "ack", filled=True, icon="check"),
             ],
         ),
         "red": FamilyCardData(
@@ -93,7 +97,7 @@ def samples() -> dict[str, FamilyCardData]:
             name="ยายมาลี",
             date=DAY,
             time=TIME,
-            rows=[("📅", "วันที่โทร", DAY), ("🕘", "เวลา", TIME)],
+            rows=[("calendar", "วันที่โทร", DAY), ("clock", "เวลา", TIME)],
             section=["คุณยายแจ้งว่ามีอาการเวียนศีรษะมากและอ่อนเพลีย ลุกเดินไม่ค่อยไหว"],
             ai_note=True,
             notes=[
@@ -101,9 +105,9 @@ def samples() -> dict[str, FamilyCardData]:
                 ("ระบบไม่สามารถเรียกรถพยาบาลหรือยืนยันอาการได้ กรุณาติดต่อทันที", "alert"),
             ],
             buttons=[
-                CardButton("📞 โทร 1669", "tel", "1669", filled=True),
-                CardButton("👥 แจ้ง อสม.", "postback", "notify_osm"),
-                CardButton("📱 โทรหายายมาลี", "tel", "0891234567"),
+                CardButton("โทร 1669", "tel", "1669", filled=True, icon="phone"),
+                CardButton("แจ้ง อสม.", "postback", "notify_osm", icon="users"),
+                CardButton("โทรหายายมาลี", "tel", "0891234567", icon="smartphone"),
             ],
         ),
     }

@@ -3,7 +3,7 @@
   "size": "mega",
   "hero": {
     "type": "image",
-    "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/unreachable.jpg?v=3",
+    "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/unreachable.jpg?v=4",
     "size": "full",
     "aspectRatio": "16:5",
     "aspectMode": "cover"
@@ -55,11 +55,23 @@
                 "color": "#1e293b"
               },
               {
-                "type": "text",
-                "text": "👤 ผู้รับบริการ",
-                "wrap": true,
-                "size": "xs",
-                "color": "#64748b"
+                "type": "box",
+                "layout": "baseline",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "icon",
+                    "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/user-64748b.png?v=4",
+                    "size": "sm"
+                  },
+                  {
+                    "type": "text",
+                    "text": "ผู้รับบริการ",
+                    "wrap": true,
+                    "size": "xs",
+                    "color": "#64748b"
+                  }
+                ]
               }
             ]
           }
@@ -75,11 +87,23 @@
         "spacing": "sm",
         "contents": [
           {
-            "type": "text",
-            "text": "📅 วันที่โทร",
-            "wrap": true,
-            "size": "sm",
-            "color": "#64748b",
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "icon",
+                "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/calendar-64748b.png?v=4",
+                "size": "sm"
+              },
+              {
+                "type": "text",
+                "text": "วันที่โทร",
+                "wrap": true,
+                "size": "sm",
+                "color": "#64748b"
+              }
+            ],
             "flex": 5
           },
           {
@@ -99,11 +123,23 @@
         "spacing": "sm",
         "contents": [
           {
-            "type": "text",
-            "text": "🕘 เวลา",
-            "wrap": true,
-            "size": "sm",
-            "color": "#64748b",
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "icon",
+                "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/clock-64748b.png?v=4",
+                "size": "sm"
+              },
+              {
+                "type": "text",
+                "text": "เวลา",
+                "wrap": true,
+                "size": "sm",
+                "color": "#64748b"
+              }
+            ],
             "flex": 5
           },
           {
@@ -123,11 +159,23 @@
         "spacing": "sm",
         "contents": [
           {
-            "type": "text",
-            "text": "📞 จำนวนครั้งที่โทร",
-            "wrap": true,
-            "size": "sm",
-            "color": "#64748b",
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "icon",
+                "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/phone-64748b.png?v=4",
+                "size": "sm"
+              },
+              {
+                "type": "text",
+                "text": "จำนวนครั้งที่โทร",
+                "wrap": true,
+                "size": "sm",
+                "color": "#64748b"
+              }
+            ],
             "flex": 5
           },
           {
@@ -150,12 +198,24 @@
         "backgroundColor": "#FFF7DA",
         "contents": [
           {
-            "type": "text",
-            "text": "⚠️ หมายเหตุ",
-            "wrap": true,
-            "size": "sm",
-            "weight": "bold",
-            "color": "#ca8a04"
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "icon",
+                "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/triangle-alert-ca8a04.png?v=4",
+                "size": "sm"
+              },
+              {
+                "type": "text",
+                "text": "หมายเหตุ",
+                "wrap": true,
+                "size": "sm",
+                "weight": "bold",
+                "color": "#ca8a04"
+              }
+            ]
           },
           {
             "type": "text",
@@ -182,7 +242,7 @@
     "paddingStart": "18px",
     "paddingEnd": "18px",
     "paddingTop": "4px",
-    "paddingBottom": "0px",
+    "paddingBottom": "18px",
     "contents": [
       {
         "type": "box",
@@ -200,28 +260,38 @@
             "borderWidth": "medium",
             "action": {
               "type": "uri",
-              "label": "📞 โทรหาตาสมบัติ",
+              "label": "โทรหาตาสมบัติ",
               "uri": "tel:0891234567"
             },
             "contents": [
               {
-                "type": "text",
-                "text": "📞 โทรหาตาสมบัติ",
-                "wrap": true,
-                "size": "sm",
-                "weight": "bold",
-                "align": "center",
-                "color": "#FFFFFF"
+                "type": "box",
+                "layout": "horizontal",
+                "spacing": "sm",
+                "justifyContent": "center",
+                "alignItems": "center",
+                "contents": [
+                  {
+                    "type": "image",
+                    "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/phone-ffffff.png?v=4",
+                    "size": "18px",
+                    "flex": 0,
+                    "aspectMode": "fit"
+                  },
+                  {
+                    "type": "text",
+                    "text": "โทรหาตาสมบัติ",
+                    "wrap": true,
+                    "size": "sm",
+                    "weight": "bold",
+                    "align": "center",
+                    "color": "#FFFFFF",
+                    "flex": 0
+                  }
+                ]
               }
             ]
-          }
-        ]
-      },
-      {
-        "type": "box",
-        "layout": "horizontal",
-        "spacing": "sm",
-        "contents": [
+          },
           {
             "type": "box",
             "layout": "vertical",
@@ -233,31 +303,40 @@
             "borderWidth": "medium",
             "action": {
               "type": "postback",
-              "label": "👥 แจ้ง อสม.",
+              "label": "แจ้ง อสม.",
               "data": "action=notify_osm&elder=eld_sombat&call=demo-unreachable",
-              "displayText": "👥 แจ้ง อสม."
+              "displayText": "แจ้ง อสม."
             },
             "contents": [
               {
-                "type": "text",
-                "text": "👥 แจ้ง อสม.",
-                "wrap": true,
-                "size": "sm",
-                "weight": "bold",
-                "align": "center",
-                "color": "#D71920"
+                "type": "box",
+                "layout": "horizontal",
+                "spacing": "sm",
+                "justifyContent": "center",
+                "alignItems": "center",
+                "contents": [
+                  {
+                    "type": "image",
+                    "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/users-d71920.png?v=4",
+                    "size": "18px",
+                    "flex": 0,
+                    "aspectMode": "fit"
+                  },
+                  {
+                    "type": "text",
+                    "text": "แจ้ง อสม.",
+                    "wrap": true,
+                    "size": "sm",
+                    "weight": "bold",
+                    "align": "center",
+                    "color": "#D71920",
+                    "flex": 0
+                  }
+                ]
               }
             ]
           }
         ]
-      },
-      {
-        "type": "image",
-        "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/wave.png?v=3",
-        "size": "full",
-        "aspectRatio": "16:1",
-        "aspectMode": "cover",
-        "margin": "md"
       }
     ]
   }

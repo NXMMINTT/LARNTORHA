@@ -6,7 +6,7 @@
     "size": "mega",
     "hero": {
       "type": "image",
-      "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/red.jpg?v=3",
+      "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/red.jpg?v=4",
       "size": "full",
       "aspectRatio": "16:5",
       "aspectMode": "cover"
@@ -58,11 +58,23 @@
                   "color": "#1e293b"
                 },
                 {
-                  "type": "text",
-                  "text": "👤 ผู้รับบริการ",
-                  "wrap": true,
-                  "size": "xs",
-                  "color": "#64748b"
+                  "type": "box",
+                  "layout": "baseline",
+                  "spacing": "sm",
+                  "contents": [
+                    {
+                      "type": "icon",
+                      "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/user-64748b.png?v=4",
+                      "size": "sm"
+                    },
+                    {
+                      "type": "text",
+                      "text": "ผู้รับบริการ",
+                      "wrap": true,
+                      "size": "xs",
+                      "color": "#64748b"
+                    }
+                  ]
                 }
               ]
             }
@@ -78,11 +90,23 @@
           "spacing": "sm",
           "contents": [
             {
-              "type": "text",
-              "text": "📅 วันที่โทร",
-              "wrap": true,
-              "size": "sm",
-              "color": "#64748b",
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "icon",
+                  "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/calendar-64748b.png?v=4",
+                  "size": "sm"
+                },
+                {
+                  "type": "text",
+                  "text": "วันที่โทร",
+                  "wrap": true,
+                  "size": "sm",
+                  "color": "#64748b"
+                }
+              ],
               "flex": 5
             },
             {
@@ -102,11 +126,23 @@
           "spacing": "sm",
           "contents": [
             {
-              "type": "text",
-              "text": "🕘 เวลา",
-              "wrap": true,
-              "size": "sm",
-              "color": "#64748b",
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "icon",
+                  "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/clock-64748b.png?v=4",
+                  "size": "sm"
+                },
+                {
+                  "type": "text",
+                  "text": "เวลา",
+                  "wrap": true,
+                  "size": "sm",
+                  "color": "#64748b"
+                }
+              ],
               "flex": 5
             },
             {
@@ -129,12 +165,24 @@
           "backgroundColor": "#FDECEC",
           "contents": [
             {
-              "type": "text",
-              "text": "🚨 ข้อสังเกต",
-              "wrap": true,
-              "size": "sm",
-              "weight": "bold",
-              "color": "#dc2626"
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "icon",
+                  "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/siren-dc2626.png?v=4",
+                  "size": "sm"
+                },
+                {
+                  "type": "text",
+                  "text": "ข้อสังเกต",
+                  "wrap": true,
+                  "size": "sm",
+                  "weight": "bold",
+                  "color": "#dc2626"
+                }
+              ]
             },
             {
               "type": "text",
@@ -144,11 +192,23 @@
               "color": "#1e293b"
             },
             {
-              "type": "text",
-              "text": "🤖 สรุปโดย AI",
-              "wrap": true,
-              "size": "xxs",
-              "color": "#94a3b8"
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "icon",
+                  "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/bot-94a3b8.png?v=4",
+                  "size": "sm"
+                },
+                {
+                  "type": "text",
+                  "text": "สรุปโดย AI",
+                  "wrap": true,
+                  "size": "xxs",
+                  "color": "#94a3b8"
+                }
+              ]
             }
           ]
         },
@@ -176,7 +236,7 @@
       "paddingStart": "18px",
       "paddingEnd": "18px",
       "paddingTop": "4px",
-      "paddingBottom": "0px",
+      "paddingBottom": "18px",
       "contents": [
         {
           "type": "box",
@@ -194,18 +254,35 @@
               "borderWidth": "medium",
               "action": {
                 "type": "uri",
-                "label": "📞 โทร 1669",
+                "label": "โทร 1669",
                 "uri": "tel:1669"
               },
               "contents": [
                 {
-                  "type": "text",
-                  "text": "📞 โทร 1669",
-                  "wrap": true,
-                  "size": "sm",
-                  "weight": "bold",
-                  "align": "center",
-                  "color": "#FFFFFF"
+                  "type": "box",
+                  "layout": "horizontal",
+                  "spacing": "sm",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "contents": [
+                    {
+                      "type": "image",
+                      "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/phone-ffffff.png?v=4",
+                      "size": "18px",
+                      "flex": 0,
+                      "aspectMode": "fit"
+                    },
+                    {
+                      "type": "text",
+                      "text": "โทร 1669",
+                      "wrap": true,
+                      "size": "sm",
+                      "weight": "bold",
+                      "align": "center",
+                      "color": "#FFFFFF",
+                      "flex": 0
+                    }
+                  ]
                 }
               ]
             },
@@ -220,19 +297,36 @@
               "borderWidth": "medium",
               "action": {
                 "type": "postback",
-                "label": "👥 แจ้ง อสม.",
+                "label": "แจ้ง อสม.",
                 "data": "action=notify_osm&elder=eld_malee&call=demo-red",
-                "displayText": "👥 แจ้ง อสม."
+                "displayText": "แจ้ง อสม."
               },
               "contents": [
                 {
-                  "type": "text",
-                  "text": "👥 แจ้ง อสม.",
-                  "wrap": true,
-                  "size": "sm",
-                  "weight": "bold",
-                  "align": "center",
-                  "color": "#D71920"
+                  "type": "box",
+                  "layout": "horizontal",
+                  "spacing": "sm",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "contents": [
+                    {
+                      "type": "image",
+                      "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/users-d71920.png?v=4",
+                      "size": "18px",
+                      "flex": 0,
+                      "aspectMode": "fit"
+                    },
+                    {
+                      "type": "text",
+                      "text": "แจ้ง อสม.",
+                      "wrap": true,
+                      "size": "sm",
+                      "weight": "bold",
+                      "align": "center",
+                      "color": "#D71920",
+                      "flex": 0
+                    }
+                  ]
                 }
               ]
             }
@@ -254,30 +348,39 @@
               "borderWidth": "medium",
               "action": {
                 "type": "uri",
-                "label": "📱 โทรหายายมาลี",
+                "label": "โทรหายายมาลี",
                 "uri": "tel:0891234567"
               },
               "contents": [
                 {
-                  "type": "text",
-                  "text": "📱 โทรหายายมาลี",
-                  "wrap": true,
-                  "size": "sm",
-                  "weight": "bold",
-                  "align": "center",
-                  "color": "#D71920"
+                  "type": "box",
+                  "layout": "horizontal",
+                  "spacing": "sm",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "contents": [
+                    {
+                      "type": "image",
+                      "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/smartphone-d71920.png?v=4",
+                      "size": "18px",
+                      "flex": 0,
+                      "aspectMode": "fit"
+                    },
+                    {
+                      "type": "text",
+                      "text": "โทรหายายมาลี",
+                      "wrap": true,
+                      "size": "sm",
+                      "weight": "bold",
+                      "align": "center",
+                      "color": "#D71920",
+                      "flex": 0
+                    }
+                  ]
                 }
               ]
             }
           ]
-        },
-        {
-          "type": "image",
-          "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/wave.png?v=3",
-          "size": "full",
-          "aspectRatio": "16:1",
-          "aspectMode": "cover",
-          "margin": "md"
         }
       ]
     }

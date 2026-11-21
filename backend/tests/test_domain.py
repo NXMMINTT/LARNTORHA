@@ -197,7 +197,7 @@ def test_green_card_has_ack_postback_and_disclaimer() -> None:
     dumped = json.dumps(family_card("green", elder(), call()), ensure_ascii=False)
     assert "action=ack&elder=eld_x&call=c0" in dumped
     assert "ไม่ได้หมายความว่าปลอดภัยแน่นอน" in dumped
-    assert "🤖 สรุปโดย AI" in dumped
+    assert "สรุปโดย AI" in dumped
 
 
 def test_family_card_header_image_when_public_url_set() -> None:
@@ -213,7 +213,7 @@ def test_family_card_header_image_when_public_url_set() -> None:
         assert "header" not in bubble
         assert bubble["hero"]["url"].startswith(f"{base}{kind}.jpg?v=")
         dumped = json.dumps(bubble, ensure_ascii=False)
-        assert f"{base}wave.png" in dumped
+        assert f"{base}icons/calendar-64748b.png" in dumped and "wave.png" not in dumped
         assert elder().name in dumped
         assert not any(w in dumped for w in ("2Q", "9Q", "ซึมเศร้า", "คะแนน"))
         # every button is a real action, not a picture
@@ -253,7 +253,7 @@ def test_card_images_are_served() -> None:
     client = TestClient(create_app(Settings(_env_file=None)))
     for name, ctype in [
         *((f"{k}.jpg", "image/jpeg") for k in ("green", "unreachable", "followup", "red")),
-        ("wave.png", "image/png"),
+        ("icons/phone-ffffff.png", "image/png"),
     ]:
         r = client.get(f"/static/cards/{name}")
         assert r.status_code == 200 and r.headers["content-type"] == ctype

@@ -34,11 +34,12 @@ COLORS = {"green": "#16a34a", "yellow": "#ca8a04", "red": "#dc2626", "osm": "#1e
 BRAND_RED = "#D71920"
 INK, MUTED = "#1e293b", "#64748b"
 
-# Header images live in app/static/cards ({kind}.jpg 1024x320 cropped from banners.png by
-# frontend/scripts/crop-line-card-banners.mjs; wave.png 1024x64 built by
-# frontend/scripts/build-line-card-images.mjs. Bump CARD_IMAGE_VERSION whenever an image changes:
+# Images live in app/static/cards: {kind}.jpg 1024x320 cropped from banners.png by
+# frontend/scripts/crop-line-card-banners.mjs, and icons/{name}-{color}.png (lucide) built by
+# frontend/scripts/build-line-card-icons.mjs. Bump CARD_IMAGE_VERSION whenever an image changes:
 # LINE caches images by URL.
-CARD_IMAGE_VERSION = "3"
+CARD_IMAGE_VERSION = "4"
+MUTED_HEX, FAINT_HEX = "#64748b", "#94a3b8"
 
 Json = dict[str, Any]
 
@@ -50,14 +51,14 @@ class CardTheme:
     color: str  # status colour (avatar ring, section title)
     tint: str  # section background
     section_title: str
-    section_icon: str
+    section_icon: str  # lucide icon name (icons/{name}-{color}.png)
 
 
 CARD_THEMES: dict[CardKind, CardTheme] = {
-    "green": CardTheme("ปกติ", "🟢", "#16a34a", "#EAF8EE", "สรุปการสนทนา", "💬"),
-    "unreachable": CardTheme("ยังติดต่อไม่ได้", "🟡", "#ca8a04", "#FFF7DA", "หมายเหตุ", "⚠️"),
-    "followup": CardTheme("ควรติดตาม", "🟠", "#EA7A0C", "#FFF1E3", "สิ่งที่ควรติดตาม", "🔎"),
-    "red": CardTheme("เร่งด่วน", "🔴", "#dc2626", "#FDECEC", "ข้อสังเกต", "🚨"),
+    "green": CardTheme("ปกติ", "🟢", "#16a34a", "#EAF8EE", "สรุปการสนทนา", "message-circle"),
+    "unreachable": CardTheme("ยังติดต่อไม่ได้", "🟡", "#ca8a04", "#FFF7DA", "หมายเหตุ", "triangle-alert"),
+    "followup": CardTheme("ควรติดตาม", "🟠", "#EA7A0C", "#FFF1E3", "สิ่งที่ควรติดตาม", "search"),
+    "red": CardTheme("เร่งด่วน", "🔴", "#dc2626", "#FDECEC", "ข้อสังเกต", "siren"),
 }
 
 
@@ -67,6 +68,7 @@ class CardButton:
     kind: Literal["tel", "postback"]
     value: str  # phone number, or postback action name
     filled: bool = False
+    icon: str | None = None  # lucide icon name
 
 
 @dataclass
@@ -79,9 +81,9 @@ class FamilyCardData:
     name: str
     date: str  # "20 พ.ย. 2569"
     time: str  # "09:00 น."
-    rows: list[tuple[str, str, str]]  # (icon, label, value)
+    rows: list[tuple[str, str, str]]  # (lucide icon name, label, value)
     section: list[str]  # paragraphs in the coloured box
-    ai_note: bool  # show "🤖 สรุปโดย AI" under the section
+    ai_note: bool  # show "สรุปโดย AI" under the section
     notes: list[tuple[str, Literal["normal", "strong", "alert", "small"]]] = field(
         default_factory=list
     )  # mandatory safety texts (CLAUDE.md §8)
@@ -111,10 +113,10 @@ def thai_datetime(dt: datetime) -> str:
 
 def _med_text(call: CallResult) -> str:
     if call.med_taken is True:
-        return "✅ กินยาแล้ว"
+        return "กินยาแล้ว"
     if call.med_taken is False:
-        return "❌ ยังไม่ได้กินยา"
-    return "— ไม่ได้ยืนยัน"
+        return "ยังไม่ได้กินยา"
+    return "ไม่ได้ยืนยัน"
 
 
 def family_card_data(kind: CardKind, elder: Elder, call: CallResult) -> FamilyCardData:
@@ -128,7 +130,7 @@ def family_card_data(kind: CardKind, elder: Elder, call: CallResult) -> FamilyCa
         "date": thai_date(call.started_at),
         "time": thai_time(call.started_at),
     }
-    date_rows = [("📅", "วันที่โทร", common["date"]), ("🕘", "เวลา", common["time"])]
+    date_rows = [("calendar", "วันที่โทร", common["date"]), ("clock", "เวลา", common["time"])]
     tel_elder = CardButton(f"โทรหา{name}", "tel", elder.phone)
 
     if kind == "green":
@@ -137,19 +139,19 @@ def family_card_data(kind: CardKind, elder: Elder, call: CallResult) -> FamilyCa
             **common,
             rows=[
                 *date_rows,
-                ("📞", "ระยะเวลาสนทนา", f"{minutes} นาที"),
-                ("💊", "ยา", _med_text(call)),
+                ("phone", "ระยะเวลาสนทนา", f"{minutes} นาที"),
+                ("pill", "ยา", _med_text(call)),
             ],
             section=[a.summary_family] if a else ["วันนี้คุยกันเรียบร้อยดี"],
             ai_note=a is not None,
             notes=[("ไม่พบสัญญาณผิดปกติในสายนี้ (ไม่ได้หมายความว่าปลอดภัยแน่นอน)", "small")],
-            buttons=[CardButton("✓ รับทราบ", "postback", "ack", filled=True)],
+            buttons=[CardButton("รับทราบ", "postback", "ack", filled=True, icon="check")],
         )
 
     if kind == "unreachable":
         return FamilyCardData(
             **common,
-            rows=[*date_rows, ("📞", "จำนวนครั้งที่โทร", "2 ครั้ง (ห่าง 30 นาที)")],
+            rows=[*date_rows, ("phone", "จำนวนครั้งที่โทร", "2 ครั้ง (ห่าง 30 นาที)")],
             section=["โทรแล้ว 2 ครั้ง แต่ยังไม่มีผู้รับสาย"],
             ai_note=False,
             notes=[
@@ -159,8 +161,8 @@ def family_card_data(kind: CardKind, elder: Elder, call: CallResult) -> FamilyCa
                 )
             ],
             buttons=[
-                CardButton(f"📞 {tel_elder.label}", "tel", elder.phone, filled=True),
-                CardButton("👥 แจ้ง อสม.", "postback", "notify_osm"),
+                CardButton(tel_elder.label, "tel", elder.phone, filled=True, icon="phone"),
+                CardButton("แจ้ง อสม.", "postback", "notify_osm", icon="users"),
             ],
         )
 
@@ -168,13 +170,13 @@ def family_card_data(kind: CardKind, elder: Elder, call: CallResult) -> FamilyCa
         unclear = call.outcome == "unclear" or (a is not None and a.transcript_quality == "poor")
         return FamilyCardData(
             **common,
-            rows=[*date_rows, ("💊", "ยา", _med_text(call))],
+            rows=[*date_rows, ("pill", "ยา", _med_text(call))],
             section=["วันนี้ฟังไม่ชัดจนสรุปไม่ได้"] if unclear or a is None else [a.summary_family],
             ai_note=not unclear and a is not None,
             notes=[("มีบางเรื่องที่ควรได้รับการติดตาม อสม. ในพื้นที่ได้รับแจ้งแล้ว", "normal")],
             buttons=[
-                CardButton(f"📞 {tel_elder.label}", "tel", elder.phone),
-                CardButton("✓ รับทราบ", "postback", "ack", filled=True),
+                CardButton(tel_elder.label, "tel", elder.phone, icon="phone"),
+                CardButton("รับทราบ", "postback", "ack", filled=True, icon="check"),
             ],
         )
 
@@ -186,12 +188,15 @@ def family_card_data(kind: CardKind, elder: Elder, call: CallResult) -> FamilyCa
         else:
             section = [a.summary_family if a else "พบสัญญาณอันตรายระหว่างสาย"]
         buttons = [
-            CardButton("📞 โทร 1669", "tel", "1669", filled=True),
-            CardButton("👥 แจ้ง อสม.", "postback", "notify_osm"),
-            CardButton(f"📱 {tel_elder.label}", "tel", elder.phone),
+            CardButton("โทร 1669", "tel", "1669", filled=True, icon="phone"),
+            CardButton("แจ้ง อสม.", "postback", "notify_osm", icon="users"),
+            CardButton(tel_elder.label, "tel", elder.phone, icon="smartphone"),
         ]
         if self_harm:
-            buttons.insert(1, CardButton("💬 สายด่วนสุขภาพจิต 1323", "tel", "1323", filled=True))
+            buttons.insert(
+                1,
+                CardButton("สายด่วนสุขภาพจิต 1323", "tel", "1323", filled=True, icon="message-circle"),
+            )
         return FamilyCardData(
             **common,
             rows=date_rows,
@@ -214,19 +219,37 @@ def _text(text: str, **kw: Any) -> Json:
     return {"type": "text", "text": text, "wrap": True, **kw}
 
 
-def _info_row(icon: str, label: str, value: str) -> Json:
+def _icon_url(base: str, name: str, color: str) -> str:
+    return f"{base}/icons/{name}-{color.lstrip('#').lower()}.png?v={CARD_IMAGE_VERSION}"
+
+
+def _icon_text(
+    base: str | None, icon: str, icon_color: str, label: str, flex: int | None = None, **kw: Any
+) -> Json:
+    """Icon + text on one baseline. Without a public image base: text only."""
+    contents: list[Json] = []
+    if base:
+        contents.append({"type": "icon", "url": _icon_url(base, icon, icon_color), "size": "sm"})
+    contents.append(_text(label, **kw))
+    box: Json = {"type": "box", "layout": "baseline", "spacing": "sm", "contents": contents}
+    if flex is not None:
+        box["flex"] = flex
+    return box
+
+
+def _info_row(base: str | None, icon: str, label: str, value: str) -> Json:
     return {
         "type": "box",
         "layout": "horizontal",
         "spacing": "sm",
         "contents": [
-            _text(f"{icon} {label}", size="sm", color=MUTED, flex=5),
+            _icon_text(base, icon, MUTED_HEX, label, flex=5, size="sm", color=MUTED),
             _text(value, size="sm", color=INK, flex=6, weight="bold"),
         ],
     }
 
 
-def _pill_button(b: CardButton, elder_id: str, call_id: str) -> Json:
+def _pill_button(b: CardButton, elder_id: str, call_id: str, base: str | None = None) -> Json:
     """Rounded pill (box + action) so filled and outlined buttons match the design."""
     if b.kind == "tel":
         action: Json = {"type": "uri", "label": b.label[:40], "uri": f"tel:{b.value}"}
@@ -247,14 +270,31 @@ def _pill_button(b: CardButton, elder_id: str, call_id: str) -> Json:
         "borderColor": BRAND_RED,
         "borderWidth": "medium",
         "action": action,
+        "contents": [_pill_label(b, base)],
+    }
+
+
+def _pill_label(b: CardButton, base: str | None) -> Json:
+    color = "#FFFFFF" if b.filled else BRAND_RED
+    label = _text(b.label, size="sm", weight="bold", align="center", color=color)
+    if not (base and b.icon):
+        return label
+    label["flex"] = 0
+    return {
+        "type": "box",
+        "layout": "horizontal",
+        "spacing": "sm",
+        "justifyContent": "center",
+        "alignItems": "center",
         "contents": [
-            _text(
-                b.label,
-                size="sm",
-                weight="bold",
-                align="center",
-                color="#FFFFFF" if b.filled else BRAND_RED,
-            )
+            {
+                "type": "image",
+                "url": _icon_url(base, b.icon, color),
+                "size": "18px",
+                "flex": 0,
+                "aspectMode": "fit",
+            },
+            label,
         ],
     }
 
@@ -324,7 +364,7 @@ def render_family_card(data: FamilyCardData, image_base: str | None = None) -> J
                 "layout": "vertical",
                 "contents": [
                     _text(data.name, weight="bold", size="xl", color=INK),
-                    _text(f"👤 {data.role}", size="xs", color=MUTED),
+                    _icon_text(base, "user", MUTED_HEX, data.role, size="xs", color=MUTED),
                 ],
             },
         ],
@@ -337,9 +377,21 @@ def render_family_card(data: FamilyCardData, image_base: str | None = None) -> J
         "cornerRadius": "lg",
         "backgroundColor": t.tint,
         "contents": [
-            _text(f"{t.section_icon} {t.section_title}", size="sm", weight="bold", color=t.color),
+            _icon_text(
+                base,
+                t.section_icon,
+                t.color,
+                t.section_title,
+                size="sm",
+                weight="bold",
+                color=t.color,
+            ),
             *[_text(p, size="sm", color=INK) for p in data.section],
-            *([_text("🤖 สรุปโดย AI", size="xxs", color="#94a3b8")] if data.ai_note else []),
+            *(
+                [_icon_text(base, "bot", FAINT_HEX, "สรุปโดย AI", size="xxs", color=FAINT_HEX)]
+                if data.ai_note
+                else []
+            ),
         ],
     }
     note_style = {
@@ -351,27 +403,16 @@ def render_family_card(data: FamilyCardData, image_base: str | None = None) -> J
     body: list[Json] = [
         who,
         {"type": "separator", "color": "#eef0f4"},
-        *[_info_row(*r) for r in data.rows],
+        *[_info_row(base, *r) for r in data.rows],
         section,
         *[_text(n, **note_style[s]) for n, s in data.notes],
     ]
 
-    pills = [_pill_button(b, data.elder_id, data.call_id) for b in data.buttons]
+    pills = [_pill_button(b, data.elder_id, data.call_id, base) for b in data.buttons]
     rows = _button_rows(pills, [b.label for b in data.buttons])
     footer_contents: list[Json] = [
         {"type": "box", "layout": "horizontal", "spacing": "sm", "contents": r} for r in rows
     ]
-    if base:
-        footer_contents.append(
-            {
-                "type": "image",
-                "url": f"{base}/wave.png?v={CARD_IMAGE_VERSION}",
-                "size": "full",
-                "aspectRatio": "16:1",
-                "aspectMode": "cover",
-                "margin": "md",
-            }
-        )
 
     title = f"{t.emoji} {data.name} — {t.label}"
     bubble: Json = {"type": "bubble", "size": "mega"}
@@ -405,7 +446,7 @@ def render_family_card(data: FamilyCardData, image_base: str | None = None) -> J
         "paddingStart": "18px",
         "paddingEnd": "18px",
         "paddingTop": "4px",
-        "paddingBottom": "0px" if base else "18px",
+        "paddingBottom": "18px",
         "contents": footer_contents,
     }
     alt = f"{t.emoji} {data.name} — {t.label}" if data.kind != "red" else f"🔴 เร่งด่วน — {data.name}"
