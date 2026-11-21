@@ -68,12 +68,55 @@ export interface NineQTaskView {
   due_at: string;
 }
 
+export interface ScheduleItem {
+  elder_id: string;
+  name: string;
+  call_time: string; // "HH:MM"
+  state: "done" | "no_answer" | "unclear" | "pending";
+  call_at: string | null;
+  duration_sec: number | null;
+  first_call: boolean;
+}
+
+export interface StreakItem {
+  elder_id: string;
+  name: string;
+  kind: "unreachable" | "meds" | "mood";
+  count: number;
+}
+
+export interface FamilyUnlinked {
+  elder_id: string;
+  elder_name: string;
+  guardian_name: string;
+  relation: string;
+  code_expires_at: string | null;
+}
+
+export interface AreaTrend {
+  days: {
+    date: string;
+    red: number;
+    yellow: number;
+    unreachable: number;
+    green: number;
+    none: number;
+  }[];
+  answered_pct: number | null;
+  med_pct: number | null;
+  avg_red_followup_min: number | null;
+}
+
 /** GET /v1/osm/dashboard */
 export interface DashboardData {
   rows: DashboardRow[];
   counts: DashboardCounts;
   tasks: NineQTaskView[];
   generated_at: string;
+  schedule: ScheduleItem[];
+  streaks: StreakItem[];
+  family_unlinked: FamilyUnlinked[];
+  trend: AreaTrend;
 }
 
 export interface DailyEntry {

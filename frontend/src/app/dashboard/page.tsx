@@ -36,6 +36,13 @@ import { AutoRefresh } from "@/components/AutoRefresh";
 import { Badge, STATUS_META } from "@/components/Badge";
 import { Mascot } from "@/components/Brand";
 import { Sample, Soon } from "@/components/console/bits";
+import {
+  AreaTrendPanel,
+  EmergencyGuide,
+  FamilyPanel,
+  SchedulePanel,
+  StreaksPanel,
+} from "@/components/console/OverviewPanels";
 import { ElderTable } from "@/components/ElderTable";
 import { NineQBox } from "@/components/NineQBox";
 import { getDailyDigest, getDashboard, getMe } from "@/lib/api";
@@ -385,7 +392,11 @@ export default async function DashboardPage({
       </section>
 
       {/* ================================================================ urgent triage */}
-      <section aria-labelledby="triage-title" className="mb-6 w-full px-4 lg:px-10">
+      <section
+        id="visit-first"
+        aria-labelledby="triage-title"
+        className="mb-6 w-full scroll-mt-24 px-4 lg:px-10"
+      >
         <div className="mx-auto flex max-w-7xl flex-col gap-2">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2">
@@ -463,6 +474,7 @@ export default async function DashboardPage({
                         </div>
                       </div>
                     </div>
+                    {red && <EmergencyGuide name={v.name} callAt={row?.latest_call_at ?? null} />}
                     <div className="mt-4 flex items-center gap-2 pt-2">
                       <Link
                         href={`/dashboard/elders/${v.elder_id}`}
@@ -499,6 +511,15 @@ export default async function DashboardPage({
               })}
             </ul>
           )}
+        </div>
+      </section>
+
+      {/* ================================================================ today / signals / families */}
+      <section aria-label="งานที่ควรรู้วันนี้" className="mb-6 w-full px-4 lg:px-10">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-start gap-4 lg:grid-cols-3">
+          <SchedulePanel items={data.schedule} />
+          <StreaksPanel items={data.streaks} />
+          <FamilyPanel items={data.family_unlinked} />
         </div>
       </section>
 
@@ -557,109 +578,11 @@ export default async function DashboardPage({
         </div>
       </section>
 
-      {/* ================================================================ trends + field map (sample) */}
+      {/* ================================================================ area trend (real) + field map (sample) */}
       <section className="mb-6 w-full px-4 lg:px-10">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-4 lg:grid-cols-12">
-          <div className={`${panel} flex flex-col justify-between p-4 lg:col-span-7 lg:p-6`}>
-            <div className="flex flex-col gap-1">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <h3 className="m-0 text-[20px] font-bold text-ink">
-                  แนวโน้มสุขภาวะชุมชน 30 วัน (Wellness Trajectory)
-                </h3>
-                <span className="flex items-center gap-1.5">
-                  <span className="rounded-full bg-console-green-bg px-2.5 py-0.5 text-[11px] font-bold text-console-green">
-                    ประเมินโดย True AI Health Core
-                  </span>
-                  <Sample />
-                </span>
-              </div>
-              <p className="m-0 text-[13px] text-ink-muted">
-                เปรียบเทียบอัตราการทานยาครบถ้วน (สีแดง) เทียบกับดัชนีความโดดเดี่ยวของผู้สูงอายุที่ลดลง (สีเขียว)
-              </p>
-            </div>
-            <div className="my-4 w-full rounded-xl bg-console-low/40 p-4">
-              <svg
-                viewBox="0 0 600 220"
-                preserveAspectRatio="none"
-                className="h-48 w-full overflow-visible"
-                role="img"
-                aria-label="กราฟตัวอย่าง ไม่ใช่ข้อมูลจริง"
-              >
-                <defs>
-                  <linearGradient id="medGrad" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stopColor="#ee2737" stopOpacity="0.25" />
-                    <stop offset="100%" stopColor="#ee2737" stopOpacity="0" />
-                  </linearGradient>
-                  <linearGradient id="moodGrad" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stopColor="#00855b" stopOpacity="0.25" />
-                    <stop offset="100%" stopColor="#00855b" stopOpacity="0" />
-                  </linearGradient>
-                </defs>
-                {[40, 90, 140].map((y) => (
-                  <line
-                    key={y}
-                    x1="0"
-                    x2="600"
-                    y1={y}
-                    y2={y}
-                    stroke="#dce2f7"
-                    strokeDasharray="4"
-                    strokeWidth="1"
-                  />
-                ))}
-                <line x1="0" x2="600" y1="190" y2="190" stroke="#dce2f7" strokeWidth="1" />
-                <path
-                  d="M 0,130 Q 100,110 200,95 T 400,60 T 600,35 L 600,190 L 0,190 Z"
-                  fill="url(#medGrad)"
-                />
-                <path
-                  d="M 0,130 Q 100,110 200,95 T 400,60 T 600,35"
-                  fill="none"
-                  stroke="#bb0020"
-                  strokeLinecap="round"
-                  strokeWidth="3"
-                />
-                <path
-                  d="M 0,165 Q 120,150 240,115 T 450,75 T 600,50 L 600,190 L 0,190 Z"
-                  fill="url(#moodGrad)"
-                />
-                <path
-                  d="M 0,165 Q 120,150 240,115 T 450,75 T 600,50"
-                  fill="none"
-                  stroke="#00855b"
-                  strokeLinecap="round"
-                  strokeWidth="3"
-                />
-                <circle cx="600" cy="35" r="5" fill="#bb0020" />
-                <circle cx="600" cy="50" r="5" fill="#00855b" />
-                <text x="470" y="25" fill="#bb0020" fontSize="12" fontWeight="700">
-                  ยาตรงเวลา 96.4%
-                </text>
-                <text x="470" y="72" fill="#00855b" fontSize="12" fontWeight="700">
-                  ความเหงาลด 42%
-                </text>
-              </svg>
-              <div className="flex items-center justify-between pt-2 text-[11px] text-ink-muted">
-                <span>30 วันก่อน</span>
-                <span>20 วันก่อน</span>
-                <span>10 วันก่อน</span>
-                <span className="font-bold text-ink">วันนี้</span>
-              </div>
-            </div>
-            <div className="flex flex-wrap items-center justify-between gap-2 border-t border-console pt-2">
-              <div className="flex items-center gap-4 text-[12px] font-medium text-ink">
-                <span className="flex items-center gap-1.5">
-                  <span aria-hidden className="size-3 rounded-full bg-brand-900" /> ทานยาสม่ำเสมอ
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span aria-hidden className="size-3 rounded-full bg-console-green" /> สุขภาพจิตสดใส
-                  / คลายกังวล
-                </span>
-              </div>
-              <span className="text-[12px] text-ink-muted">
-                ผลลัพธ์: การโทรด้วย AI ช่วยลดการลืมทานยาในผู้สูงอายุลงถึง <strong>78.3%</strong>
-              </span>
-            </div>
+          <div className="lg:col-span-7">
+            <AreaTrendPanel trend={data.trend} total={total} />
           </div>
 
           <div className={`${panel} flex flex-col justify-between p-4 lg:col-span-5 lg:p-6`}>
@@ -755,7 +678,7 @@ export default async function DashboardPage({
               </p>
             </div>
           </div>
-          <div className="flex shrink-0 flex-wrap items-center gap-2 text-[12px] font-semibold text-ink">
+          <div className="flex flex-wrap items-center gap-2 text-[12px] font-semibold text-ink">
             {(
               [
                 [Lock, "PDPA Health Protected", "text-console-green"],

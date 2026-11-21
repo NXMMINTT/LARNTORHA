@@ -1,0 +1,275 @@
+{
+  "type": "flex",
+  "altText": "🟠 ยายสมศรี — ควรติดตาม",
+  "contents": {
+    "type": "bubble",
+    "size": "mega",
+    "hero": {
+      "type": "image",
+      "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/followup.jpg?v=2",
+      "size": "full",
+      "aspectRatio": "16:10",
+      "aspectMode": "cover"
+    },
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "spacing": "md",
+      "paddingAll": "18px",
+      "contents": [
+        {
+          "type": "box",
+          "layout": "horizontal",
+          "spacing": "md",
+          "alignItems": "center",
+          "contents": [
+            {
+              "type": "box",
+              "layout": "vertical",
+              "width": "48px",
+              "height": "48px",
+              "cornerRadius": "xxl",
+              "backgroundColor": "#FFF1E3",
+              "borderColor": "#EA7A0C",
+              "borderWidth": "medium",
+              "justifyContent": "center",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "ส",
+                  "wrap": true,
+                  "align": "center",
+                  "weight": "bold",
+                  "size": "lg",
+                  "color": "#EA7A0C"
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "ยายสมศรี",
+                  "wrap": true,
+                  "weight": "bold",
+                  "size": "xl",
+                  "color": "#1e293b"
+                },
+                {
+                  "type": "text",
+                  "text": "👤 ผู้รับบริการ",
+                  "wrap": true,
+                  "size": "xs",
+                  "color": "#64748b"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "separator",
+          "color": "#eef0f4"
+        },
+        {
+          "type": "box",
+          "layout": "horizontal",
+          "spacing": "sm",
+          "contents": [
+            {
+              "type": "text",
+              "text": "📅 วันที่โทร",
+              "wrap": true,
+              "size": "sm",
+              "color": "#64748b",
+              "flex": 5
+            },
+            {
+              "type": "text",
+              "text": "20 พ.ย. 2569",
+              "wrap": true,
+              "size": "sm",
+              "color": "#1e293b",
+              "flex": 6,
+              "weight": "bold"
+            }
+          ]
+        },
+        {
+          "type": "box",
+          "layout": "horizontal",
+          "spacing": "sm",
+          "contents": [
+            {
+              "type": "text",
+              "text": "🕘 เวลา",
+              "wrap": true,
+              "size": "sm",
+              "color": "#64748b",
+              "flex": 5
+            },
+            {
+              "type": "text",
+              "text": "09:00 น.",
+              "wrap": true,
+              "size": "sm",
+              "color": "#1e293b",
+              "flex": 6,
+              "weight": "bold"
+            }
+          ]
+        },
+        {
+          "type": "box",
+          "layout": "horizontal",
+          "spacing": "sm",
+          "contents": [
+            {
+              "type": "text",
+              "text": "💊 ยา",
+              "wrap": true,
+              "size": "sm",
+              "color": "#64748b",
+              "flex": 5
+            },
+            {
+              "type": "text",
+              "text": "❌ ยังไม่ได้กินยา",
+              "wrap": true,
+              "size": "sm",
+              "color": "#1e293b",
+              "flex": 6,
+              "weight": "bold"
+            }
+          ]
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "sm",
+          "paddingAll": "12px",
+          "cornerRadius": "lg",
+          "backgroundColor": "#FFF1E3",
+          "contents": [
+            {
+              "type": "text",
+              "text": "🔎 สิ่งที่ควรติดตาม",
+              "wrap": true,
+              "size": "sm",
+              "weight": "bold",
+              "color": "#EA7A0C"
+            },
+            {
+              "type": "text",
+              "text": "คุณยายสบายดี ไปตลาดมา แต่ยังไม่ได้ทานยาตอนเช้า ลูกหลานช่วยเตือนด้วยนะคะ",
+              "wrap": true,
+              "size": "sm",
+              "color": "#1e293b"
+            },
+            {
+              "type": "text",
+              "text": "🤖 สรุปโดย AI",
+              "wrap": true,
+              "size": "xxs",
+              "color": "#94a3b8"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": "มีบางเรื่องที่ควรได้รับการติดตาม อสม. ในพื้นที่ได้รับแจ้งแล้ว",
+          "wrap": true,
+          "size": "sm",
+          "color": "#1e293b"
+        }
+      ]
+    },
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "spacing": "sm",
+      "paddingStart": "18px",
+      "paddingEnd": "18px",
+      "paddingTop": "4px",
+      "paddingBottom": "0px",
+      "contents": [
+        {
+          "type": "box",
+          "layout": "horizontal",
+          "spacing": "sm",
+          "contents": [
+            {
+              "type": "box",
+              "layout": "vertical",
+              "flex": 1,
+              "cornerRadius": "xxl",
+              "paddingAll": "11px",
+              "backgroundColor": "#FFFFFF",
+              "borderColor": "#D71920",
+              "borderWidth": "medium",
+              "action": {
+                "type": "uri",
+                "label": "📞 โทรหายายสมศรี",
+                "uri": "tel:0891234567"
+              },
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "📞 โทรหายายสมศรี",
+                  "wrap": true,
+                  "size": "sm",
+                  "weight": "bold",
+                  "align": "center",
+                  "color": "#D71920"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "box",
+          "layout": "horizontal",
+          "spacing": "sm",
+          "contents": [
+            {
+              "type": "box",
+              "layout": "vertical",
+              "flex": 1,
+              "cornerRadius": "xxl",
+              "paddingAll": "11px",
+              "backgroundColor": "#D71920",
+              "borderColor": "#D71920",
+              "borderWidth": "medium",
+              "action": {
+                "type": "postback",
+                "label": "✓ รับทราบ",
+                "data": "action=ack&elder=eld_somsri&call=demo-followup",
+                "displayText": "✓ รับทราบ"
+              },
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "✓ รับทราบ",
+                  "wrap": true,
+                  "size": "sm",
+                  "weight": "bold",
+                  "align": "center",
+                  "color": "#FFFFFF"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/wave.png?v=2",
+          "size": "full",
+          "aspectRatio": "16:1",
+          "aspectMode": "cover",
+          "margin": "md"
+        }
+      ]
+    }
+  }
+}

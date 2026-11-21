@@ -1,5 +1,6 @@
-// "ทะเบียนผู้สูงอายุ" table of the อสม. console (team design). ≥640px: table; <640px: each row
-// becomes a card of label/value pairs (CLAUDE.md §7.3) — no horizontal scrolling.
+// "ทะเบียนผู้สูงอายุ" table of the อสม. console (team design). ≥1280px: table; below that (phones,
+// and laptops where the sidebar leaves too little room for 6 columns) each row becomes a card of
+// label/value pairs (CLAUDE.md §7.3) — no horizontal scrolling.
 import {
   AudioLines,
   Check,
@@ -37,7 +38,7 @@ const MOOD: Record<Mood, { label: string; icon: LucideIcon; dot: string }> = {
 };
 
 const td =
-  "px-4 py-4 align-top max-sm:flex max-sm:items-start max-sm:justify-between max-sm:gap-4 max-sm:px-0 max-sm:py-1.5 max-sm:text-right max-sm:before:shrink-0 max-sm:before:text-left max-sm:before:text-sm max-sm:before:font-medium max-sm:before:text-ink-muted max-sm:before:content-[attr(data-label)]";
+  "px-4 py-4 align-top max-xl:flex max-xl:items-start max-xl:justify-between max-xl:gap-4 max-xl:px-0 max-xl:py-1.5 max-xl:text-right max-xl:before:shrink-0 max-xl:before:text-left max-xl:before:text-sm max-xl:before:font-medium max-xl:before:text-ink-muted max-xl:before:content-[attr(data-label)]";
 
 function CallCell({ r }: { r: DashboardRow }) {
   if (!r.latest_outcome) {
@@ -63,7 +64,7 @@ function CallCell({ r }: { r: DashboardRow }) {
       </span>
     );
   return (
-    <div className="flex flex-col items-start gap-1 max-sm:items-end">
+    <div className="flex flex-col items-start gap-1 max-xl:items-end">
       {pill}
       {r.latest_call_at && (
         <span className="flex items-center gap-1 text-[12px] text-ink-muted">
@@ -97,7 +98,7 @@ function MedCell({ taken }: { taken: boolean | null }) {
 function AiCell({ r }: { r: DashboardRow }) {
   const m = r.latest_mood ? MOOD[r.latest_mood] : null;
   return (
-    <div className="flex flex-col gap-1 max-sm:items-end">
+    <div className="flex flex-col gap-1 max-xl:items-end">
       {m ? (
         <span className="flex items-center gap-1.5 text-[14px] font-bold text-ink">
           <span aria-hidden className={`size-2.5 rounded-full ${m.dot}`} /> {m.label}
@@ -123,9 +124,9 @@ export function ElderTable({ rows, osmName }: { rows: DashboardRow[]; osmName: s
     );
   }
   return (
-    <table className="w-full border-separate border-spacing-0 text-left max-sm:block">
+    <table className="w-full border-separate border-spacing-0 text-left max-xl:block">
       <caption className="sr-only">ผู้สูงอายุในความดูแล เรียงตามความเสี่ยง</caption>
-      <thead className="text-[12px] font-semibold uppercase tracking-wider text-ink-muted max-sm:hidden">
+      <thead className="text-[12px] font-semibold uppercase tracking-wider text-ink-muted max-xl:hidden">
         <tr className="bg-console-low">
           {[
             "ผู้สูงอายุ / สถานะ",
@@ -145,7 +146,7 @@ export function ElderTable({ rows, osmName }: { rows: DashboardRow[]; osmName: s
           ))}
         </tr>
       </thead>
-      <tbody className="max-sm:block max-sm:space-y-3">
+      <tbody className="max-xl:block max-xl:space-y-3">
         {rows.map((r) => {
           const s = STATUS_META[r.status];
           return (
@@ -153,10 +154,10 @@ export function ElderTable({ rows, osmName }: { rows: DashboardRow[]; osmName: s
               key={r.elder_id}
               data-testid="elder-row"
               data-status={r.status}
-              className={`transition-colors hover:bg-console-low/50 [&>td]:border-b [&>td]:border-console max-sm:block max-sm:rounded-2xl max-sm:border max-sm:border-console-line max-sm:p-4 max-sm:[&>td]:border-0 ${r.resolved ? "opacity-60" : ""}`}
+              className={`transition-colors hover:bg-console-low/50 [&>td]:border-b [&>td]:border-console max-xl:block max-xl:rounded-2xl max-xl:border max-xl:border-console-line max-xl:p-4 max-xl:[&>td]:border-0 ${r.resolved ? "opacity-60" : ""}`}
             >
               <td
-                className={`${td} max-sm:text-left max-sm:before:content-none`}
+                className={`${td} max-xl:text-left max-xl:before:content-none`}
                 data-label="ผู้สูงอายุ"
               >
                 <div className="flex items-center gap-3">
@@ -209,7 +210,7 @@ export function ElderTable({ rows, osmName }: { rows: DashboardRow[]; osmName: s
                 <AiCell r={r} />
               </td>
               <td className={td} data-label="อสม. รับผิดชอบ">
-                <div className="flex flex-col max-sm:items-end">
+                <div className="flex flex-col max-xl:items-end">
                   <span className="text-[14px] font-bold text-ink">{osmName}</span>
                   <span
                     className={`text-[12px] ${r.resolved ? "text-console-green" : NEEDS_FOLLOWUP.has(r.status) ? "text-brand-900" : "text-ink-muted"}`}
@@ -244,7 +245,7 @@ function Action({ r }: { r: DashboardRow }) {
   );
   if (r.resolved) {
     return (
-      <div className="flex flex-col items-start gap-1.5 max-sm:items-end">
+      <div className="flex flex-col items-start gap-1.5 max-xl:items-end">
         <Tag tone="ok" icon={CheckCheck}>
           ติดตามแล้ว
         </Tag>
@@ -255,7 +256,7 @@ function Action({ r }: { r: DashboardRow }) {
   }
   if (!NEEDS_FOLLOWUP.has(r.status) || !r.latest_call_id) {
     return (
-      <div className="flex items-center justify-center gap-1 max-sm:justify-end">
+      <div className="flex items-center justify-center gap-1 max-xl:justify-end">
         {detail}
         <Soon label="ฟังคลิปเสียง" className="size-11 justify-center rounded-full text-ink-muted">
           <AudioLines aria-hidden className="size-4" />
@@ -266,7 +267,7 @@ function Action({ r }: { r: DashboardRow }) {
   return (
     <form
       action={resolveCallAction.bind(null, r.elder_id, r.latest_call_id)}
-      className="flex min-w-48 flex-col gap-2 max-sm:w-full max-sm:min-w-0"
+      className="flex min-w-48 flex-col gap-2 max-xl:w-full max-xl:min-w-0"
     >
       <label className="sr-only" htmlFor={`note-${r.elder_id}`}>
         บันทึกการติดตามของ {r.name}

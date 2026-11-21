@@ -22,6 +22,9 @@ class Settings(BaseSettings):
     line_channel_access_token: str = ""
     line_channel_secret: str = ""
     app_base_url: str = "http://localhost:3000"
+    # Public HTTPS folder holding the LINE card header images ({kind}.png), e.g. GitHub raw of
+    # backend/app/static/cards, S3/CloudFront, or {backend}/static/cards. Empty = plain header.
+    card_image_base_url: str = ""
     seed_demo: bool = True
     demo_mode: bool = False
 

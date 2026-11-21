@@ -179,7 +179,7 @@ def process_call(deps: Deps, req: CallIn, now: datetime | None = None) -> dict[s
     notified = 0
     cards: list[dict[str, Any]] = []
     if card_kind and elder.consents.family_summary:
-        msg = family_card(card_kind, elder, call)
+        msg = family_card(card_kind, elder, call, s.card_image_base_url or None)
         cards.append({"to": "guardian", "kind": card_kind, "message": msg})
         for g in repo.list_guardians(elder.id):
             if g.line_user_id:

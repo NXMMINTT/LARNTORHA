@@ -1,11 +1,13 @@
 """FastAPI entrypoint."""
 
 import logging
+from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.config import Settings, get_settings
 from app.deps import Deps, build_deps
@@ -39,6 +41,8 @@ def create_app(settings: Settings | None = None, deps: Deps | None = None) -> Fa
             "bedrock": "configured" if settings.ai_provider == "bedrock" else "fake",
         }
 
+    # Public, non-personal assets only (LINE card header images).
+    app.mount("/static", StaticFiles(directory=Path(__file__).parent / "static"), name="static")
     app.include_router(calls.router)
     app.include_router(line.router)
     app.include_router(public.router)

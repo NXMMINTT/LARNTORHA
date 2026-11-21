@@ -1,0 +1,268 @@
+{
+  "type": "flex",
+  "altText": "🟡 ตาสมบัติ — ยังติดต่อไม่ได้",
+  "contents": {
+    "type": "bubble",
+    "size": "mega",
+    "hero": {
+      "type": "image",
+      "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/unreachable.jpg?v=2",
+      "size": "full",
+      "aspectRatio": "16:10",
+      "aspectMode": "cover"
+    },
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "spacing": "md",
+      "paddingAll": "18px",
+      "contents": [
+        {
+          "type": "box",
+          "layout": "horizontal",
+          "spacing": "md",
+          "alignItems": "center",
+          "contents": [
+            {
+              "type": "box",
+              "layout": "vertical",
+              "width": "48px",
+              "height": "48px",
+              "cornerRadius": "xxl",
+              "backgroundColor": "#FFF7DA",
+              "borderColor": "#ca8a04",
+              "borderWidth": "medium",
+              "justifyContent": "center",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "ส",
+                  "wrap": true,
+                  "align": "center",
+                  "weight": "bold",
+                  "size": "lg",
+                  "color": "#ca8a04"
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "ตาสมบัติ",
+                  "wrap": true,
+                  "weight": "bold",
+                  "size": "xl",
+                  "color": "#1e293b"
+                },
+                {
+                  "type": "text",
+                  "text": "👤 ผู้รับบริการ",
+                  "wrap": true,
+                  "size": "xs",
+                  "color": "#64748b"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "separator",
+          "color": "#eef0f4"
+        },
+        {
+          "type": "box",
+          "layout": "horizontal",
+          "spacing": "sm",
+          "contents": [
+            {
+              "type": "text",
+              "text": "📅 วันที่โทร",
+              "wrap": true,
+              "size": "sm",
+              "color": "#64748b",
+              "flex": 5
+            },
+            {
+              "type": "text",
+              "text": "20 พ.ย. 2569",
+              "wrap": true,
+              "size": "sm",
+              "color": "#1e293b",
+              "flex": 6,
+              "weight": "bold"
+            }
+          ]
+        },
+        {
+          "type": "box",
+          "layout": "horizontal",
+          "spacing": "sm",
+          "contents": [
+            {
+              "type": "text",
+              "text": "🕘 เวลา",
+              "wrap": true,
+              "size": "sm",
+              "color": "#64748b",
+              "flex": 5
+            },
+            {
+              "type": "text",
+              "text": "09:00 น.",
+              "wrap": true,
+              "size": "sm",
+              "color": "#1e293b",
+              "flex": 6,
+              "weight": "bold"
+            }
+          ]
+        },
+        {
+          "type": "box",
+          "layout": "horizontal",
+          "spacing": "sm",
+          "contents": [
+            {
+              "type": "text",
+              "text": "📞 จำนวนครั้งที่โทร",
+              "wrap": true,
+              "size": "sm",
+              "color": "#64748b",
+              "flex": 5
+            },
+            {
+              "type": "text",
+              "text": "2 ครั้ง (ห่าง 30 นาที)",
+              "wrap": true,
+              "size": "sm",
+              "color": "#1e293b",
+              "flex": 6,
+              "weight": "bold"
+            }
+          ]
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "sm",
+          "paddingAll": "12px",
+          "cornerRadius": "lg",
+          "backgroundColor": "#FFF7DA",
+          "contents": [
+            {
+              "type": "text",
+              "text": "⚠️ หมายเหตุ",
+              "wrap": true,
+              "size": "sm",
+              "weight": "bold",
+              "color": "#ca8a04"
+            },
+            {
+              "type": "text",
+              "text": "โทรแล้ว 2 ครั้ง แต่ยังไม่มีผู้รับสาย",
+              "wrap": true,
+              "size": "sm",
+              "color": "#1e293b"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": "ระบบไม่ได้ตีความว่าเกิดเหตุ กรุณาลองโทรหาด้วยตัวเอง หรือขอให้ อสม. ช่วยดู",
+          "wrap": true,
+          "size": "xs",
+          "color": "#64748b"
+        }
+      ]
+    },
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "spacing": "sm",
+      "paddingStart": "18px",
+      "paddingEnd": "18px",
+      "paddingTop": "4px",
+      "paddingBottom": "0px",
+      "contents": [
+        {
+          "type": "box",
+          "layout": "horizontal",
+          "spacing": "sm",
+          "contents": [
+            {
+              "type": "box",
+              "layout": "vertical",
+              "flex": 1,
+              "cornerRadius": "xxl",
+              "paddingAll": "11px",
+              "backgroundColor": "#D71920",
+              "borderColor": "#D71920",
+              "borderWidth": "medium",
+              "action": {
+                "type": "uri",
+                "label": "📞 โทรหาตาสมบัติ",
+                "uri": "tel:0891234567"
+              },
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "📞 โทรหาตาสมบัติ",
+                  "wrap": true,
+                  "size": "sm",
+                  "weight": "bold",
+                  "align": "center",
+                  "color": "#FFFFFF"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "box",
+          "layout": "horizontal",
+          "spacing": "sm",
+          "contents": [
+            {
+              "type": "box",
+              "layout": "vertical",
+              "flex": 1,
+              "cornerRadius": "xxl",
+              "paddingAll": "11px",
+              "backgroundColor": "#FFFFFF",
+              "borderColor": "#D71920",
+              "borderWidth": "medium",
+              "action": {
+                "type": "postback",
+                "label": "👥 แจ้ง อสม.",
+                "data": "action=notify_osm&elder=eld_sombat&call=demo-unreachable",
+                "displayText": "👥 แจ้ง อสม."
+              },
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "👥 แจ้ง อสม.",
+                  "wrap": true,
+                  "size": "sm",
+                  "weight": "bold",
+                  "align": "center",
+                  "color": "#D71920"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/wave.png?v=2",
+          "size": "full",
+          "aspectRatio": "16:1",
+          "aspectMode": "cover",
+          "margin": "md"
+        }
+      ]
+    }
+  }
+}
