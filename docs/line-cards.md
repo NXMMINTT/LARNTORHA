@@ -22,9 +22,10 @@ backend/app/domain/line_cards.py   สร้างการ์ด (ไม่ม�
 backend/app/line_client.py         ส่งข้อความ (push/reply, retry, X-Line-Retry-Key)
 backend/app/services/calls.py      ขั้นตอนหลังวางสาย: สร้างการ์ด -> ส่งให้ guardian ที่เชื่อม LINE แล้ว
 backend/app/services/line_webhook.py  รับปุ่ม postback (ack / notify_osm) และตรวจสิทธิ์ผู้กด
-backend/app/static/cards/          ภาพหัวการ์ดและคลื่นท้ายการ์ด
+backend/app/static/cards/          ภาพหัวการ์ด (banners.png -> {kind}.jpg) และไอคอน (icons/)
 backend/scripts/line_cards_demo.py ตัวอย่างข้อมูล 4 สถานะ + ส่งทดสอบ
-frontend/scripts/build-line-card-images.mjs  สร้างภาพหัวการ์ดจากสติกเกอร์
+frontend/scripts/crop-line-card-banners.mjs  ตัดภาพหัวการ์ดจาก banners.png
+frontend/scripts/build-line-card-icons.mjs    สร้างไอคอน lucide เป็น PNG
 docs/line-cards/*.json             ตัวอย่าง JSON (สร้างจากสคริปต์)
 ```
 
@@ -34,9 +35,9 @@ docs/line-cards/*.json             ตัวอย่าง JSON (สร้า�
 hero    ภาพ {kind}.jpg 1024x320 (แบนเนอร์สถานะ + น้องหลาน ตัดจาก banners.png)
 body    วงกลมอักษรแรกของชื่อ + ชื่อ + "ผู้รับบริการ"
         แถวข้อมูล (ไอคอน · หัวข้อ · ค่า) เช่น วันที่โทร เวลา ระยะเวลาสนทนา ยา
-        กล่องสีอ่อนตามสถานะ: สรุปการสนทนา / หมายเหตุ / สิ่งที่ควรติดตาม / ข้อสังเกต (+ "🤖 สรุปโดย AI")
+        กล่องสีอ่อนตามสถานะ: สรุปการสนทนา / หมายเหตุ / สิ่งที่ควรติดตาม / ข้อสังเกต (+ ไอคอนบอท "สรุปโดย AI")
         ข้อความบังคับด้านความปลอดภัย
-footer  ปุ่มทรงแคปซูล (แดงทึบ = ปุ่มหลัก, ขอบแดง = ปุ่มรอง) แถวละ 2 ปุ่ม + ภาพคลื่นแดง wave.png
+footer  ปุ่มทรงแคปซูล (แดงทึบ = ปุ่มหลัก, ขอบแดง = ปุ่มรอง) แถวละ 2 ปุ่ม (ชื่อยาวได้แถวของตัวเอง) ไอคอนทุกจุดเป็น lucide PNG ไม่ใช้ emoji
 ```
 
 ถ้าไม่ได้ตั้ง `CARD_IMAGE_BASE_URL` การ์ดจะไม่มีภาพ และใช้แถบหัวสีตามสถานะแทน (ข้อมูลและปุ่มเหมือนเดิม)
@@ -73,7 +74,8 @@ uv run python scripts/line_cards_demo.py --push Uxxxx   # ส่งการ์�
 ## เปลี่ยนรูปภาพ
 
 1. แทนที่แผ่นแบนเนอร์ต้นฉบับ `backend/app/static/cards/banners.png` (2x2: ปกติ | ยังติดต่อไม่ได้ / ควรติดตาม | เร่งด่วน)
-2. ตัดภาพหัวการ์ด: `cd frontend && node scripts/crop-line-card-banners.mjs` จะได้ `{kind}.jpg` (1024x320) ถ้าขนาดแผ่นเปลี่ยน ให้แก้พิกัดใน `CROPS` ในสคริปต์ (`build-line-card-images.mjs` ใช้สร้าง `wave.png` เท่านั้น อย่ารันทับ เพราะจะเขียน `{kind}.jpg` แบบเก่าทับ)
+2. ตัดภาพหัวการ์ด: `cd frontend && node scripts/crop-line-card-banners.mjs` จะได้ `{kind}.jpg` (1024x320) ถ้าขนาดแผ่นเปลี่ยน ให้แก้พิกัดใน `CROPS` ในสคริปต์
+   ไอคอน: แก้รายการ `ICONS` ใน `frontend/scripts/build-line-card-icons.mjs` แล้วรัน `node scripts/build-line-card-icons.mjs`
 3. **เพิ่ม `CARD_IMAGE_VERSION`** ใน `line_cards.py` (เช่น "2" เป็น "3") เพราะ LINE cache ภาพตาม URL
 4. อัปโหลดภาพไปที่ปลายทางของ `CARD_IMAGE_BASE_URL` (ถ้าใช้ GitHub raw คือ push ขึ้น `main`)
 
@@ -88,10 +90,10 @@ uv run python scripts/line_cards_demo.py --push Uxxxx   # ส่งการ์�
 
 | รายการ | ข้อจำกัด | การ์ดนี้ |
 |---|---|---|
-| ภาพ (image) | HTTPS (TLS 1.2+), JPEG/PNG, ไม่เกิน 1024x1024 px, ไม่เกิน 10 MB (แนะนำ ≤ 1 MB), URL ไม่เกิน 2000 ตัวอักษร | 1024x320 JPEG ราว 60 KB และ wave.png 1024x64 |
+| ภาพ (image) | HTTPS (TLS 1.2+), JPEG/PNG, ไม่เกิน 1024x1024 px, ไม่เกิน 10 MB (แนะนำ ≤ 1 MB), URL ไม่เกิน 2000 ตัวอักษร | 1024x320 JPEG ราว 60 KB และไอคอน PNG 96x96 |
 | JSON ต่อ bubble | ไม่เกิน 30 KB | ราว 4–5 KB (มี test ตรวจว่าไม่เกิน) |
 | altText | ไม่เกิน 1500 ตัวอักษร | ตัดที่ 400 |
-| aspectRatio | width:height ค่า 1–100000 และสูงไม่เกิน 3 เท่าของกว้าง | 16:5 และ 16:1 |
+| aspectRatio | width:height ค่า 1–100000 และสูงไม่เกิน 3 เท่าของกว้าง | 16:5 |
 | label ของ action | (ใช้ไม่เกิน 40 ตัวอักษร) | ตัดที่ 40 |
 
 ## ขึ้นใช้งานจริง

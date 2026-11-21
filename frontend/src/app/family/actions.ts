@@ -38,7 +38,3 @@ export async function familyLoginAction(idToken: string): Promise<FamilyLoginRes
   });
   return { ok: true };
 }
-
-export async function familyLogoutAction(): Promise<void> {
-  (await cookies()).delete({ name: FAMILY_COOKIE, path: "/family" });
-}

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { ComponentProps } from "react";
 
 type Variant = "primary" | "secondary" | "danger" | "line" | "ghost";
@@ -24,12 +23,4 @@ export function Button({
   ...props
 }: ComponentProps<"button"> & { variant?: Variant }) {
   return <button className={buttonClass(variant, className)} {...props} />;
-}
-
-export function LinkButton({
-  variant = "primary",
-  className = "",
-  ...props
-}: ComponentProps<typeof Link> & { variant?: Variant }) {
-  return <Link className={buttonClass(variant, className)} {...props} />;
 }

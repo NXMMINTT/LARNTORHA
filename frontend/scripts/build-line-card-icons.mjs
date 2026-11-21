@@ -12,10 +12,16 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import sharp from "sharp";
 
-const out = resolve(dirname(fileURLToPath(import.meta.url)), "../../backend/app/static/cards/icons");
+const out = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  "../../backend/app/static/cards/icons",
+);
 mkdirSync(out, { recursive: true });
 
-const MUTED = "64748b", FAINT = "94a3b8", WHITE = "ffffff", RED = "d71920";
+const MUTED = "64748b",
+  FAINT = "94a3b8",
+  WHITE = "ffffff",
+  RED = "d71920";
 // [lucide component, file name, colours]
 const ICONS = [
   ["Calendar", "calendar", [MUTED]],

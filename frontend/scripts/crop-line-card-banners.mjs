@@ -9,7 +9,8 @@ import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 
 const cards = resolve(dirname(fileURLToPath(import.meta.url)), "../../backend/app/static/cards");
-const W = 1056, H = 330; // 16:5 window around each banner
+const W = 1056,
+  H = 330; // 16:5 window around each banner
 const CROPS = {
   green: { left: 19, top: 23 },
   unreachable: { left: 1098, top: 23 },

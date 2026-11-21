@@ -18,12 +18,6 @@ import report from "@/assets/mascot/report.png";
 import screen from "@/assets/mascot/screen.png";
 import wink from "@/assets/mascot/wink.png";
 
-export const BRAND = {
-  red: "#D71920",
-  cream: "#FFF1EA",
-  brown: "#5B3A31",
-} as const;
-
 const POSES = {
   alert, // แจ้งเตือนเมื่อมีความเสี่ยง (siren)
   call, // โทรพูดคุยให้กำลังใจ
