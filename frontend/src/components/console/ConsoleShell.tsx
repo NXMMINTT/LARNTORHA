@@ -1,7 +1,8 @@
 // Layout of every อสม. console page (/dashboard/*, /demo): sidebar nav + content + footer.
 // getMe/getDashboard/getDailyDigest are cache()d, so pages calling them again cost nothing.
-import { ConsoleFooter } from "@/components/console/ConsoleChrome";
+
 import { ConsoleNav } from "@/components/console/ConsoleNav";
+import { HomeFooter } from "@/components/home/HomeFooter";
 import { getDailyDigest, getDashboard, getMe, isDemoMode } from "@/lib/api";
 import { jakarta, sarabun } from "@/lib/fonts";
 
@@ -26,7 +27,7 @@ export async function ConsoleShell({ children }: { children: React.ReactNode }) 
       />
       <div className="flex min-w-0 flex-1 flex-col lg:ml-64">
         <main className="w-full flex-1">{children}</main>
-        <ConsoleFooter />
+        <HomeFooter />
       </div>
     </div>
   );

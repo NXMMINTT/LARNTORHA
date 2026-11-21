@@ -119,7 +119,7 @@ def _postback(deps: Deps, ev: dict[str, Any], user_id: str, data: str) -> None:
         if call.acknowledged_at is None:
             call.acknowledged_at = now
             repo.put_call(call)
-        _reply(deps, ev, "รับทราบแล้ว ขอบคุณค่ะ 🙏")
+        _reply(deps, ev, "รับทราบแล้ว ขอบคุณครับ 🙏")
         return
 
     if action == "notify_osm":

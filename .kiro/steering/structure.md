@@ -28,7 +28,14 @@ LARNTORHA/ (repo root)
 
 ## Where the live call connects
 `agent.py` conversation → transcript (`[{speaker: "ai"|"elder", text}]`) → `POST /v1/demo/calls` on the backend → Bedrock analysis + red flags → status → LINE card + dashboard (CLAUDE.md §3 pipeline).
-When the live call moves into the web app, put the agent under `backend/app/ai/` (e.g. `live_call.py`) and keep one agent per call.
+On the web (built 21 Nov): `/demo` page (`frontend/src/app/demo/`, `components/demo/DemoRunner.tsx`, mic hook `useSpeech.ts`)
+→ server action → `POST /v1/demo/live/turn` (`backend/app/routers/demo.py` → `backend/app/ai/live_call.py`) for each line,
+then the whole chat → `POST /v1/demo/calls` → same pipeline. No Strands in the backend: one Converse call per line.
+
+## อสม. console pages (frontend, built 21 Nov)
+Shared layout `components/console/ConsoleShell.tsx` (sidebar `ConsoleNav.tsx`) for `/dashboard/*` and `/demo`:
+`/dashboard` · `/dashboard/elders/[id]` · `/dashboard/digest` (daily digest by date) · `/dashboard/guide` (คู่มือ อสม.) ·
+`/dashboard/settings` (LINE link + referral code) · `/demo`. Footer on home, `/register` and the console: `components/home/HomeFooter.tsx`.
 
 ## Naming
 Follow CLAUDE.md (snake_case in Python and JSON, types in `frontend/src/lib/types.ts` match the backend).

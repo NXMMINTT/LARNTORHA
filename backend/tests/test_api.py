@@ -588,3 +588,31 @@ def test_family_dashboard_rejects_osm_session(fam: dict[str, Any]) -> None:
     assert (
         c.get("/v1/osm/me", headers={**H, "Authorization": f"Bearer {session}"}).status_code == 401
     )
+
+
+# ---------------------------------------------------------------- อสม. accounts (create_osm.py)
+
+
+def test_create_osm_account_then_login(env: dict[str, Any], tmp_path: Any) -> None:
+    import re
+
+    from app.repo.osm_accounts import AccountError, create_account, load_into
+
+    path = tmp_path / "osm.json"
+    osm = create_account(path, " สมใจ ", "0891112222", "ต.บ้านดง", "secret-pass")
+    assert re.fullmatch(r"OSM-[A-HJ-NP-Z2-9]{4}", osm.referral_code)
+    assert osm.name == "สมใจ" and "secret-pass" not in path.read_text(encoding="utf-8")
+    for bad in (
+        ("0891112222", "secret-pass"),  # phone taken
+        ("0812345678", "secret-pass"),  # demo อสม.
+        ("12345", "secret-pass"),
+        ("0893334444", "short"),
+    ):
+        with pytest.raises(AccountError):
+            create_account(path, "ก", bad[0], "ต.ก", bad[1])
+
+    assert load_into(env["repo"], path) == 1
+    r = env["client"].post(
+        "/v1/osm/login", json={"phone": "0891112222", "password": "secret-pass"}, headers=H
+    )
+    assert r.status_code == 200

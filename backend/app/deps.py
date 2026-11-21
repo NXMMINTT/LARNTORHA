@@ -1,6 +1,7 @@
 """Wiring: settings + repo + analyzer + LINE client, built once per app."""
 
 from dataclasses import dataclass, field
+from pathlib import Path
 
 from app.ai.analyzer import Analyzer, BedrockAnalyzer
 from app.ai.bedrock_client import BedrockSettings, ConverseClient, make_client
@@ -10,6 +11,7 @@ from app.config import Settings
 from app.line_client import LineClient
 from app.repo.base import Repo
 from app.repo.memory import MemoryRepo
+from app.repo.osm_accounts import load_into
 from app.repo.seed import link_demo_line, seed
 
 
@@ -44,6 +46,7 @@ def build_deps(s: Settings) -> Deps:
         seed(repo)
         if not s.is_production:
             link_demo_line(repo, s.line_to_user_ids)
+    load_into(repo, Path(s.osm_accounts_file))
     dry_run = not s.line_channel_access_token and not s.is_production
     return Deps(
         settings=s,

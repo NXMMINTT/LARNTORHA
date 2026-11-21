@@ -310,7 +310,14 @@
                 ]
               }
             ]
-          },
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "spacing": "sm",
+        "contents": [
           {
             "type": "box",
             "layout": "vertical",

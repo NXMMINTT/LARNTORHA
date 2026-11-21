@@ -28,6 +28,8 @@ class Settings(BaseSettings):
     # LINE Login channel that owns the LIFF app of the family dashboard (verifies LIFF ID tokens).
     # Must be under the same LINE provider as the Messaging API channel so userIds match.
     line_login_channel_id: str = ""
+    # อสม. accounts from scripts/create_osm.py, loaded at startup (memory repo only, git-ignored).
+    osm_accounts_file: str = "data/osm_accounts.json"
     seed_demo: bool = True
     # Dev only: LINE userIds (comma separated) linked to the demo guardian on seed. Ignored in prod.
     line_to_user_ids: str = ""

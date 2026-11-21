@@ -20,7 +20,10 @@ from app.config import get_settings
 from app.domain.line_cards import CardButton, FamilyCardData, render_family_card
 from app.line_client import LineClient
 
-OUT = Path(__file__).resolve().parent.parent.parent / "docs" / "line-cards"
+ROOT = Path(__file__).resolve().parent.parent.parent
+OUT = ROOT / "docs" / "line-cards"
+# The home page phone shows these real cards (frontend/src/components/home/LineDemo.tsx).
+HOME = ROOT / "frontend" / "src" / "components" / "home" / "line-cards.json"
 DAY, TIME = "20 พ.ย. 2569", "09:00 น."
 
 
@@ -82,7 +85,7 @@ def samples() -> dict[str, FamilyCardData]:
                 ("clock", "เวลา", TIME),
                 ("pill", "ยา", "ยังไม่ได้กินยา"),
             ],
-            section=["คุณยายสบายดี ไปตลาดมา แต่ยังไม่ได้ทานยาตอนเช้า ลูกหลานช่วยเตือนด้วยนะคะ"],
+            section=["คุณยายสบายดี ไปตลาดมา แต่ยังไม่ได้ทานยาตอนเช้า ลูกหลานช่วยเตือนด้วยนะครับ"],
             ai_note=True,
             notes=[("มีบางเรื่องที่ควรได้รับการติดตาม อสม. ในพื้นที่ได้รับแจ้งแล้ว", "normal")],
             buttons=[
@@ -131,6 +134,9 @@ def main() -> None:
         )
         size = len(json.dumps(msg["contents"], ensure_ascii=False).encode())
         print(f"{kind:12} {size / 1024:5.1f} KB  -> docs/line-cards/{kind}.json")
+    home = {k: cards[k] for k in ("green", "followup", "red")}
+    HOME.write_text(json.dumps(home, ensure_ascii=False, indent=2) + "\n", "utf-8")
+    print(f"home page cards -> {HOME.relative_to(ROOT)}")
 
     if args.push:
         if not s.line_channel_access_token:

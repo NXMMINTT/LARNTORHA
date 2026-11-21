@@ -33,6 +33,26 @@
   --animate-sparkle: sparkle 3.2s ease-in-out infinite;
   --animate-bob: bob 4s ease-in-out infinite;
   --animate-pop: pop 0.35s ease-out both;
+  --animate-ring: ring 1.4s ease-in-out infinite;
+
+  /* phone handset shaking like a ringing phone, then a short rest */
+  @keyframes ring {
+    0%,
+    40%,
+    100% {
+      transform: rotate(0deg);
+    }
+    5%,
+    15%,
+    25% {
+      transform: rotate(-16deg);
+    }
+    10%,
+    20%,
+    30% {
+      transform: rotate(16deg);
+    }
+  }
 
   @keyframes sparkle {
     0%,
@@ -130,7 +150,10 @@ body {
   .animate-sparkle,
   .animate-bob,
   .animate-pop,
-  .animate-ping {
+  .animate-ring,
+  .animate-ping,
+  .animate-bounce,
+  .animate-pulse {
     animation: none;
   }
 }

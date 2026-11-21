@@ -49,6 +49,18 @@ curl -X POST localhost:8000/v1/demo/calls -H "X-Internal-Token: $TOKEN" -H "cont
 7. จำลองสาย (หัวข้อด้านบน) แล้วการ์ด 🟢🟡🔴 จะเข้า LINE ปุ่ม "รับทราบ" และ "แจ้ง อสม." จะกลับมาที่ webhook
 8. ภาพหัวการ์ด: ตั้ง `CARD_IMAGE_BASE_URL` (ดูวิธีเปลี่ยนภาพ ทดสอบ และข้อจำกัดของ LINE ใน [docs/line-cards.md](docs/line-cards.md))
 
+## สร้างบัญชี อสม.
+
+```bash
+cd backend
+uv run python scripts/create_osm.py --name "สมใจ ใจดี" --phone 0891234567 --tambon "ต.บ้านดง"
+```
+
+- ระบบจะถามรหัสผ่าน 2 ครั้ง (อย่างน้อย 8 ตัวอักษร) ไม่รับรหัสผ่านทาง argument เพื่อไม่ให้ค้างใน history ของ shell
+- ได้ **รหัส อสม.** (`OSM-XXXX`) ไว้ให้ครอบครัวกรอกตอนสมัครที่ `/register`
+- บัญชีถูกเก็บที่ `backend/data/osm_accounts.json` (เก็บแค่ hash ของรหัสผ่าน และไม่ถูก commit) แล้ว **restart backend** เพื่อให้ล็อกอินได้
+- ตอนนี้ repo ยังเป็นแบบหน่วยความจำ เมื่อทำ DynamoDB แล้ว สคริปต์นี้ต้องเปลี่ยนไปเขียนลงตาราง
+
 ## ย้ายขึ้นโดเมนจริง: เช็กลิสต์ LINE
 
 | ค่า | ตอนทดสอบ (ngrok) | ตอน deploy |
@@ -85,4 +97,4 @@ curl -X POST localhost:8000/v1/demo/calls -H "X-Internal-Token: $TOKEN" -H "cont
 - `REPO_DRIVER=dynamodb` (M4): ตอนนี้มีแค่ memory repo
 - หน้า `/demo` บนเว็บ และการต่อ `agent.py` เข้ากับ `/v1/demo/calls`
 - fixtures ให้ครบ 24 ชุด + `scripts/eval_bedrock.py` + `docs/eval-results.md` (ตอนนี้มี 8 ชุด)
-- Bedrock Guardrail จริง, Dockerfile/deploy, `scripts/create_osm.py`
+- Bedrock Guardrail จริง, Dockerfile/deploy

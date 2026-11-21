@@ -1,0 +1,1122 @@
+{
+  "green": {
+    "type": "flex",
+    "altText": "🟢 ยายสมศรี — ปกติ",
+    "contents": {
+      "type": "bubble",
+      "size": "mega",
+      "hero": {
+        "type": "image",
+        "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/green.jpg?v=4",
+        "size": "full",
+        "aspectRatio": "16:5",
+        "aspectMode": "cover"
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "md",
+        "paddingAll": "18px",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "spacing": "md",
+            "alignItems": "center",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "width": "48px",
+                "height": "48px",
+                "cornerRadius": "xxl",
+                "backgroundColor": "#EAF8EE",
+                "borderColor": "#16a34a",
+                "borderWidth": "medium",
+                "justifyContent": "center",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "ส",
+                    "wrap": true,
+                    "align": "center",
+                    "weight": "bold",
+                    "size": "lg",
+                    "color": "#16a34a"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "ยายสมศรี",
+                    "wrap": true,
+                    "weight": "bold",
+                    "size": "xl",
+                    "color": "#1e293b"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "baseline",
+                    "spacing": "sm",
+                    "contents": [
+                      {
+                        "type": "icon",
+                        "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/user-64748b.png?v=4",
+                        "size": "sm"
+                      },
+                      {
+                        "type": "text",
+                        "text": "ผู้รับบริการ",
+                        "wrap": true,
+                        "size": "xs",
+                        "color": "#64748b"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "separator",
+            "color": "#eef0f4"
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "baseline",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "icon",
+                    "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/calendar-64748b.png?v=4",
+                    "size": "sm"
+                  },
+                  {
+                    "type": "text",
+                    "text": "วันที่โทร",
+                    "wrap": true,
+                    "size": "sm",
+                    "color": "#64748b"
+                  }
+                ],
+                "flex": 5
+              },
+              {
+                "type": "text",
+                "text": "20 พ.ย. 2569",
+                "wrap": true,
+                "size": "sm",
+                "color": "#1e293b",
+                "flex": 6,
+                "weight": "bold"
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "baseline",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "icon",
+                    "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/clock-64748b.png?v=4",
+                    "size": "sm"
+                  },
+                  {
+                    "type": "text",
+                    "text": "เวลา",
+                    "wrap": true,
+                    "size": "sm",
+                    "color": "#64748b"
+                  }
+                ],
+                "flex": 5
+              },
+              {
+                "type": "text",
+                "text": "09:00 น.",
+                "wrap": true,
+                "size": "sm",
+                "color": "#1e293b",
+                "flex": 6,
+                "weight": "bold"
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "baseline",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "icon",
+                    "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/phone-64748b.png?v=4",
+                    "size": "sm"
+                  },
+                  {
+                    "type": "text",
+                    "text": "ระยะเวลาสนทนา",
+                    "wrap": true,
+                    "size": "sm",
+                    "color": "#64748b"
+                  }
+                ],
+                "flex": 5
+              },
+              {
+                "type": "text",
+                "text": "3 นาที",
+                "wrap": true,
+                "size": "sm",
+                "color": "#1e293b",
+                "flex": 6,
+                "weight": "bold"
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "baseline",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "icon",
+                    "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/pill-64748b.png?v=4",
+                    "size": "sm"
+                  },
+                  {
+                    "type": "text",
+                    "text": "ยา",
+                    "wrap": true,
+                    "size": "sm",
+                    "color": "#64748b"
+                  }
+                ],
+                "flex": 5
+              },
+              {
+                "type": "text",
+                "text": "กินยาแล้ว",
+                "wrap": true,
+                "size": "sm",
+                "color": "#1e293b",
+                "flex": 6,
+                "weight": "bold"
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "sm",
+            "paddingAll": "12px",
+            "cornerRadius": "lg",
+            "backgroundColor": "#EAF8EE",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "baseline",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "icon",
+                    "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/message-circle-16a34a.png?v=4",
+                    "size": "sm"
+                  },
+                  {
+                    "type": "text",
+                    "text": "สรุปการสนทนา",
+                    "wrap": true,
+                    "size": "sm",
+                    "weight": "bold",
+                    "color": "#16a34a"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "text": "คุณยายสบายดี พูดคุยตามปกติ ทานข้าวและพักผ่อนเพียงพอ ผักบุ้งที่ปลูกไว้ขึ้นแล้ว",
+                "wrap": true,
+                "size": "sm",
+                "color": "#1e293b"
+              },
+              {
+                "type": "box",
+                "layout": "baseline",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "icon",
+                    "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/bot-94a3b8.png?v=4",
+                    "size": "sm"
+                  },
+                  {
+                    "type": "text",
+                    "text": "สรุปโดย AI",
+                    "wrap": true,
+                    "size": "xxs",
+                    "color": "#94a3b8"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "ไม่พบสัญญาณผิดปกติในสายนี้ (ไม่ได้หมายความว่าปลอดภัยแน่นอน)",
+            "wrap": true,
+            "size": "xs",
+            "color": "#64748b"
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "paddingStart": "18px",
+        "paddingEnd": "18px",
+        "paddingTop": "4px",
+        "paddingBottom": "18px",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "flex": 1,
+                "cornerRadius": "xxl",
+                "paddingAll": "11px",
+                "backgroundColor": "#D71920",
+                "borderColor": "#D71920",
+                "borderWidth": "medium",
+                "action": {
+                  "type": "postback",
+                  "label": "รับทราบ",
+                  "data": "action=ack&elder=eld_somsri&call=demo-green",
+                  "displayText": "รับทราบ"
+                },
+                "contents": [
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "sm",
+                    "justifyContent": "center",
+                    "alignItems": "center",
+                    "contents": [
+                      {
+                        "type": "image",
+                        "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/check-ffffff.png?v=4",
+                        "size": "18px",
+                        "flex": 0,
+                        "aspectMode": "fit"
+                      },
+                      {
+                        "type": "text",
+                        "text": "รับทราบ",
+                        "wrap": true,
+                        "size": "sm",
+                        "weight": "bold",
+                        "align": "center",
+                        "color": "#FFFFFF",
+                        "flex": 0
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "followup": {
+    "type": "flex",
+    "altText": "🟠 ยายสมศรี — ควรติดตาม",
+    "contents": {
+      "type": "bubble",
+      "size": "mega",
+      "hero": {
+        "type": "image",
+        "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/followup.jpg?v=4",
+        "size": "full",
+        "aspectRatio": "16:5",
+        "aspectMode": "cover"
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "md",
+        "paddingAll": "18px",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "spacing": "md",
+            "alignItems": "center",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "width": "48px",
+                "height": "48px",
+                "cornerRadius": "xxl",
+                "backgroundColor": "#FFF1E3",
+                "borderColor": "#EA7A0C",
+                "borderWidth": "medium",
+                "justifyContent": "center",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "ส",
+                    "wrap": true,
+                    "align": "center",
+                    "weight": "bold",
+                    "size": "lg",
+                    "color": "#EA7A0C"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "ยายสมศรี",
+                    "wrap": true,
+                    "weight": "bold",
+                    "size": "xl",
+                    "color": "#1e293b"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "baseline",
+                    "spacing": "sm",
+                    "contents": [
+                      {
+                        "type": "icon",
+                        "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/user-64748b.png?v=4",
+                        "size": "sm"
+                      },
+                      {
+                        "type": "text",
+                        "text": "ผู้รับบริการ",
+                        "wrap": true,
+                        "size": "xs",
+                        "color": "#64748b"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "separator",
+            "color": "#eef0f4"
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "baseline",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "icon",
+                    "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/calendar-64748b.png?v=4",
+                    "size": "sm"
+                  },
+                  {
+                    "type": "text",
+                    "text": "วันที่โทร",
+                    "wrap": true,
+                    "size": "sm",
+                    "color": "#64748b"
+                  }
+                ],
+                "flex": 5
+              },
+              {
+                "type": "text",
+                "text": "20 พ.ย. 2569",
+                "wrap": true,
+                "size": "sm",
+                "color": "#1e293b",
+                "flex": 6,
+                "weight": "bold"
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "baseline",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "icon",
+                    "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/clock-64748b.png?v=4",
+                    "size": "sm"
+                  },
+                  {
+                    "type": "text",
+                    "text": "เวลา",
+                    "wrap": true,
+                    "size": "sm",
+                    "color": "#64748b"
+                  }
+                ],
+                "flex": 5
+              },
+              {
+                "type": "text",
+                "text": "09:00 น.",
+                "wrap": true,
+                "size": "sm",
+                "color": "#1e293b",
+                "flex": 6,
+                "weight": "bold"
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "baseline",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "icon",
+                    "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/pill-64748b.png?v=4",
+                    "size": "sm"
+                  },
+                  {
+                    "type": "text",
+                    "text": "ยา",
+                    "wrap": true,
+                    "size": "sm",
+                    "color": "#64748b"
+                  }
+                ],
+                "flex": 5
+              },
+              {
+                "type": "text",
+                "text": "ยังไม่ได้กินยา",
+                "wrap": true,
+                "size": "sm",
+                "color": "#1e293b",
+                "flex": 6,
+                "weight": "bold"
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "sm",
+            "paddingAll": "12px",
+            "cornerRadius": "lg",
+            "backgroundColor": "#FFF1E3",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "baseline",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "icon",
+                    "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/search-ea7a0c.png?v=4",
+                    "size": "sm"
+                  },
+                  {
+                    "type": "text",
+                    "text": "สิ่งที่ควรติดตาม",
+                    "wrap": true,
+                    "size": "sm",
+                    "weight": "bold",
+                    "color": "#EA7A0C"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "text": "คุณยายสบายดี ไปตลาดมา แต่ยังไม่ได้ทานยาตอนเช้า ลูกหลานช่วยเตือนด้วยนะครับ",
+                "wrap": true,
+                "size": "sm",
+                "color": "#1e293b"
+              },
+              {
+                "type": "box",
+                "layout": "baseline",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "icon",
+                    "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/bot-94a3b8.png?v=4",
+                    "size": "sm"
+                  },
+                  {
+                    "type": "text",
+                    "text": "สรุปโดย AI",
+                    "wrap": true,
+                    "size": "xxs",
+                    "color": "#94a3b8"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "มีบางเรื่องที่ควรได้รับการติดตาม อสม. ในพื้นที่ได้รับแจ้งแล้ว",
+            "wrap": true,
+            "size": "sm",
+            "color": "#1e293b"
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "paddingStart": "18px",
+        "paddingEnd": "18px",
+        "paddingTop": "4px",
+        "paddingBottom": "18px",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "flex": 1,
+                "cornerRadius": "xxl",
+                "paddingAll": "11px",
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D71920",
+                "borderWidth": "medium",
+                "action": {
+                  "type": "uri",
+                  "label": "โทรหายายสมศรี",
+                  "uri": "tel:0891234567"
+                },
+                "contents": [
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "sm",
+                    "justifyContent": "center",
+                    "alignItems": "center",
+                    "contents": [
+                      {
+                        "type": "image",
+                        "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/phone-d71920.png?v=4",
+                        "size": "18px",
+                        "flex": 0,
+                        "aspectMode": "fit"
+                      },
+                      {
+                        "type": "text",
+                        "text": "โทรหายายสมศรี",
+                        "wrap": true,
+                        "size": "sm",
+                        "weight": "bold",
+                        "align": "center",
+                        "color": "#D71920",
+                        "flex": 0
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "flex": 1,
+                "cornerRadius": "xxl",
+                "paddingAll": "11px",
+                "backgroundColor": "#D71920",
+                "borderColor": "#D71920",
+                "borderWidth": "medium",
+                "action": {
+                  "type": "postback",
+                  "label": "รับทราบ",
+                  "data": "action=ack&elder=eld_somsri&call=demo-followup",
+                  "displayText": "รับทราบ"
+                },
+                "contents": [
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "sm",
+                    "justifyContent": "center",
+                    "alignItems": "center",
+                    "contents": [
+                      {
+                        "type": "image",
+                        "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/check-ffffff.png?v=4",
+                        "size": "18px",
+                        "flex": 0,
+                        "aspectMode": "fit"
+                      },
+                      {
+                        "type": "text",
+                        "text": "รับทราบ",
+                        "wrap": true,
+                        "size": "sm",
+                        "weight": "bold",
+                        "align": "center",
+                        "color": "#FFFFFF",
+                        "flex": 0
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "red": {
+    "type": "flex",
+    "altText": "🔴 เร่งด่วน — ยายมาลี",
+    "contents": {
+      "type": "bubble",
+      "size": "mega",
+      "hero": {
+        "type": "image",
+        "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/red.jpg?v=4",
+        "size": "full",
+        "aspectRatio": "16:5",
+        "aspectMode": "cover"
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "md",
+        "paddingAll": "18px",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "spacing": "md",
+            "alignItems": "center",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "width": "48px",
+                "height": "48px",
+                "cornerRadius": "xxl",
+                "backgroundColor": "#FDECEC",
+                "borderColor": "#dc2626",
+                "borderWidth": "medium",
+                "justifyContent": "center",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "ม",
+                    "wrap": true,
+                    "align": "center",
+                    "weight": "bold",
+                    "size": "lg",
+                    "color": "#dc2626"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "ยายมาลี",
+                    "wrap": true,
+                    "weight": "bold",
+                    "size": "xl",
+                    "color": "#1e293b"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "baseline",
+                    "spacing": "sm",
+                    "contents": [
+                      {
+                        "type": "icon",
+                        "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/user-64748b.png?v=4",
+                        "size": "sm"
+                      },
+                      {
+                        "type": "text",
+                        "text": "ผู้รับบริการ",
+                        "wrap": true,
+                        "size": "xs",
+                        "color": "#64748b"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "separator",
+            "color": "#eef0f4"
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "baseline",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "icon",
+                    "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/calendar-64748b.png?v=4",
+                    "size": "sm"
+                  },
+                  {
+                    "type": "text",
+                    "text": "วันที่โทร",
+                    "wrap": true,
+                    "size": "sm",
+                    "color": "#64748b"
+                  }
+                ],
+                "flex": 5
+              },
+              {
+                "type": "text",
+                "text": "20 พ.ย. 2569",
+                "wrap": true,
+                "size": "sm",
+                "color": "#1e293b",
+                "flex": 6,
+                "weight": "bold"
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "baseline",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "icon",
+                    "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/clock-64748b.png?v=4",
+                    "size": "sm"
+                  },
+                  {
+                    "type": "text",
+                    "text": "เวลา",
+                    "wrap": true,
+                    "size": "sm",
+                    "color": "#64748b"
+                  }
+                ],
+                "flex": 5
+              },
+              {
+                "type": "text",
+                "text": "09:00 น.",
+                "wrap": true,
+                "size": "sm",
+                "color": "#1e293b",
+                "flex": 6,
+                "weight": "bold"
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "sm",
+            "paddingAll": "12px",
+            "cornerRadius": "lg",
+            "backgroundColor": "#FDECEC",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "baseline",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "icon",
+                    "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/siren-dc2626.png?v=4",
+                    "size": "sm"
+                  },
+                  {
+                    "type": "text",
+                    "text": "ข้อสังเกต",
+                    "wrap": true,
+                    "size": "sm",
+                    "weight": "bold",
+                    "color": "#dc2626"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "text": "คุณยายแจ้งว่ามีอาการเวียนศีรษะมากและอ่อนเพลีย ลุกเดินไม่ค่อยไหว",
+                "wrap": true,
+                "size": "sm",
+                "color": "#1e293b"
+              },
+              {
+                "type": "box",
+                "layout": "baseline",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "icon",
+                    "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/bot-94a3b8.png?v=4",
+                    "size": "sm"
+                  },
+                  {
+                    "type": "text",
+                    "text": "สรุปโดย AI",
+                    "wrap": true,
+                    "size": "xxs",
+                    "color": "#94a3b8"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "ผู้ช่วย AI แนะนำให้โทร 1669 แล้ว",
+            "wrap": true,
+            "size": "sm",
+            "color": "#1e293b",
+            "weight": "bold"
+          },
+          {
+            "type": "text",
+            "text": "ระบบไม่สามารถเรียกรถพยาบาลหรือยืนยันอาการได้ กรุณาติดต่อทันที",
+            "wrap": true,
+            "size": "sm",
+            "color": "#dc2626"
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "paddingStart": "18px",
+        "paddingEnd": "18px",
+        "paddingTop": "4px",
+        "paddingBottom": "18px",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "flex": 1,
+                "cornerRadius": "xxl",
+                "paddingAll": "11px",
+                "backgroundColor": "#D71920",
+                "borderColor": "#D71920",
+                "borderWidth": "medium",
+                "action": {
+                  "type": "uri",
+                  "label": "โทร 1669",
+                  "uri": "tel:1669"
+                },
+                "contents": [
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "sm",
+                    "justifyContent": "center",
+                    "alignItems": "center",
+                    "contents": [
+                      {
+                        "type": "image",
+                        "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/phone-ffffff.png?v=4",
+                        "size": "18px",
+                        "flex": 0,
+                        "aspectMode": "fit"
+                      },
+                      {
+                        "type": "text",
+                        "text": "โทร 1669",
+                        "wrap": true,
+                        "size": "sm",
+                        "weight": "bold",
+                        "align": "center",
+                        "color": "#FFFFFF",
+                        "flex": 0
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "flex": 1,
+                "cornerRadius": "xxl",
+                "paddingAll": "11px",
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D71920",
+                "borderWidth": "medium",
+                "action": {
+                  "type": "postback",
+                  "label": "แจ้ง อสม.",
+                  "data": "action=notify_osm&elder=eld_malee&call=demo-red",
+                  "displayText": "แจ้ง อสม."
+                },
+                "contents": [
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "sm",
+                    "justifyContent": "center",
+                    "alignItems": "center",
+                    "contents": [
+                      {
+                        "type": "image",
+                        "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/users-d71920.png?v=4",
+                        "size": "18px",
+                        "flex": 0,
+                        "aspectMode": "fit"
+                      },
+                      {
+                        "type": "text",
+                        "text": "แจ้ง อสม.",
+                        "wrap": true,
+                        "size": "sm",
+                        "weight": "bold",
+                        "align": "center",
+                        "color": "#D71920",
+                        "flex": 0
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "flex": 1,
+                "cornerRadius": "xxl",
+                "paddingAll": "11px",
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D71920",
+                "borderWidth": "medium",
+                "action": {
+                  "type": "uri",
+                  "label": "โทรหายายมาลี",
+                  "uri": "tel:0891234567"
+                },
+                "contents": [
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "sm",
+                    "justifyContent": "center",
+                    "alignItems": "center",
+                    "contents": [
+                      {
+                        "type": "image",
+                        "url": "https://raw.githubusercontent.com/NXMMINTT/LARNTORHA/main/backend/app/static/cards/icons/smartphone-d71920.png?v=4",
+                        "size": "18px",
+                        "flex": 0,
+                        "aspectMode": "fit"
+                      },
+                      {
+                        "type": "text",
+                        "text": "โทรหายายมาลี",
+                        "wrap": true,
+                        "size": "sm",
+                        "weight": "bold",
+                        "align": "center",
+                        "color": "#D71920",
+                        "flex": 0
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

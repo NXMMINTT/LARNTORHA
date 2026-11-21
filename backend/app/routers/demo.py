@@ -13,6 +13,7 @@ from pydantic import BaseModel, Field, model_validator
 from app.ai.live_call import LiveCallSettings, ScenarioBrief, next_turn
 from app.domain.models import TranscriptTurn
 from app.repo.memory import MemoryRepo
+from app.repo.osm_accounts import load_into
 from app.repo.seed import link_demo_line, seed
 from app.routers.common import DepsDep, require_internal
 from app.services.calls import CallError, CallIn, process_call
@@ -131,6 +132,7 @@ def reset(deps: DepsDep) -> dict[str, bool]:
     deps.repo.clear()
     seed(deps.repo)
     link_demo_line(deps.repo, deps.settings.line_to_user_ids)
+    load_into(deps.repo, Path(deps.settings.osm_accounts_file))
     deps.login_limiter.reset()
     deps.register_limiter.reset()
     return {"ok": True}

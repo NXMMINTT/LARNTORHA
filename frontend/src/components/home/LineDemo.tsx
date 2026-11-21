@@ -2,10 +2,14 @@
 
 // Home page "LINE demo": three steps on the left, a phone showing the matching family card
 // (CLAUDE.md §8 wording) on the right. Sample data only.
-import { Bot, CircleCheck, Siren, TriangleAlert, type LucideIcon } from "lucide-react";
+import { CircleCheck, Siren, TriangleAlert, type LucideIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
+import { FlexBubble } from "@/components/demo/FlexPreview";
 import { BrandMark } from "@/components/SiteChrome";
+import type { FlexMessage } from "@/lib/types";
+
+import lineCards from "./line-cards.json";
 
 type Kind = "green" | "followup" | "red";
 
@@ -30,97 +34,13 @@ const STEPS: { kind: Kind; icon: LucideIcon; title: string; body: string }[] = [
   },
 ];
 
-const HEAD: Record<Kind, { color: string; icon: LucideIcon; text: string }> = {
-  green: { color: "bg-[#16a34a]", icon: CircleCheck, text: "ยายสมศรี — ปกติ" },
-  followup: { color: "bg-[#ca8a04]", icon: TriangleAlert, text: "ยายสำลี — ควรติดตาม" },
-  red: { color: "bg-[#dc2626]", icon: Siren, text: "เร่งด่วน — ตาสมชาย" },
-};
-
-function CardButton({ children, solid = false }: { children: string; solid?: boolean }) {
-  return (
-    <span
-      className={`block rounded-lg py-1.5 text-center text-[11.5px] font-bold ${solid ? "bg-[#dc2626] text-white" : "text-[#06c755]"}`}
-    >
-      {children}
-    </span>
-  );
-}
-
-function FamilyCard({ kind }: { kind: Kind }) {
-  const h = HEAD[kind];
-  const I = h.icon;
-  return (
-    <div className="flex shrink-0 flex-col overflow-hidden rounded-2xl bg-white text-[#1e293b] shadow-[0_2px_8px_rgba(0,0,0,.08)]">
-      <div className={`flex items-center gap-1.5 px-3 py-2 text-white ${h.color}`}>
-        <I aria-hidden className="size-3.5" strokeWidth={2.5} />
-        <b className="text-[12.5px]">{h.text}</b>
-      </div>
-      <div className="flex flex-col gap-1.5 px-3 py-2.5">
-        {kind === "green" && (
-          <>
-            <span className="text-[10.5px] text-[#64748b]">21 พ.ย. 2569 · 09:02 น. · คุย 4 นาที</span>
-            <span>
-              <b>วันนี้เล่าว่า</b> ผักบุ้งที่ปลูกไว้ขึ้นแล้ว ดีใจมาก หลานคนเล็กโทรมาเมื่อวาน
-            </span>
-            <span className="flex items-center gap-1 text-[10.5px] text-[#64748b]">
-              <Bot aria-hidden className="size-3" /> สรุปโดย AI
-            </span>
-            <span>
-              <b>ยา</b> กินยาเช้าแล้ว
-            </span>
-            <span className="text-[10px] leading-snug text-[#64748b]">
-              ไม่พบสัญญาณผิดปกติในสายนี้ (ไม่ได้หมายความว่าปลอดภัยแน่นอน)
-            </span>
-          </>
-        )}
-        {kind === "followup" && (
-          <>
-            <span className="text-[10.5px] text-[#64748b]">21 พ.ย. 2569 · 10:01 น.</span>
-            <span>
-              <b>ยา</b> ยังไม่ได้กินยาเช้า
-            </span>
-            <span>บอกว่าช่วงนี้ลืมกินยาบ่อย แต่ยังเดินไปตลาดได้ตามปกติ</span>
-            <span className="rounded-md bg-[#fef9c3] px-1.5 py-1 text-[10.5px] leading-snug text-[#854d0e]">
-              มีบางเรื่องที่ควรได้รับการติดตาม อสม. ในพื้นที่ได้รับแจ้งแล้ว
-            </span>
-          </>
-        )}
-        {kind === "red" && (
-          <>
-            <span className="text-[10.5px] text-[#64748b]">21 พ.ย. 2569 · 09:04 น.</span>
-            <span>เล่าว่าเจ็บแน่นหน้าอกตั้งแต่เช้า</span>
-            <span className="rounded-md bg-[#fee2e2] px-1.5 py-1 font-bold text-[#991b1b]">
-              ผู้ช่วย AI แนะนำให้โทร 1669 แล้ว
-            </span>
-            <span className="text-[10.5px] leading-snug text-[#64748b]">
-              ระบบไม่สามารถเรียกรถพยาบาลหรือยืนยันอาการได้ กรุณาติดต่อทันที
-            </span>
-          </>
-        )}
-      </div>
-      <div className="flex flex-col gap-0.5 border-t border-[#e2e8f0] px-2 py-1.5">
-        {kind === "green" && <CardButton>รับทราบ</CardButton>}
-        {kind === "followup" && (
-          <>
-            <CardButton>โทรหายายสำลี</CardButton>
-            <CardButton>รับทราบ</CardButton>
-          </>
-        )}
-        {kind === "red" && (
-          <>
-            <CardButton solid>โทร 1669</CardButton>
-            <CardButton>โทรหาตาสมชาย</CardButton>
-            <CardButton>แจ้ง อสม.</CardButton>
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
+// The real family cards (built by backend/app/domain/line_cards.py via
+// backend/scripts/line_cards_demo.py, which rewrites line-cards.json). Sample people only.
+const CARDS = lineCards as unknown as Record<Kind, FlexMessage>;
 
 function Phone({ kind }: { kind: Kind }) {
   return (
-    <div className="box-border h-[540px] w-[290px] shrink-0 rounded-[46px] bg-[#2a1215] p-2.5 shadow-[0_24px_50px_rgba(120,20,30,.25)]">
+    <div className="box-border h-[620px] w-[290px] shrink-0 rounded-[46px] bg-[#2a1215] p-2.5 shadow-[0_24px_50px_rgba(120,20,30,.25)]">
       <div className="flex h-full flex-col overflow-hidden rounded-[37px] bg-[#dfe9f7] text-xs leading-snug">
         <div className="flex items-center gap-2 bg-white px-3.5 pb-2 pt-4 text-sm font-bold text-[#1e293b]">
           <BrandMark className="size-7 rounded-full" /> หลานโทรหา
@@ -132,11 +52,12 @@ function Phone({ kind }: { kind: Kind }) {
           <span className="mx-auto rounded-full bg-black/10 px-2.5 py-0.5 text-[10px] text-[#475569]">
             วันนี้
           </span>
-          <div key={kind} className="flex animate-pop flex-col gap-2">
-            <FamilyCard kind={kind} />
+          {/* the real card is sized for a ~300px LINE bubble: shrink it to fit the phone */}
+          <div key={kind} className="flex animate-pop flex-col gap-2" style={{ zoom: 0.85 }}>
+            <FlexBubble message={CARDS[kind]} className="shadow-[0_2px_8px_rgba(0,0,0,.08)]" />
           </div>
           <span className="max-w-[85%] shrink-0 self-end rounded-[14px] rounded-br-sm bg-[#06c755] px-3 py-1.5 text-white">
-            {kind === "red" ? "กำลังโทรหาพ่อเดี๋ยวนี้" : "ขอบคุณนะ เดี๋ยวโทรหาแม่"}
+            {kind === "red" ? "กำลังโทรหาแม่เดี๋ยวนี้" : "ขอบคุณนะ เดี๋ยวโทรหาแม่"}
           </span>
         </div>
         <div className="flex items-center gap-2 bg-white px-3 py-2.5 text-[#64748b]">

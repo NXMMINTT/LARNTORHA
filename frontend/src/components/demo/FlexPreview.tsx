@@ -1,7 +1,7 @@
 "use client";
 // Renders a LINE Flex message (as built by backend/app/domain/line_cards.py) as HTML that looks
 // close to LINE (CLAUDE.md §7.6). Covers the parts our cards use: bubble, box, text, separator,
-// button, image. Display only: actions (postback/tel/uri) are not clickable here.
+// button, image, icon. Display only: actions (postback/tel/uri) are not clickable here.
 import type { CSSProperties, ReactNode } from "react";
 
 import type { FlexMessage } from "@/lib/types";
@@ -191,6 +191,20 @@ function render(n: Node, key: number, parentRow: boolean): ReactNode {
         />
       );
     }
+    case "icon": {
+      const url = str(n.url);
+      if (!url?.startsWith("https://")) return null;
+      const size = TEXT_SIZE[str(n.size) ?? "md"] ?? 14;
+      return (
+        // eslint-disable-next-line @next/next/no-img-element -- remote card icon, preview only
+        <img
+          key={key}
+          src={url}
+          alt=""
+          style={{ flex: "none", width: size, height: size, alignSelf: "center" }}
+        />
+      );
+    }
     default:
       return null;
   }
@@ -205,22 +219,35 @@ function section(n: unknown, defaultPad: number): ReactNode {
   return <div style={boxStyle(node, defaultPad)}>{kids.map((c, i) => render(c, i, row))}</div>;
 }
 
-export function FlexPreview({ message, label }: { message: FlexMessage; label: string }) {
+/** Just the card (no chat frame), e.g. inside the home page phone. */
+export function FlexBubble({
+  message,
+  className = "",
+}: {
+  message: FlexMessage;
+  className?: string;
+}) {
   const b = message.contents as Node;
+  return (
+    <div
+      className={`overflow-hidden rounded-2xl bg-white ${className}`}
+      style={{ fontFamily: "inherit" }}
+    >
+      {section(b.header, 16)}
+      {section(b.hero, 0)}
+      {section(b.body, 16)}
+      {section(b.footer, 16)}
+    </div>
+  );
+}
+
+export function FlexPreview({ message, label }: { message: FlexMessage; label: string }) {
   return (
     <figure className="m-0 flex flex-col gap-2">
       <figcaption className="text-[12px] font-semibold text-ink-muted">{label}</figcaption>
       <div className="rounded-2xl bg-[#8fa7c7] p-3">
         <div className="mb-1.5 text-[11px] text-white/90">หลานโทรหา</div>
-        <div
-          className="w-full max-w-[300px] overflow-hidden rounded-2xl bg-white shadow-sm"
-          style={{ fontFamily: "inherit" }}
-        >
-          {section(b.header, 16)}
-          {section(b.hero, 0)}
-          {section(b.body, 16)}
-          {section(b.footer, 16)}
-        </div>
+        <FlexBubble message={message} className="w-full max-w-[300px] shadow-sm" />
         <div className="mt-1.5 text-[11px] text-white/80">ข้อความแจ้งเตือน: {message.altText}</div>
       </div>
     </figure>
