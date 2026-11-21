@@ -24,9 +24,9 @@ export function NineQBox({ tasks, now }: { tasks: NineQTaskView[]; now: Date }) 
     <section
       id="ninq"
       aria-labelledby="ninq-title"
-      className="scroll-mt-24 rounded-3xl border border-line bg-white p-5 shadow-sm"
+      className="scroll-mt-24 rounded-2xl border border-slate-200 bg-white p-5"
     >
-      <h2 id="ninq-title" className="flex items-center gap-2 text-xl font-bold text-ink">
+      <h2 id="ninq-title" className="m-0 flex items-center gap-2 text-[20px] font-bold text-ink">
         <ClipboardList aria-hidden className="size-5" /> งานประเมิน 9Q ({tasks.length})
       </h2>
       <p className="mt-1 text-sm text-ink-muted">
@@ -37,7 +37,7 @@ export function NineQBox({ tasks, now }: { tasks: NineQTaskView[]; now: Date }) 
       ) : (
         <ul className="mt-4 space-y-3">
           {tasks.map((t) => (
-            <li key={t.id} className="rounded-xl border border-line p-4">
+            <li key={t.id} className="rounded-xl bg-slate-50 p-4">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <Link
                   href={`/dashboard/elders/${t.elder_id}`}
@@ -52,7 +52,7 @@ export function NineQBox({ tasks, now }: { tasks: NineQTaskView[]; now: Date }) 
               </p>
               <form
                 action={completeTaskAction.bind(null, t.elder_id, t.id)}
-                className="mt-3 flex flex-col gap-2 sm:flex-row"
+                className="mt-3 flex flex-col gap-2"
               >
                 <label htmlFor={`task-${t.id}`} className="sr-only">
                   บันทึกการประเมินของ {t.elder_name}
@@ -62,7 +62,7 @@ export function NineQBox({ tasks, now }: { tasks: NineQTaskView[]; now: Date }) 
                   name="note"
                   maxLength={300}
                   placeholder="บันทึก (ไม่ต้องใส่คะแนน)"
-                  className="min-h-11 flex-1 rounded-xl border border-line px-3 text-base"
+                  className="min-h-11 flex-1 rounded-xl border border-slate-200 bg-white px-3 text-base placeholder:text-slate-400"
                 />
                 <Button type="submit" variant="secondary">
                   ประเมินแล้ว

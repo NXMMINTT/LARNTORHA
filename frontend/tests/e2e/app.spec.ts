@@ -58,14 +58,15 @@ test("login: wrong then right", async ({ page }) => {
 
 test("dashboard: risk order and resolve", async ({ page }) => {
   await login(page);
-  const rows = page.locator("tbody tr");
+  await page.goto("/dashboard/elders");
+  const rows = page.getByTestId("elder-row");
   await expect(rows.first()).toContainText("ตาสมชาย");
   await expect(rows.last()).toContainText("ยายคำ");
   const first = rows.first();
   await first.locator('[name="note"]').fill("โทรหาแล้ว");
   await first.getByRole("button", { name: "ติดตามแล้ว" }).click();
   // Only red row, so it stays first; it is now marked resolved and faded.
-  const somchai = page.locator("tbody tr", { hasText: "ตาสมชาย" });
+  const somchai = rows.filter({ hasText: "ตาสมชาย" });
   await expect(somchai).toHaveClass(/opacity-60/, { timeout: 15_000 });
   await expect(somchai.locator('[name="note"]')).toHaveCount(0);
 });
@@ -73,9 +74,10 @@ test("dashboard: risk order and resolve", async ({ page }) => {
 test("dashboard: 390px shows cards, no horizontal scroll", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await login(page);
+  await page.goto("/dashboard/elders");
   const overflow = await page.evaluate(
     () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
   );
   expect(overflow).toBe(false);
-  await expect(page.locator("thead")).toBeHidden();
+  await expect(page.locator("table:has([data-testid=elder-row]) thead")).toBeHidden();
 });

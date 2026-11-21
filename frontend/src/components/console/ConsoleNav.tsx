@@ -12,7 +12,6 @@ import {
   Menu,
   MessageCircle,
   Settings,
-  Siren,
   Users,
   X,
   type LucideIcon,
@@ -42,7 +41,10 @@ type NavItem = {
 type NavGroup = { title: string; items: NavItem[] };
 
 const PAGES: [prefix: string, title: string][] = [
+  ["/dashboard/visit", "ควรเยี่ยมก่อน"],
+  ["/dashboard/tasks", "งาน 9Q"],
   ["/dashboard/elders/", "สรุปรายวันผู้สูงอายุ"],
+  ["/dashboard/elders", "ผู้สูงอายุทั้งหมด"],
   ["/dashboard/digest", "สรุปรายวันย้อนหลัง"],
   ["/dashboard/guide", "คู่มือ อสม."],
   ["/dashboard/settings", "ตั้งค่า"],
@@ -53,26 +55,19 @@ function pageTitle(pathname: string): string {
   return PAGES.find(([p]) => pathname.startsWith(p))?.[1] ?? "ภาพรวมวันนี้";
 }
 
-/** The nav item that owns the current page. Hash links (#visit-first …) never own a page. */
-function activeHref(pathname: string): string {
-  if (pathname.startsWith("/demo")) return "/demo";
-  for (const p of ["/dashboard/digest", "/dashboard/guide", "/dashboard/settings"]) {
-    if (pathname.startsWith(p)) return p;
-  }
-  return "/dashboard"; // overview and elder detail pages
-}
+/** Every nav item is its own page; the longest matching prefix owns the current page. */
+const NAV_PAGES = [
+  "/dashboard/visit",
+  "/dashboard/tasks",
+  "/dashboard/elders", // list and /dashboard/elders/[id]
+  "/dashboard/digest",
+  "/dashboard/guide",
+  "/dashboard/settings",
+  "/demo",
+];
 
-function Sos({ compact = false }: { compact?: boolean }) {
-  return (
-    <a
-      href="tel:1669"
-      aria-label={compact ? "โทร 1669 ฉุกเฉิน" : undefined}
-      className="inline-flex min-h-11 min-w-11 items-center justify-center gap-1.5 rounded-full bg-brand-900 px-3 text-[13px] font-bold text-white shadow-[0_4px_16px_-2px_rgba(238,39,55,0.35)] hover:bg-brand-600 sm:px-4"
-    >
-      <Siren aria-hidden className="size-4" />
-      {!compact && <span>1669 ฉุกเฉิน</span>}
-    </a>
-  );
+function activeHref(pathname: string): string {
+  return NAV_PAGES.find((p) => pathname === p || pathname.startsWith(`${p}/`)) ?? "/dashboard";
 }
 
 export function ConsoleNav({
@@ -102,19 +97,19 @@ export function ConsoleNav({
         { label: "ภาพรวมวันนี้", href: "/dashboard", icon: LayoutDashboard },
         {
           label: "ควรเยี่ยมก่อน",
-          href: "/dashboard#visit-first",
+          href: "/dashboard/visit",
           icon: MapPinHouse,
           badge: counts.visitFirst,
           tone: "alert",
         },
         {
           label: "งาน 9Q",
-          href: "/dashboard#ninq",
+          href: "/dashboard/tasks",
           icon: ClipboardList,
           badge: counts.tasks,
           tone: "alert",
         },
-        { label: "ผู้สูงอายุทั้งหมด", href: "/dashboard#cohort", icon: Users, badge: counts.elders },
+        { label: "ผู้สูงอายุทั้งหมด", href: "/dashboard/elders", icon: Users, badge: counts.elders },
       ],
     },
     {
@@ -135,27 +130,26 @@ export function ConsoleNav({
   return (
     <>
       {/* ---------------------------------------------------------- mobile top bar */}
-      <header className="sticky top-0 z-40 flex min-h-14 items-center justify-between gap-2 border-b border-console-line/70 bg-white/95 px-2 backdrop-blur lg:hidden">
+      <header className="sticky top-0 z-40 flex min-h-14 items-center justify-between gap-2 border-b border-slate-200 bg-white/95 px-2 backdrop-blur lg:hidden">
         <button
           type="button"
           onClick={() => setOpen(true)}
           aria-expanded={open}
           aria-controls="console-sidebar"
           aria-label="เปิดเมนู"
-          className="inline-flex size-11 items-center justify-center rounded-full text-ink hover:bg-console-low"
+          className="inline-flex size-11 items-center justify-center rounded-full text-ink hover:bg-slate-100"
         >
           <Menu aria-hidden className="size-6" />
         </button>
         <Link href="/dashboard" aria-label="หลานโทรหา ภาพรวมวันนี้" className="flex items-center">
           <Logo priority className="h-9 w-auto" />
         </Link>
-        <Sos compact />
+        <span aria-hidden className="size-11" />
       </header>
 
       {/* ---------------------------------------------------------- desktop top bar */}
-      <div className="sticky top-0 z-30 hidden min-h-16 items-center justify-between gap-4 border-b border-console-line/70 bg-white/95 px-10 backdrop-blur lg:ml-64 lg:flex">
+      <div className="sticky top-0 z-30 hidden min-h-16 items-center justify-between gap-4 border-b border-slate-200 bg-white/95 px-10 backdrop-blur lg:ml-64 lg:flex">
         <span className="text-[15px] font-semibold text-ink-muted">{pageTitle(pathname)}</span>
-        <Sos />
       </div>
 
       {/* ---------------------------------------------------------- overlay (mobile) */}
@@ -167,7 +161,7 @@ export function ConsoleNav({
       <aside
         id="console-sidebar"
         aria-label="เมนูคอนโซล อสม."
-        className={`${open ? "flex" : "hidden"} fixed inset-y-0 left-0 z-50 w-64 flex-col border-r border-console-line/70 bg-white lg:flex`}
+        className={`${open ? "flex" : "hidden"} fixed inset-y-0 left-0 z-50 w-64 flex-col border-r border-slate-200 bg-white lg:flex`}
       >
         <div className="flex min-h-16 items-center justify-between gap-2 px-4">
           <Link href="/dashboard" onClick={close} aria-label="หลานโทรหา ภาพรวมวันนี้">
@@ -177,7 +171,7 @@ export function ConsoleNav({
             type="button"
             onClick={close}
             aria-label="ปิดเมนู"
-            className="inline-flex size-11 items-center justify-center rounded-full text-ink-muted hover:bg-console-low lg:hidden"
+            className="inline-flex size-11 items-center justify-center rounded-full text-ink-muted hover:bg-slate-100 lg:hidden"
           >
             <X aria-hidden className="size-5" />
           </button>
@@ -186,9 +180,7 @@ export function ConsoleNav({
         <nav aria-label="เมนูหลัก" className="flex flex-1 flex-col gap-4 overflow-y-auto px-3 pt-1">
           {groups.map((g) => (
             <div key={g.title} className="flex flex-col gap-0.5">
-              <div className="px-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-ink-muted/80">
-                {g.title}
-              </div>
+              <div className="px-3 pb-1 text-[11px] font-semibold text-ink-muted/80">{g.title}</div>
               {g.items.map(({ label, href, icon: I, badge, tone }) => {
                 const on = href === current;
                 return (
@@ -197,13 +189,13 @@ export function ConsoleNav({
                     href={href}
                     onClick={close}
                     aria-current={on ? "page" : undefined}
-                    className={`flex min-h-11 items-center gap-3 rounded-xl px-3 text-[14px] transition-colors ${on ? "bg-console-high font-bold text-brand-900" : "font-medium text-ink-muted hover:bg-console-low hover:text-ink"}`}
+                    className={`flex min-h-11 items-center gap-3 rounded-xl px-3 text-[14px] transition-colors ${on ? "bg-brand-50 font-bold text-brand-900" : "font-medium text-ink-muted hover:bg-slate-100 hover:text-ink"}`}
                   >
                     <I aria-hidden className="size-5 shrink-0" />
                     <span className="flex-1">{label}</span>
                     {badge ? (
                       <span
-                        className={`inline-flex min-w-6 items-center justify-center rounded-full px-1.5 text-[12px] font-bold ${tone === "alert" ? "bg-brand-900 text-white" : "bg-console-low text-ink-muted"}`}
+                        className={`inline-flex min-w-6 items-center justify-center rounded-full px-1.5 text-[12px] font-bold ${tone === "alert" ? "bg-brand-900 text-white" : "bg-slate-100 text-ink-muted"}`}
                       >
                         {badge}
                         <span className="sr-only"> รายการ</span>
@@ -216,10 +208,10 @@ export function ConsoleNav({
           ))}
         </nav>
 
-        <div className="flex flex-col gap-1.5 border-t border-console-line/70 px-4 py-3 text-[12px]">
+        <div className="flex flex-col gap-1.5 border-t border-slate-200 px-4 py-3 text-[12px]">
           <div className="flex items-center justify-between gap-2">
             <span className="text-ink-muted">รหัสให้ครอบครัวสมัคร</span>
-            <span className="rounded-md bg-console-low px-2 py-0.5 font-mono text-[13px] font-bold tracking-wider text-brand-900">
+            <span className="rounded-md bg-slate-100 px-2 py-0.5 font-mono text-[13px] font-bold tracking-wider text-brand-900">
               {user.referralCode}
             </span>
           </div>
@@ -238,7 +230,7 @@ export function ConsoleNav({
           </Link>
         </div>
 
-        <div className="flex items-center gap-2 border-t border-console-line/70 px-4 py-3">
+        <div className="flex items-center gap-2 border-t border-slate-200 px-4 py-3">
           <span
             aria-hidden
             className="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-100 text-sm font-bold text-brand-900"
@@ -254,7 +246,7 @@ export function ConsoleNav({
               type="submit"
               title="ออกจากระบบ"
               aria-label="ออกจากระบบ"
-              className="inline-flex size-11 items-center justify-center rounded-full text-ink-muted hover:bg-console-low hover:text-ink"
+              className="inline-flex size-11 items-center justify-center rounded-full text-ink-muted hover:bg-slate-100 hover:text-ink"
             >
               <LogOut aria-hidden className="size-[18px]" />
             </button>

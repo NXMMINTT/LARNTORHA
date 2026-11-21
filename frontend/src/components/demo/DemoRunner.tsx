@@ -43,7 +43,7 @@ const RISK_DOT = { red: "bg-danger", yellow: "bg-warn", green: "bg-ok" } as cons
 const MOOD_TH = { good: "อารมณ์ดี", neutral: "ปกติ", low: "ซึม/เหงา", unclear: "ไม่ชัด" } as const;
 const TWO_Q_TH = { not_asked: "ไม่ได้ถาม", negative: "ผลลบ", positive: "ผลบวก" } as const;
 // TC2: the first line always says it is an AI assistant the family signed up for.
-const OPENING = "สวัสดีค่ะ หนูชื่อน้องหลาน เป็นผู้ช่วย AI ที่ลูกหลานสมัครไว้ให้โทรมาถามไถ่ทุกวันค่ะ วันนี้เป็นยังไงบ้างคะ";
+const OPENING = "สวัสดีครับ ผมชื่อน้องหลาน เป็นผู้ช่วย AI ที่ลูกหลานสมัครไว้ให้โทรมาถามไถ่ทุกวันครับ วันนี้เป็นยังไงบ้างครับ";
 
 const mmss = (s: number) =>
   `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
@@ -937,7 +937,7 @@ export function DemoRunner({
                 สรุปรายวันของ{state.elderName}
               </Link>
               <Link
-                href="/dashboard"
+                href="/dashboard/elders"
                 className="inline-flex min-h-11 items-center gap-1.5 rounded-full bg-brand-900 px-4 text-[14px] font-bold text-white hover:bg-brand-600"
               >
                 ดูลำดับใน Dashboard <ArrowRight aria-hidden className="size-4" />

@@ -101,10 +101,10 @@ export default async function ElderDailyPage({ params }: { params: Promise<{ id:
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-6 lg:px-10">
       <Link
-        href="/dashboard"
+        href="/dashboard/elders"
         className="inline-flex min-h-11 items-center gap-1.5 self-start text-brand-900 underline underline-offset-4"
       >
-        <ArrowLeft aria-hidden className="size-4" /> กลับไปภาพรวม
+        <ArrowLeft aria-hidden className="size-4" /> กลับไปรายชื่อผู้สูงอายุ
       </Link>
 
       {/* ---------------------------------------------------------- profile hero */}
