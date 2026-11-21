@@ -10,6 +10,8 @@ import { SESSION_COOKIE } from "./constants";
 import type {
   DailyDigest,
   DashboardData,
+  DemoCallResult,
+  DemoScenario,
   ElderDaily,
   LoginResult,
   OsmMe,
@@ -88,12 +90,13 @@ export const getDashboard = cache(() =>
   osm(() => call<DashboardData>("GET", "/v1/osm/dashboard", { auth: true })),
 );
 
-export const getDailyDigest = (date?: string) =>
+export const getDailyDigest = cache((date?: string) =>
   osm(() =>
     call<DailyDigest>("GET", `/v1/osm/daily-digest${date ? `?date=${seg(date)}` : ""}`, {
       auth: true,
     }),
-  );
+  ),
+);
 
 export const getElderDaily = (elderId: string, days = 14) =>
   osm(() =>
@@ -118,6 +121,20 @@ export const completeTask = (elderId: string, taskId: string, note: string | nul
 
 export const createLineLinkCode = () =>
   osm(() => call<{ code: string }>("POST", "/v1/osm/line-link-code", { auth: true }));
+
+// /v1/demo/* (CLAUDE.md §6.5, §7.6). The backend mounts these only when DEMO_MODE=true; callers
+// must check isDemoMode() and that the elder belongs to the logged-in อสม. first.
+export const isDemoMode = () => process.env.DEMO_MODE === "true";
+
+export const getDemoScenarios = () => call<DemoScenario[]>("GET", "/v1/demo/scenarios");
+
+export const runDemoCall = (
+  body: { elder_id: string } & (
+    { scenario_id: string } | { transcript: { speaker: "ai" | "elder"; text: string }[] }
+  ),
+) => call<DemoCallResult>("POST", "/v1/demo/calls", { body });
+
+export const resetDemo = () => call<{ ok: boolean }>("POST", "/v1/demo/reset", { body: {} });
 
 export const register = (payload: RegisterPayload) =>
   call<RegisterResult>("POST", "/v1/public/register", { body: payload });

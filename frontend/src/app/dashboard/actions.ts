@@ -22,5 +22,5 @@ export async function completeTaskAction(elderId: string, taskId: string, fd: Fo
 
 export async function createLineLinkCodeAction() {
   await createLineLinkCode();
-  revalidatePath("/dashboard");
+  revalidatePath("/dashboard", "layout"); // overview banner + /dashboard/settings + sidebar
 }

@@ -1,14 +1,19 @@
 "use client";
-// Navigation of the อสม. console (/dashboard/*), option B chosen by the team on 2026-11-21:
-// sidebar on desktop (lg+), top bar + drawer on mobile. Only real pages are listed; add
-// "โหมดเดโม" (/demo, CLAUDE.md §7.6) here once that page exists.
+// Navigation of the อสม. console (/dashboard/*, /demo), option B chosen by the team on
+// 2026-11-21: sidebar on desktop (lg+), top bar + drawer on mobile. Only real pages are listed.
 import {
+  BookOpen,
+  CalendarDays,
   ClipboardList,
+  FlaskConical,
   LayoutDashboard,
   LogOut,
+  MapPinHouse,
   Menu,
   MessageCircle,
+  Settings,
   Siren,
+  Users,
   X,
   type LucideIcon,
 } from "lucide-react";
@@ -26,11 +31,35 @@ export interface ConsoleUser {
   lineLinked: boolean;
 }
 
-type NavItem = { label: string; href: string; icon: LucideIcon; badge?: number };
+type NavItem = {
+  label: string;
+  href: string;
+  icon: LucideIcon;
+  badge?: number;
+  /** "alert" = red count (needs action), default = neutral count. */
+  tone?: "alert";
+};
+type NavGroup = { title: string; items: NavItem[] };
+
+const PAGES: [prefix: string, title: string][] = [
+  ["/dashboard/elders/", "สรุปรายวันผู้สูงอายุ"],
+  ["/dashboard/digest", "สรุปรายวันย้อนหลัง"],
+  ["/dashboard/guide", "คู่มือ อสม."],
+  ["/dashboard/settings", "ตั้งค่า"],
+  ["/demo", "โหมดเดโม"],
+];
 
 function pageTitle(pathname: string): string {
-  if (pathname.startsWith("/dashboard/elders/")) return "สรุปรายวันผู้สูงอายุ";
-  return "ภาพรวมวันนี้";
+  return PAGES.find(([p]) => pathname.startsWith(p))?.[1] ?? "ภาพรวมวันนี้";
+}
+
+/** The nav item that owns the current page. Hash links (#visit-first …) never own a page. */
+function activeHref(pathname: string): string {
+  if (pathname.startsWith("/demo")) return "/demo";
+  for (const p of ["/dashboard/digest", "/dashboard/guide", "/dashboard/settings"]) {
+    if (pathname.startsWith(p)) return p;
+  }
+  return "/dashboard"; // overview and elder detail pages
 }
 
 function Sos({ compact = false }: { compact?: boolean }) {
@@ -46,7 +75,15 @@ function Sos({ compact = false }: { compact?: boolean }) {
   );
 }
 
-export function ConsoleNav({ user, tasksOpen }: { user: ConsoleUser; tasksOpen: number }) {
+export function ConsoleNav({
+  user,
+  counts,
+  demo,
+}: {
+  user: ConsoleUser;
+  counts: { visitFirst: number; tasks: number; elders: number };
+  demo: boolean;
+}) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
@@ -58,12 +95,42 @@ export function ConsoleNav({ user, tasksOpen }: { user: ConsoleUser; tasksOpen: 
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  const items: NavItem[] = [
-    { label: "ภาพรวมวันนี้", href: "/dashboard", icon: LayoutDashboard },
-    { label: "งาน 9Q", href: "/dashboard#ninq", icon: ClipboardList, badge: tasksOpen },
+  const groups: NavGroup[] = [
+    {
+      title: "งานวันนี้",
+      items: [
+        { label: "ภาพรวมวันนี้", href: "/dashboard", icon: LayoutDashboard },
+        {
+          label: "ควรเยี่ยมก่อน",
+          href: "/dashboard#visit-first",
+          icon: MapPinHouse,
+          badge: counts.visitFirst,
+          tone: "alert",
+        },
+        {
+          label: "งาน 9Q",
+          href: "/dashboard#ninq",
+          icon: ClipboardList,
+          badge: counts.tasks,
+          tone: "alert",
+        },
+        { label: "ผู้สูงอายุทั้งหมด", href: "/dashboard#cohort", icon: Users, badge: counts.elders },
+      ],
+    },
+    {
+      title: "ย้อนหลัง",
+      items: [{ label: "สรุปรายวัน", href: "/dashboard/digest", icon: CalendarDays }],
+    },
+    {
+      title: "เครื่องมือ",
+      items: [
+        ...(demo ? [{ label: "โหมดเดโม", href: "/demo", icon: FlaskConical }] : []),
+        { label: "คู่มือ อสม.", href: "/dashboard/guide", icon: BookOpen },
+        { label: "ตั้งค่า / เชื่อม LINE", href: "/dashboard/settings", icon: Settings },
+      ],
+    },
   ];
-  // Elder detail pages belong to "ภาพรวมวันนี้"; 9Q is a section of the same page.
-  const activeHref = pathname.startsWith("/dashboard") ? "/dashboard" : null;
+  const current = activeHref(pathname);
 
   return (
     <>
@@ -116,40 +183,51 @@ export function ConsoleNav({ user, tasksOpen }: { user: ConsoleUser; tasksOpen: 
           </button>
         </div>
 
-        <nav aria-label="เมนูหลัก" className="flex flex-col gap-1 px-3 pt-2">
-          {items.map(({ label, href, icon: I, badge }) => {
-            const on = href === activeHref;
-            return (
-              <Link
-                key={href}
-                href={href}
-                onClick={close}
-                aria-current={on ? "page" : undefined}
-                className={`flex min-h-11 items-center gap-3 rounded-xl px-3 text-[15px] transition-colors ${on ? "bg-console-high font-bold text-brand-900" : "font-medium text-ink-muted hover:bg-console-low hover:text-ink"}`}
-              >
-                <I aria-hidden className="size-5 shrink-0" />
-                <span className="flex-1">{label}</span>
-                {badge ? (
-                  <span className="inline-flex min-w-6 items-center justify-center rounded-full bg-brand-900 px-1.5 text-[12px] font-bold text-white">
-                    {badge}
-                    <span className="sr-only"> งานค้าง</span>
-                  </span>
-                ) : null}
-              </Link>
-            );
-          })}
+        <nav aria-label="เมนูหลัก" className="flex flex-1 flex-col gap-4 overflow-y-auto px-3 pt-1">
+          {groups.map((g) => (
+            <div key={g.title} className="flex flex-col gap-0.5">
+              <div className="px-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-ink-muted/80">
+                {g.title}
+              </div>
+              {g.items.map(({ label, href, icon: I, badge, tone }) => {
+                const on = href === current;
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    onClick={close}
+                    aria-current={on ? "page" : undefined}
+                    className={`flex min-h-11 items-center gap-3 rounded-xl px-3 text-[14px] transition-colors ${on ? "bg-console-high font-bold text-brand-900" : "font-medium text-ink-muted hover:bg-console-low hover:text-ink"}`}
+                  >
+                    <I aria-hidden className="size-5 shrink-0" />
+                    <span className="flex-1">{label}</span>
+                    {badge ? (
+                      <span
+                        className={`inline-flex min-w-6 items-center justify-center rounded-full px-1.5 text-[12px] font-bold ${tone === "alert" ? "bg-brand-900 text-white" : "bg-console-low text-ink-muted"}`}
+                      >
+                        {badge}
+                        <span className="sr-only"> รายการ</span>
+                      </span>
+                    ) : null}
+                  </Link>
+                );
+              })}
+            </div>
+          ))}
         </nav>
 
-        <div className="mx-4 my-4 border-t border-console-line/70" />
-
-        <div className="flex flex-col gap-3 px-4">
-          <div>
-            <div className="text-[12px] text-ink-muted">รหัส อสม. ให้ครอบครัวใช้สมัคร</div>
-            <div className="mt-1 rounded-lg bg-console-low px-3 py-2 font-mono text-[15px] font-bold tracking-wider text-brand-900">
+        <div className="flex flex-col gap-1.5 border-t border-console-line/70 px-4 py-3 text-[12px]">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-ink-muted">รหัสให้ครอบครัวสมัคร</span>
+            <span className="rounded-md bg-console-low px-2 py-0.5 font-mono text-[13px] font-bold tracking-wider text-brand-900">
               {user.referralCode}
-            </div>
+            </span>
           </div>
-          <div className="flex items-center gap-2 text-[13px]">
+          <Link
+            href="/dashboard/settings"
+            onClick={close}
+            className="flex min-h-8 items-center gap-1.5 hover:underline"
+          >
             <MessageCircle
               aria-hidden
               className={`size-4 ${user.lineLinked ? "text-[#06c755]" : "text-ink-muted"}`}
@@ -157,10 +235,10 @@ export function ConsoleNav({ user, tasksOpen }: { user: ConsoleUser; tasksOpen: 
             <span className={user.lineLinked ? "text-ink" : "text-ink-muted"}>
               {user.lineLinked ? "เชื่อม LINE แล้ว" : "ยังไม่ได้เชื่อม LINE"}
             </span>
-          </div>
+          </Link>
         </div>
 
-        <div className="mt-auto flex items-center gap-2 border-t border-console-line/70 px-4 py-3">
+        <div className="flex items-center gap-2 border-t border-console-line/70 px-4 py-3">
           <span
             aria-hidden
             className="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-100 text-sm font-bold text-brand-900"

@@ -184,3 +184,60 @@ export interface RegisterResult {
   link_code: string;
   expires_at: string;
 }
+
+/** GET /v1/demo/scenarios */
+export interface DemoScenario {
+  id: string;
+  title: string;
+  expected_risk: RiskLevel;
+}
+
+export interface TranscriptTurn {
+  speaker: "ai" | "elder" | "other";
+  text: string;
+  asr_confidence?: number | null;
+}
+
+/** CallAnalysis from the backend (CLAUDE.md §5A). */
+export interface CallAnalysis {
+  summary_family: string;
+  summary_osm: string;
+  topics: string[];
+  med_taken: boolean | null;
+  risk_level: RiskLevel;
+  risk_reasons: string[];
+  evidence: string[];
+  urgent_reason: string | null;
+  two_q: "not_asked" | "negative" | "positive";
+  mood: Mood;
+  transcript_quality: "good" | "poor";
+  ai_status: AiStatus;
+  rule_flags: string[];
+  self_harm: boolean;
+  model_id: string | null;
+  prompt_version: string;
+  latency_ms: number;
+}
+
+/** A LINE Flex message as built by backend/app/domain/line_cards.py. */
+export interface FlexMessage {
+  type: "flex";
+  altText: string;
+  contents: Record<string, unknown>;
+}
+
+/** POST /v1/demo/calls */
+export interface DemoCallResult {
+  ok: boolean;
+  call_id: string;
+  status: ElderStatus;
+  reasons: string[];
+  card: string | null;
+  risk_level: RiskLevel | null;
+  ai_status: AiStatus | null;
+  notified: number;
+  warnings: string[];
+  transcript: TranscriptTurn[];
+  analysis: CallAnalysis | null;
+  cards: { to: "guardian" | "osm"; kind: string | null; message: FlexMessage }[];
+}
