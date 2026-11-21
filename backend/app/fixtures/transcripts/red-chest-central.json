@@ -1,0 +1,27 @@
+{
+  "id": "red-chest-central",
+  "title": "เร่งด่วน — แน่นหน้าอก ไทยกลาง",
+  "expected_risk": "red",
+  "expected_med_taken": null,
+  "expected_two_q": "not_asked",
+  "transcript": [
+    {
+      "speaker": "ai",
+      "text": "สวัสดีครับคุณตา วันนี้เป็นอย่างไรบ้างครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "แน่นหน้าอกมากเลย เหงื่อออกเต็มตัว",
+      "asr_confidence": 0.86
+    },
+    {
+      "speaker": "ai",
+      "text": "เป็นมานานหรือยังครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "เพิ่งเป็นเมื่อครึ่งชั่วโมงก่อน ร้าวไปที่แขนซ้ายด้วย",
+      "asr_confidence": 0.86
+    }
+  ]
+}

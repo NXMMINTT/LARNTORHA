@@ -62,6 +62,8 @@ class Settings(BaseSettings):
             problems.append("REPO_DRIVER=memory is not allowed in production")
         if self.demo_mode:
             problems.append("DEMO_MODE must be false in production")
+        if self.seed_demo:
+            problems.append("SEED_DEMO must be false in production")
         if self.ai_provider != "bedrock":
             problems.append("AI_PROVIDER must be bedrock in production")
         for name in ("bedrock_model_id", "bedrock_guardrail_id", "bedrock_guardrail_version"):

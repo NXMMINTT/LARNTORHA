@@ -1,0 +1,27 @@
+{
+  "id": "yellow-unclear-asr",
+  "title": "ต้องติดตาม — ฟังไม่ชัด",
+  "expected_risk": "yellow",
+  "expected_med_taken": null,
+  "expected_two_q": "not_asked",
+  "transcript": [
+    {
+      "speaker": "ai",
+      "text": "สวัสดีครับคุณตา วันนี้เป็นอย่างไรบ้างครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "อือ... ที่... ไป... ม่าย...",
+      "asr_confidence": 0.31
+    },
+    {
+      "speaker": "ai",
+      "text": "ขอโทษครับ ผมฟังไม่ค่อยชัด กินยาแล้วหรือยังครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "...ยา... อือ...",
+      "asr_confidence": 0.28
+    }
+  ]
+}

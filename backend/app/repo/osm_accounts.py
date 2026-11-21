@@ -11,7 +11,7 @@ from pathlib import Path
 
 from app.auth import hash_password
 from app.domain.models import Osm
-from app.repo.memory import MemoryRepo
+from app.repo.base import Repo
 
 REFERRAL_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"  # no 0/O/1/I (CLAUDE.md §4)
 
@@ -22,7 +22,7 @@ def read_accounts(path: Path) -> list[Osm]:
     return [Osm.model_validate(o) for o in json.loads(path.read_text(encoding="utf-8"))]
 
 
-def load_into(repo: MemoryRepo, path: Path) -> int:
+def load_into(repo: Repo, path: Path) -> int:
     accounts = read_accounts(path)
     for osm in accounts:
         repo.put_osm(osm)

@@ -2,19 +2,25 @@ import base64
 import hashlib
 import hmac
 import json
+from collections.abc import Iterator
 from datetime import UTC, datetime, timedelta
+from pathlib import Path
 from typing import Any
 
+import boto3
 import pytest
 from fastapi.testclient import TestClient
+from moto import mock_aws
 
 from app.ai.fake import FakeAnalyzer
 from app.auth import hash_password, issue_session, verify_password, verify_session
 from app.config import Settings
 from app.deps import Deps
-from app.domain.models import Guardian, Osm
+from app.domain.models import Elder, Guardian, NotificationLog, Osm
 from app.line_client import LineClient, SendResult
 from app.main import create_app
+from app.repo.base import Repo
+from app.repo.dynamo import DynamoRepo
 from app.repo.memory import MemoryRepo
 from app.repo.seed import OSM_ID, seed
 
@@ -48,8 +54,45 @@ class RecordingLine(LineClient):
         return SendResult(True)
 
 
+TABLE_SPEC = Path(__file__).resolve().parents[2] / "infra" / "dynamodb-table.json"
+
+
+def put_elder(repo: Repo, e: Elder) -> None:
+    """Tests change consents/ownership directly; the Repo protocol has no elder update."""
+    if isinstance(repo, DynamoRepo):
+        repo._table.put_item(Item=repo._elder_item(e))
+    else:
+        assert isinstance(repo, MemoryRepo)
+        repo.elders[e.id] = e
+
+
+def notifications(repo: Repo, elder_id: str) -> list[NotificationLog]:
+    """Notification log, oldest first, from either driver."""
+    if isinstance(repo, DynamoRepo):
+        items = repo._query(
+            KeyConditionExpression="PK = :pk AND begins_with(SK, :sk)",
+            ExpressionAttributeValues={":pk": f"ELDER#{elder_id}", ":sk": "NOTIF#"},
+        )
+        return [NotificationLog.model_validate_json(str(i["data"])) for i in items]
+    assert isinstance(repo, MemoryRepo)
+    return [n for n in repo.notifications if n.elder_id == elder_id]
+
+
+@pytest.fixture(params=["memory", "dynamo"])
+def repo(request: pytest.FixtureRequest) -> Iterator[Repo]:
+    """Every API test runs on both drivers; DynamoDB is mocked with moto (CLAUDE.md §13)."""
+    if request.param == "memory":
+        yield MemoryRepo()
+        return
+    with mock_aws():
+        spec = json.loads(TABLE_SPEC.read_text(encoding="utf-8"))
+        spec.pop("SSESpecification", None)
+        boto3.client("dynamodb", region_name="ap-southeast-1").create_table(**spec)
+        yield DynamoRepo(spec["TableName"], "ap-southeast-1")
+
+
 @pytest.fixture
-def env() -> dict[str, Any]:
+def env(repo: Repo) -> dict[str, Any]:
     settings = Settings(
         _env_file=None,
         internal_api_token=TOKEN,
@@ -59,7 +102,6 @@ def env() -> dict[str, Any]:
         demo_mode=True,
         app_base_url="https://app.test",
     )
-    repo = MemoryRepo()
     seed(repo)
     analyzer = CountingAnalyzer()
     line = RecordingLine()
@@ -68,13 +110,13 @@ def env() -> dict[str, Any]:
     return {"client": client, "repo": repo, "line": line, "analyzer": analyzer, "deps": deps}
 
 
-def link_guardian(repo: MemoryRepo, elder_id: str, user: str = "Ufamily") -> None:
+def link_guardian(repo: Repo, elder_id: str, user: str = "Ufamily") -> None:
     g = repo.list_guardians(elder_id)[0]
     g.line_user_id = user
     repo.put_guardian(g)
 
 
-def link_osm(repo: MemoryRepo, user: str = "Uosm") -> None:
+def link_osm(repo: Repo, user: str = "Uosm") -> None:
     o = repo.get_osm(OSM_ID)
     assert o
     o.line_user_id = user
@@ -198,7 +240,7 @@ def test_no_family_consent_no_guardian_push(env: dict[str, Any]) -> None:
     e = repo.get_elder("eld_somsri")
     assert e
     e.consents.family_summary = False
-    repo.elders[e.id] = e
+    put_elder(repo, e)
     link_guardian(repo, "eld_somsri")
     j = post_call(env["client"]).json()
     assert j["notified"] == 0
@@ -210,7 +252,7 @@ def test_no_2q_consent_drops_result(env: dict[str, Any]) -> None:
     e = repo.get_elder("eld_somsri")
     assert e
     e.consents.screening_2q = False
-    repo.elders[e.id] = e
+    put_elder(repo, e)
     r = env["client"].post(
         "/v1/calls",
         json={
@@ -235,7 +277,7 @@ def test_push_failure_does_not_crash(env: dict[str, Any]) -> None:
     r = post_call(env["client"])
     assert r.status_code == 201
     assert r.json()["notified"] == 0
-    assert env["repo"].notifications[-1].ok is False
+    assert notifications(env["repo"], "eld_somsri")[-1].ok is False
 
 
 def test_no_answer_skips_analysis(env: dict[str, Any]) -> None:
@@ -410,11 +452,11 @@ def test_dashboard_order_and_visibility(env: dict[str, Any]) -> None:
     e = repo.get_elder("eld_somsri")
     assert e
     e.consents.osm_share = False
-    repo.elders[e.id] = e
+    put_elder(repo, e)
     other = repo.get_elder("eld_kham")
     assert other
     other.osm_id = "osm_other"
-    repo.elders[other.id] = other
+    put_elder(repo, other)
     data = c.get("/v1/osm/dashboard", headers=login(c)).json()
     names = [r["name"] for r in data["rows"]]
     assert "ยายสมศรี" not in names and "ยายคำ" not in names
@@ -483,7 +525,7 @@ def test_register_ok_and_normalizes(env: dict[str, Any]) -> None:
     r = env["client"].post("/v1/public/register", json=reg_body(), headers=H)
     assert r.status_code == 201
     assert r.json()["link_code"].startswith("LTH-")
-    e = next(x for x in env["repo"].elders.values() if x.name == "ยายทดสอบ")
+    e = next(x for x in env["repo"].list_elders_by_osm(OSM_ID) if x.name == "ยายทดสอบ")
     assert e.phone == "0891234567"
     assert e.medications[0].times == ["08:00"]
 
@@ -526,7 +568,11 @@ def test_demo_scenario_runs_full_pipeline(env: dict[str, Any]) -> None:
     assert any(card["to"] == "guardian" and card["kind"] == "red" for card in j["cards"])
     rows = c.get("/v1/osm/dashboard", headers=login(c)).json()["rows"]
     assert rows[0]["name"] in ("ตาสมชาย", "ยายสมศรี") and rows[1]["status"] == "red"
-    assert c.post("/v1/demo/reset", headers=H).json() == {"ok": True}
+    reset = c.post("/v1/demo/reset", headers=H).json()
+    if isinstance(env["repo"], DynamoRepo):  # reset is for the in-memory demo only (§6.5)
+        assert reset["error"] == "reset_only_for_memory_repo"
+        return
+    assert reset == {"ok": True}
 
 
 def test_demo_line_user_linked_on_seed() -> None:

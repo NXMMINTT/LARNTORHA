@@ -1,0 +1,27 @@
+{
+  "id": "red-breathless",
+  "title": "เร่งด่วน — หายใจไม่ออก",
+  "expected_risk": "red",
+  "expected_med_taken": null,
+  "expected_two_q": "not_asked",
+  "transcript": [
+    {
+      "speaker": "ai",
+      "text": "สวัสดีครับคุณตา วันนี้เป็นอย่างไรบ้างครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "หายใจไม่ค่อยออกเลย เหนื่อยหอบ พูดแล้วต้องหยุดพัก",
+      "asr_confidence": 0.78
+    },
+    {
+      "speaker": "ai",
+      "text": "ตอนนี้อยู่กับใครไหมครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "อยู่คนเดียว หอบมาตั้งแต่เมื่อคืน",
+      "asr_confidence": 0.75
+    }
+  ]
+}

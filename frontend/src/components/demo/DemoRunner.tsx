@@ -722,7 +722,7 @@ export function DemoRunner({
                 </li>
               ),
             )}
-            {speech.listening && (
+            {(speech.listening || speech.interim) && (
               <li className="flex justify-end">
                 <div className="max-w-[80%] rounded-2xl rounded-br-sm border-2 border-dashed border-brand-900/40 bg-white px-3.5 py-2.5 text-[15px] text-ink-muted">
                   <span className="mr-1.5 inline-block size-2 animate-pulse rounded-full bg-brand-900" />
@@ -777,7 +777,7 @@ export function DemoRunner({
                 </>
               ) : (
                 <span className="text-[13px] text-yellow-800">
-                  เบราว์เซอร์นี้แปลงเสียงไม่ได้ ใช้ Chrome หรือ Edge หรือพิมพ์ด้านล่างแทน
+                  เบราว์เซอร์นี้อัดเสียงจากไมค์ไม่ได้ พิมพ์ด้านล่างแทน
                 </span>
               )}
               {speech.error && (
@@ -900,7 +900,7 @@ export function DemoRunner({
             </form>
             <p className="m-0 text-[12px] text-ink-muted">
               {voice
-                ? "เสียงแปลงเป็นข้อความด้วยระบบของเบราว์เซอร์ (ใช้ข้อมูลสมมติเท่านั้น) น้องหลานตอบด้วย Amazon Bedrock คำเร่งด่วนตรวจด้วยกฎตายตัวเสมอ"
+                ? "เสียงแปลงเป็นข้อความด้วย Amazon Transcribe (ใช้ข้อมูลสมมติเท่านั้น ไม่เก็บไฟล์เสียง) น้องหลานตอบด้วย Amazon Bedrock คำเร่งด่วนตรวจด้วยกฎตายตัวเสมอ"
                 : auto
                   ? "น้องหลานและผู้สูงอายุจำลองตอบด้วย Amazon Bedrock ทีละประโยค คำเร่งด่วนตรวจด้วยกฎตายตัวเสมอ"
                   : "บทของน้องหลานมาจากสถานการณ์ตัวอย่างหรือพิมพ์เอง ส่วนการสรุปหลังวางสายใช้ Amazon Bedrock จริง"}

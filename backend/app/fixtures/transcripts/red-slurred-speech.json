@@ -1,0 +1,27 @@
+{
+  "id": "red-slurred-speech",
+  "title": "เร่งด่วน — พูดไม่ชัดและแขนอ่อนแรงเฉียบพลัน",
+  "expected_risk": "red",
+  "expected_med_taken": null,
+  "expected_two_q": "not_asked",
+  "transcript": [
+    {
+      "speaker": "ai",
+      "text": "สวัสดีครับคุณยาย วันนี้เป็นอย่างไรบ้างครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "ตื่นมาเช้านี้ปากมันเบี้ยว พูดไม่ค่อยชัด",
+      "asr_confidence": 0.62
+    },
+    {
+      "speaker": "ai",
+      "text": "แล้วแขนขามีแรงดีไหมครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "แขนขวายกไม่ขึ้นเลย อ่อนแรงไปข้างเดียว",
+      "asr_confidence": 0.66
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "green-northern",
+  "title": "ปกติ — ภาษาเหนือ",
+  "expected_risk": "green",
+  "expected_med_taken": true,
+  "expected_two_q": "not_asked",
+  "transcript": [
+    {
+      "speaker": "ai",
+      "text": "สวัสดีครับแม่อุ๊ย วันนี้เป็นจะใดบ้างครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "สบายดีเจ้า เช้านี้ไปกาดมาแล้ว ซื้อผักมาแกงแค",
+      "asr_confidence": 0.86
+    },
+    {
+      "speaker": "ai",
+      "text": "กิ๋นยาเบาหวานตอนเช้าแล้วกาครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "กิ๋นแล้วเจ้า กิ๋นหลังข้าวทุกวัน บ่ลืม",
+      "asr_confidence": 0.86
+    }
+  ]
+}

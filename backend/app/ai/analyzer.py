@@ -27,6 +27,7 @@ from app.domain.models import (
     max_risk,
 )
 from app.domain.red_flags import RuleResult, check_transcript
+from app.metrics import count
 
 log = logging.getLogger("larntorha.ai")
 
@@ -142,7 +143,8 @@ def fallback(
     latency_ms: int,
     model: str | None,
 ) -> CallAnalysis:
-    log.warning("bedrock_fallback reason=%s", reason)  # metric for CloudWatch alarm (§5A.5)
+    log.warning("bedrock_fallback reason=%s", reason)
+    count("bedrock_fallback", reason=reason)  # CloudWatch metric + alarm (§5A.5)
     flags = ", ".join(f for f in rules.flags if not f.startswith("negated:"))
     risk = max_risk(rules.risk, "yellow")
     reasons = [rules.urgent_term] if rules.urgent_term else []

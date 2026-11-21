@@ -1,0 +1,71 @@
+{
+  "name": "larntorha-call-analysis",
+  "description": "หลานโทรหา: กันไม่ให้สรุปสายแนะนำยา วินิจฉัยโรค หรือขอข้อมูลการเงิน และปิดบังเลขบัตร/บัญชี/เบอร์โทรใน output (CLAUDE.md §5A.7)",
+  "blockedInputMessaging": "ระบบสรุปอัตโนมัติไม่สามารถประมวลผลสายนี้ได้",
+  "blockedOutputsMessaging": "ระบบสรุปอัตโนมัติไม่สามารถประมวลผลสายนี้ได้",
+  "topicPolicyConfig": {
+    "topicsConfig": [
+      {
+        "name": "MedicationAdvice",
+        "definition": "Recommending a medicine, a dose, how to take a medicine, or a treatment for the elder.",
+        "examples": ["ควรกินยาพาราสองเม็ด", "ให้เพิ่มยาความดันเป็นวันละสองครั้ง"],
+        "type": "DENY",
+        "inputEnabled": false,
+        "outputEnabled": true,
+        "outputAction": "BLOCK"
+      },
+      {
+        "name": "Diagnosis",
+        "definition": "Stating that the elder has a specific disease or medical condition as a diagnosis.",
+        "examples": ["คุณยายเป็นโรคหัวใจ", "อาการนี้คือเส้นเลือดในสมองแตกแน่นอน"],
+        "type": "DENY",
+        "inputEnabled": false,
+        "outputEnabled": true,
+        "outputAction": "BLOCK"
+      },
+      {
+        "name": "FinancialDataRequest",
+        "definition": "Asking for or repeating bank account numbers, OTP codes, card numbers or money transfers.",
+        "examples": ["บอกเลข OTP ให้หน่อย", "โอนเงินเข้าบัญชีนี้"],
+        "type": "DENY",
+        "inputEnabled": false,
+        "outputEnabled": true,
+        "outputAction": "BLOCK"
+      }
+    ]
+  },
+  "sensitiveInformationPolicyConfig": {
+    "piiEntitiesConfig": [
+      { "type": "PHONE", "action": "ANONYMIZE", "inputEnabled": false, "outputEnabled": true, "outputAction": "ANONYMIZE" }
+    ],
+    "regexesConfig": [
+      {
+        "name": "ThaiNationalId",
+        "description": "เลขบัตรประชาชน 13 หลัก",
+        "pattern": "\b\d[- ]?\d{4}[- ]?\d{5}[- ]?\d{2}[- ]?\d\b",
+        "action": "ANONYMIZE",
+        "inputEnabled": false,
+        "outputEnabled": true,
+        "outputAction": "ANONYMIZE"
+      },
+      {
+        "name": "ThaiBankAccount",
+        "description": "เลขบัญชีธนาคาร 10–12 หลัก",
+        "pattern": "\b\d{3}[- ]?\d[- ]?\d{5}[- ]?\d{1,3}\b",
+        "action": "ANONYMIZE",
+        "inputEnabled": false,
+        "outputEnabled": true,
+        "outputAction": "ANONYMIZE"
+      },
+      {
+        "name": "ThaiPhone",
+        "description": "เบอร์โทรไทย",
+        "pattern": "\b0\d{1,2}[- ]?\d{3}[- ]?\d{4}\b",
+        "action": "ANONYMIZE",
+        "inputEnabled": false,
+        "outputEnabled": true,
+        "outputAction": "ANONYMIZE"
+      }
+    ]
+  }
+}

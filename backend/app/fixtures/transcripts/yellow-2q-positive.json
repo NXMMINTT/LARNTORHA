@@ -1,0 +1,36 @@
+{
+  "id": "yellow-2q-positive",
+  "title": "ต้องติดตาม — คัดกรอง 2Q ผลบวก",
+  "expected_risk": "yellow",
+  "expected_med_taken": true,
+  "expected_two_q": "positive",
+  "transcript": [
+    {
+      "speaker": "ai",
+      "text": "สวัสดีครับคุณยาย วันนี้กินยาแล้วหรือยังครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "กินแล้ว",
+      "asr_confidence": 0.86
+    },
+    {
+      "speaker": "ai",
+      "text": "ขอถามสองข้อนะครับ ช่วงสองสัปดาห์ที่ผ่านมา รู้สึกหดหู่ เศร้า หรือท้อแท้สิ้นหวังไหมครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "มีจ้า เศร้าบ่อย ๆ ตั้งแต่ตาเขาไม่อยู่",
+      "asr_confidence": 0.86
+    },
+    {
+      "speaker": "ai",
+      "text": "แล้วรู้สึกเบื่อ ทำอะไรก็ไม่เพลิดเพลินไหมครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "เบื่อจ้า ไม่อยากทำอะไรเลย",
+      "asr_confidence": 0.86
+    }
+  ]
+}

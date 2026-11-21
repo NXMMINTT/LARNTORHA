@@ -7,10 +7,11 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any, Literal
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel, Field, model_validator
 
 from app.ai.live_call import LiveCallSettings, ScenarioBrief, next_turn
+from app.ai.transcribe import MAX_BYTES, transcribe_pcm
 from app.domain.models import TranscriptTurn
 from app.repo.memory import MemoryRepo
 from app.repo.osm_accounts import load_into
@@ -123,6 +124,19 @@ def live_turn(body: LiveTurnIn, deps: DepsDep) -> dict[str, Any]:
         deps.live_client, live_settings, body.role, call_context(deps, elder), body.history, brief
     )
     return turn.as_dict()
+
+
+@router.post("/transcribe")
+async def transcribe(request: Request, deps: DepsDep) -> dict[str, str]:
+    """Voice demo: 16 kHz mono 16-bit PCM in, Thai text out (Amazon Transcribe, th-TH)."""
+    pcm = await request.body()
+    if not pcm or len(pcm) > MAX_BYTES or len(pcm) % 2:
+        raise HTTPException(422, "bad_audio")
+    try:
+        text = await transcribe_pcm(pcm, deps.settings.aws_region)
+    except Exception as e:
+        raise HTTPException(502, "transcribe_failed") from e
+    return {"text": text}
 
 
 @router.post("/reset")

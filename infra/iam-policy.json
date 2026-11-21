@@ -21,7 +21,9 @@
     {
       "Sid": "BedrockInvokeChosenModelOnly",
       "Effect": "Allow",
-      "Action": ["bedrock:InvokeModel"],
+      "Action": [
+        "bedrock:InvokeModel"
+      ],
       "Resource": [
         "arn:aws:bedrock:ap-southeast-1:<ACCOUNT_ID>:inference-profile/<BEDROCK_MODEL_ID>",
         "arn:aws:bedrock:*::foundation-model/<FOUNDATION_MODEL_ID>"
@@ -30,15 +32,32 @@
     {
       "Sid": "BedrockGuardrailChosenOnly",
       "Effect": "Allow",
-      "Action": ["bedrock:ApplyGuardrail"],
+      "Action": [
+        "bedrock:ApplyGuardrail"
+      ],
       "Resource": "arn:aws:bedrock:ap-southeast-1:<ACCOUNT_ID>:guardrail/<BEDROCK_GUARDRAIL_ID>"
+    },
+    {
+      "Sid": "TranscribeDemoVoice",
+      "Effect": "Allow",
+      "Action": [
+        "transcribe:StartStreamTranscription",
+        "transcribe:StartStreamTranscriptionWebSocket"
+      ],
+      "Resource": "*"
     },
     {
       "Sid": "FallbackMetric",
       "Effect": "Allow",
-      "Action": ["cloudwatch:PutMetricData"],
+      "Action": [
+        "cloudwatch:PutMetricData"
+      ],
       "Resource": "*",
-      "Condition": { "StringEquals": { "cloudwatch:namespace": "LarnTorHa" } }
+      "Condition": {
+        "StringEquals": {
+          "cloudwatch:namespace": "LarnTorHa"
+        }
+      }
     }
   ]
 }

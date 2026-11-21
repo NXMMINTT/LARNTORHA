@@ -10,9 +10,10 @@ from app.auth import RateLimiter
 from app.config import Settings
 from app.line_client import LineClient
 from app.repo.base import Repo
+from app.repo.dynamo import DynamoRepo
 from app.repo.memory import MemoryRepo
 from app.repo.osm_accounts import load_into
-from app.repo.seed import link_demo_line, seed
+from app.repo.seed import OSM_ID, link_demo_line, seed
 
 
 @dataclass
@@ -39,10 +40,13 @@ def build_analyzer(s: Settings) -> Analyzer:
 
 
 def build_deps(s: Settings) -> Deps:
+    repo: Repo
     if s.repo_driver == "dynamodb":
-        raise RuntimeError("REPO_DRIVER=dynamodb is not implemented yet (M4)")
-    repo = MemoryRepo()
-    if s.seed_demo:
+        repo = DynamoRepo(s.dynamodb_table, s.aws_region, s.dynamodb_endpoint_url)
+    else:
+        repo = MemoryRepo()
+    # A persistent table is seeded once (the demo อสม. is the marker).
+    if s.seed_demo and not (s.repo_driver == "dynamodb" and repo.get_osm(OSM_ID)):
         seed(repo)
         if not s.is_production:
             link_demo_line(repo, s.line_to_user_ids)

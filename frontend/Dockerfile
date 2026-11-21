@@ -7,7 +7,9 @@ FROM node:24-alpine AS build
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-ENV NEXT_TELEMETRY_DISABLED=1
+# NEXT_PUBLIC_* values are inlined at build time (.env is not copied into the image).
+ARG NEXT_PUBLIC_LINE_OA_URL=""
+ENV NEXT_PUBLIC_LINE_OA_URL=$NEXT_PUBLIC_LINE_OA_URL NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
 FROM node:24-alpine AS run

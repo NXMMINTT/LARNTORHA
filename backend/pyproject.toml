@@ -10,6 +10,7 @@ dependencies = [
     "pydantic-settings>=2.6",
     "boto3>=1.35",
     "httpx>=0.27",
+    "amazon-transcribe>=0.6.4",
 ]
 
 [dependency-groups]

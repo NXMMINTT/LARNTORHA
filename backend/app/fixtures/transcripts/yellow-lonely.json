@@ -1,0 +1,27 @@
+{
+  "id": "yellow-lonely",
+  "title": "ต้องติดตาม — เหงา ซึม",
+  "expected_risk": "yellow",
+  "expected_med_taken": true,
+  "expected_two_q": "not_asked",
+  "transcript": [
+    {
+      "speaker": "ai",
+      "text": "สวัสดีครับคุณตา วันนี้เป็นอย่างไรบ้างครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "ก็อยู่ไปวัน ๆ เหงา ไม่มีใครมาหาเลย ไม่อยากทำอะไร",
+      "asr_confidence": 0.86
+    },
+    {
+      "speaker": "ai",
+      "text": "กินยาเช้าแล้วหรือยังครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "กินแล้ว แต่ข้าวไม่ค่อยอยากกิน",
+      "asr_confidence": 0.86
+    }
+  ]
+}

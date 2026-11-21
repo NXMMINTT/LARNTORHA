@@ -1,0 +1,27 @@
+{
+  "id": "red-fall-cant-stand-northern",
+  "title": "เร่งด่วน — ล้มลุกไม่ได้ ภาษาเหนือ",
+  "expected_risk": "red",
+  "expected_med_taken": null,
+  "expected_two_q": "not_asked",
+  "transcript": [
+    {
+      "speaker": "ai",
+      "text": "สวัสดีครับแม่อุ๊ย วันนี้เป็นจะใดบ้างครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "ล้มในห้องน้ำเจ้า ลุกบ่ได้ ขาเจ็บแฮง",
+      "asr_confidence": 0.8
+    },
+    {
+      "speaker": "ai",
+      "text": "ตอนนี้ยังอยู่ในห้องน้ำไหมครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "อยู่เจ้า ลุกบ่ไหว",
+      "asr_confidence": 0.8
+    }
+  ]
+}

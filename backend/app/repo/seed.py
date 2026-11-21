@@ -16,7 +16,7 @@ from app.domain.models import (
     NineQTask,
     Osm,
 )
-from app.repo.memory import MemoryRepo
+from app.repo.base import Repo
 
 OSM_ID = "osm_0000000000000000demo"
 
@@ -86,7 +86,7 @@ def _call_time(now: datetime, days_ago: int, hhmm: str, jitter: int) -> datetime
     return (day - timedelta(days=days_ago + shift) + timedelta(minutes=jitter)).astimezone(UTC)
 
 
-def seed(repo: MemoryRepo, now: datetime | None = None) -> None:
+def seed(repo: Repo, now: datetime | None = None) -> None:
     now = now or datetime.now(UTC)
     created = now - timedelta(days=30)
     repo.put_osm(
@@ -335,7 +335,7 @@ def seed(repo: MemoryRepo, now: datetime | None = None) -> None:
 DEMO_LINE_ELDER = "eld_samlee"
 
 
-def link_demo_line(repo: MemoryRepo, line_user_ids: str) -> None:
+def link_demo_line(repo: Repo, line_user_ids: str) -> None:
     """Dev only: link the first LINE_TO_USER_IDS account as ยายสำลี's guardian, so the rich menu
     and demo calls reach a real phone without typing a link code after every restart."""
     user_id = next((u.strip() for u in line_user_ids.split(",") if u.strip()), None)

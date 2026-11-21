@@ -145,6 +145,24 @@ export const runLiveTurn = (body: {
 
 export const resetDemo = () => call<{ ok: boolean }>("POST", "/v1/demo/reset", { body: {} });
 
+/** Voice demo: raw 16 kHz mono 16-bit PCM → Thai text (Amazon Transcribe on the backend). */
+export async function transcribeDemo(pcm: ArrayBuffer): Promise<string> {
+  const base = process.env.BACKEND_URL;
+  const token = process.env.INTERNAL_API_TOKEN;
+  if (!base || !token) throw new Error("BACKEND_URL and INTERNAL_API_TOKEN must be set");
+  const res = await fetch(`${base}/v1/demo/transcribe`, {
+    method: "POST",
+    headers: { "X-Internal-Token": token, "Content-Type": "application/octet-stream" },
+    body: pcm,
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    const err = (await res.json().catch(() => ({}))) as { error?: string };
+    throw new ApiError(res.status, err.error ?? "http_error");
+  }
+  return ((await res.json()) as { text: string }).text;
+}
+
 export const register = (payload: RegisterPayload) =>
   call<RegisterResult>("POST", "/v1/public/register", { body: payload });
 

@@ -1,0 +1,27 @@
+{
+  "id": "yellow-fever",
+  "title": "ต้องติดตาม — มีไข้ ปวดหัว",
+  "expected_risk": "yellow",
+  "expected_med_taken": true,
+  "expected_two_q": "not_asked",
+  "transcript": [
+    {
+      "speaker": "ai",
+      "text": "สวัสดีครับคุณยาย วันนี้เป็นอย่างไรบ้างครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "ตัวร้อน ๆ เป็นไข้มาสองวันแล้ว ปวดหัวด้วย กินข้าวไม่ค่อยลง",
+      "asr_confidence": 0.86
+    },
+    {
+      "speaker": "ai",
+      "text": "กินยาความดันตอนเช้าแล้วหรือยังครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "กินแล้วจ้า",
+      "asr_confidence": 0.86
+    }
+  ]
+}

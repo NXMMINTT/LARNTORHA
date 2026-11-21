@@ -1,0 +1,27 @@
+{
+  "id": "green-grandchild",
+  "title": "ปกติ — เล่าเรื่องหลานมาเยี่ยม",
+  "expected_risk": "green",
+  "expected_med_taken": true,
+  "expected_two_q": "not_asked",
+  "transcript": [
+    {
+      "speaker": "ai",
+      "text": "สวัสดีครับคุณยาย ผมน้องหลาน ผู้ช่วย AI นะครับ วันนี้เป็นอย่างไรบ้างครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "สบายดีจ้า เมื่อวานหลานสาวกลับมาเยี่ยม พาไปกินก๋วยเตี๋ยวหน้าวัด",
+      "asr_confidence": 0.86
+    },
+    {
+      "speaker": "ai",
+      "text": "ดีจังเลยครับ แล้ววันนี้กินยาความดันตอนเช้าแล้วหรือยังครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "กินแล้วจ้า กินตอนแปดโมงหลังข้าวเช้า",
+      "asr_confidence": 0.86
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "tricky-fall-last-year",
+  "title": "หลอก — เคยล้มเมื่อปีก่อน ตอนนี้ปกติ",
+  "expected_risk": "green",
+  "expected_med_taken": true,
+  "expected_two_q": "not_asked",
+  "transcript": [
+    {
+      "speaker": "ai",
+      "text": "สวัสดีครับคุณยาย วันนี้เดินเหินสะดวกไหมครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "สะดวกดีจ้า เมื่อปีก่อนเคยล้มในครัว แต่หายดีนานแล้ว ตอนนี้เดินได้ปกติ",
+      "asr_confidence": 0.86
+    },
+    {
+      "speaker": "ai",
+      "text": "กินยาเช้าแล้วหรือยังครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "กินแล้วจ้า",
+      "asr_confidence": 0.86
+    }
+  ]
+}

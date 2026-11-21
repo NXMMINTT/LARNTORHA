@@ -1,0 +1,27 @@
+{
+  "id": "red-self-harm-isan",
+  "title": "เร่งด่วน — ไม่อยากมีชีวิตอยู่ ภาษาอีสาน",
+  "expected_risk": "red",
+  "expected_med_taken": true,
+  "expected_two_q": "not_asked",
+  "transcript": [
+    {
+      "speaker": "ai",
+      "text": "สวัสดีครับคุณยาย วันนี้กินยาแล้วหรือยังครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "กินแล้ว",
+      "asr_confidence": 0.86
+    },
+    {
+      "speaker": "ai",
+      "text": "แล้ววันนี้รู้สึกอย่างไรบ้างครับ"
+    },
+    {
+      "speaker": "elder",
+      "text": "บ่อยากอยู่แล้วลูก อยู่ไปกะเป็นภาระ อยากตายไปซะ",
+      "asr_confidence": 0.86
+    }
+  ]
+}

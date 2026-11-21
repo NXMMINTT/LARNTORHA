@@ -92,9 +92,16 @@ uv run python scripts/create_osm.py --name "สมใจ ใจดี" --phone 0
 - **Rate limit ใช้ IP ที่ Next.js ส่งมาใน `X-Client-IP`** (เชื่อได้เพราะต้องมี internal token) production ต้องเสริมด้วย AWS WAF
 - **ยังไม่เก็บ transcript ถาวร** (`RETAIN_TRANSCRIPT_DAYS` ยังไม่ได้ทำ ค่าเริ่มต้น 0 จึงไม่มีผล)
 
+## AWS
+
+- **ข้อมูล:** Amazon DynamoDB (`REPO_DRIVER=dynamodb`, `app/repo/dynamo.py`) ตาม single-table §9 ทุก test ของ API รันทั้ง memory และ DynamoDB (moto)
+- **AI:** Amazon Bedrock Converse + Bedrock Guardrails (`infra/guardrail.json`: ห้ามแนะนำยา/วินิจฉัย/ขอข้อมูลการเงินใน output, ปิดบังเลขบัตร บัญชี เบอร์โทร ไม่ตรวจฝั่ง input เพื่อไม่ให้บล็อกเรื่องทำร้ายตัวเองตาม §5A.7)
+- **เสียงในโหมดเดโม:** Amazon Transcribe Streaming (th-TH) ผ่าน `POST /v1/demo/transcribe` ไม่เก็บไฟล์เสียง (Amazon Polly ยังไม่มีเสียงภาษาไทย น้องหลานจึงตอบเป็นข้อความ)
+- **Metric/Alarm:** `bedrock_fallback` ส่งเป็น CloudWatch Embedded Metric Format (`app/metrics.py`) และ alarm `larntorha-bedrock-fallback`
+- **Deploy:** `cd backend && uv run python ../infra/deploy_aws.py` สร้าง/อัปเดต DynamoDB, Guardrail, Secrets Manager, IAM, ECR, App Runner (backend + frontend) และ CloudWatch alarm (ต้อง `aws sso login` และเปิด Docker ก่อน)
+- **วัดความแม่นยำ:** `cd backend && uv run python scripts/eval_bedrock.py --write` → `docs/eval-results.md` (24 บทสนทนา)
+
 ## ยังไม่ได้ทำ
 
-- `REPO_DRIVER=dynamodb` (M4): ตอนนี้มีแค่ memory repo
-- หน้า `/demo` บนเว็บ และการต่อ `agent.py` เข้ากับ `/v1/demo/calls`
-- fixtures ให้ครบ 24 ชุด + `scripts/eval_bedrock.py` + `docs/eval-results.md` (ตอนนี้มี 8 ชุด)
-- Bedrock Guardrail จริง, Dockerfile/deploy
+- `RETAIN_TRANSCRIPT_DAYS` (ยังไม่เก็บ transcript ถาวร ซึ่งเป็นค่าเริ่มต้นที่ต้องการอยู่แล้ว)
+- `/v1/demo/reset` ใช้ได้เฉพาะ memory repo (ตาม §6.5) บน DynamoDB ไม่ล้างข้อมูล
